@@ -1,0 +1,7 @@
+= ntpstats-ng
+
+NTP statistcs - Next Generation
+
+== Links
+
+* https://tools.ietf.org/html/draft-ietf-ntp-bcp-02[Network Time Protocol Best Current Practices, window="_blank"]
