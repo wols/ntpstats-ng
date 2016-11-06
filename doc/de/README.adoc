@@ -1,0 +1,4 @@
+= ntpstats-ng
+:doctype: book
+
+NTP statistics - Next Generation
