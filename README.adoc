@@ -1,4 +1,5 @@
 = ntpstats-ng
+:linkattrs:
 
 NTP statistcs - Next Generation
 
