@@ -1,7 +1,7 @@
 = ntpstats-ng
 :linkattrs:
 
-NTP statistcs - Next Generation
+NTP statistics - Next Generation
 
 == Links
 
