@@ -3,6 +3,8 @@
 
 NTP statistics - Next Generation
 
+Read the link:https://www.gitbook.com/book/wols/ntpstats-ng/[Documentation (German)]...
+
 == Links
 
 * https://tools.ietf.org/html/draft-ietf-ntp-bcp-02[Network Time Protocol Best Current Practices, window="_blank"]
