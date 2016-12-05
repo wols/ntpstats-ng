@@ -1,3 +1,5 @@
 = ntpstats-ng
 
 NTP statistics - Next Generation
+
+English version
