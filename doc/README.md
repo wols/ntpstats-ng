@@ -1,3 +1,3 @@
-= ntpstats-ng
+# ntpstats-ng
 
 NTP statistics - Next Generation
