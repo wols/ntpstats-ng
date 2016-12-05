@@ -2,6 +2,8 @@
 
 NTP statistics - Next Generation
 
+== Einleitung
+
 Deutsche Version
 
 == Lizenz
