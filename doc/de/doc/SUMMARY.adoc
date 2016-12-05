@@ -1,4 +1,4 @@
-# Inhalt
+= Inhalt
 
 * 1 Eins
 ** 1.1 Eins.Eins

@@ -4,6 +4,8 @@ NTP statistics - Next Generation
 
 English version
 
+== License
+
 Copyright (C) 2015-2016 WOLfgang Schricker
 
 Permission is granted to copy, distribute and/or modify this document
