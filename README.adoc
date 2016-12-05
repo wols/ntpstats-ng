@@ -3,7 +3,10 @@
 
 NTP statistics - Next Generation
 
-Read the link:https://www.gitbook.com/book/wols/ntpstats-ng/[Documentation (German)]...
+Read the upcoming documentation (powered by GitBook):
+
+* link:https://www.gitbook.com/book/wols/ntpstats-ng/details/de[Documentation (German)]...
+* link:https://www.gitbook.com/book/wols/ntpstats-ng/details/en[Documentation (English)]
 
 == Links
 
