@@ -1,5 +1,5 @@
 = Inhalt
 
-* link:/SUMMARY[Inhalt]
-* link:/README[Einleitung]
-* link:/README[1 Datenfluss]
+* link:SUMMARY.adoc[Inhalt]
+* link:README.adoc[Einleitung]
+* link:README.adoc[1 Datenfluss]
