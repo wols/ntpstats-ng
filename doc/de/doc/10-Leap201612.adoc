@@ -1,5 +1,7 @@
 = Schaltsekunde 2016-12-31 23:59:60
 
-== Test
+Die erste Neujahrsstunde 2017...
 
-Verweis zu link:A-BOOKMARKS.adoc#bookmark_ntf[NTF]...
+...könnte man feiern oder diverse Shows und Wiederholungen im Fernsehen schauen.
+
+Man kann aber auch mal beobachten, wie die Schaltsekunde via NTP "`rüberkommt`".
