@@ -1,5 +1,6 @@
 = INHALT
 
+* link:SUMMARY.adoc[INHALT]
 * link:README.adoc[Einleitung]
 * link:10-Leap201612.adoc[Schaltsekunde 2016-12-31]
 
