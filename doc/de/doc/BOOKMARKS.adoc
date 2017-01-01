@@ -1,1 +1,3 @@
-../../BOOKMARKS.adoc
+= Lesezeichen
+
+include::../../BOOKMARKS.adoc[]
