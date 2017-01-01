@@ -4,4 +4,7 @@
 * link:README.adoc[Einleitung]
 * link:10-Leap201612.adoc[Schaltsekunde 2016-12-31]
 
-* link:A-BOOKMARKS.adoc[Lesezeichen]
+== Anhang
+
+[upperalpha]
+. link:A-BOOKMARKS.adoc[Lesezeichen]
