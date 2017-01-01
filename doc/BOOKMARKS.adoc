@@ -1,0 +1,5 @@
+= Bookmarks
+:linkattrs:
+
+* [[bookmark_ntf]]link:http://nwtime.org/[Network Time Foundation, window="_blank"]
+* [[bookmark_ietf-ntp-bcp]]link:https://tools.ietf.org/html/draft-ietf-ntp-bcp-02[Network Time Protocol Best Current Practices, window="_blank"]

@@ -7,7 +7,3 @@ Read the upcoming documentation (powered by GitBook):
 
 * link:https://www.gitbook.com/book/wols/ntpstats-ng/details/de/[Documentation (German)]
 * link:https://www.gitbook.com/book/wols/ntpstats-ng/details/en/[Documentation (English)]
-
-== Links
-
-* https://tools.ietf.org/html/draft-ietf-ntp-bcp-02[Network Time Protocol Best Current Practices, window="_blank"]
