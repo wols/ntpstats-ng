@@ -2,4 +2,4 @@
 
 == Test
 
-Verweis zu link:../../BOOKMARKS.adoc#bookmark_ntf[NTF]
+Verweis zu link:../../BOOKMARKS.html#bookmark_ntf[NTF]
