@@ -8,7 +8,7 @@ Deutsche Version
 
 == Lizenz
 
-Copyright (C) 2015-2017 WOLfgang Schricker
+ntpstats-ng (C) 2015-2017 WOLfgang Schricker
 
 Es wird die Erlaubnis gegeben dieses Dokument zu kopieren, verteilen und/oder
 zu verändern unter den Bedingungen der GNU Free Documentation License,

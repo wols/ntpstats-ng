@@ -1,3 +1,4 @@
 # ntpstats-ng/.gitignore
 
+/etc/
 /src/
