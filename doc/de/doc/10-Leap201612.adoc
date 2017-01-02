@@ -1,7 +1,6 @@
 = Schaltsekunde 2016-12-31 23:59:60
 
-Die erste Neujahrsstunde 2017...
+Die erste Neujahrsstunde 2017 in Deutschland...
 
 ...könnte man feiern oder diverse Shows und Wiederholungen im Fernsehen schauen.
-
-Man kann aber auch mal beobachten, wie die Schaltsekunde via NTP "`rüberkommt`".
+Man kann aber auch mal beobachten wie die Schaltsekunde via NTP "`rüberkommt`".
