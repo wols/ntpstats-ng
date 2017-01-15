@@ -2,7 +2,11 @@
 
 * link:SUMMARY.adoc[INHALT]
 * link:README.adoc[Einleitung]
-* link:10-Leap201612.adoc[Schaltsekunde 2016-12-31]
+* link:Leap201612.adoc[Schaltsekunde 2016-12-31]
+* ELG Stack
+** Elasticsearch
+** link:elg/Logstash.adoc[Logstash]
+** Grafana
 
 == Anhang
 

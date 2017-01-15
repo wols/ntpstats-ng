@@ -1,0 +1,61 @@
+= Logstash
+:linkattrs:
+
+== Erste Schritte
+
+Um die Verwendung von Logstash zu verstehen, soll als erstes Beispiel die Log-Datei `/var/log/ntp/ntp.log` überwacht und als Datei im JSON-Format abgespeichert werden.
+
+== Konfiguration
+
+=== ntpd
+
+----
+mkdir /var/log/ntp
+chown ntp:ntp /var/log/ntp
+----
+
+.Gentoo
+----
+# /etc/conf.d/ntpd
+
+NTPD_OPTS="-u ntp:ntp -l /var/log/ntp/ntp.log"
+----
+
+.CentOS 7
+----
+# /etc/sysconfig/ntpd
+#
+# see also /usr/lib/systemd/system/ntpd.service
+
+OPTIONS="-g -l /var/log/ntp/ntp.log"
+----
+
+=== logstash
+
+Die Logstash-Konfiguration teilt sich in die Abschnitte `input`, `filter` und
+`output`.
+
+Als Typ wird `ntplog` festgelegt.
+
+Der Timestamp-Anteil des Dateinamens wird im xref:A-BOOKMARKS.adoc#bookmark_joda_time[Joda-Time-Format] angegeben.
+
+----
+# /etc/logstash/conf.d/ntpstats-ng.conf
+
+input {
+    file {
+        type => "ntplog"
+        path => [ "/var/log/ntp/ntp.log" ]
+    }
+}
+
+filter {}
+
+output {
+    if [type] == "ntplog" {
+	file {
+	    path => "/tmp/ntpstats-ng-%{+YYYYMMdd}.json"
+	}
+    }
+}
+----
