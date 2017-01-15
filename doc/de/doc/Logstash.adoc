@@ -37,7 +37,7 @@ Die Logstash-Konfiguration teilt sich in die Abschnitte `input`, `filter` und
 
 Als Typ wird `ntplog` festgelegt.
 
-Der Timestamp-Anteil des Dateinamens wird im xref:../A-BOOKMARKS.adoc#bookmark_joda_time[Joda-Time-Format] angegeben.
+Der Timestamp-Anteil des Dateinamens wird im xref:A-BOOKMARKS.adoc#bookmark_joda_time[Joda-Time-Format] angegeben.
 
 ----
 # /etc/logstash/conf.d/ntpstats-ng.conf
