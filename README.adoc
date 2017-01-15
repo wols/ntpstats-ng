@@ -7,3 +7,5 @@ Read the upcoming documentation (powered by GitBook):
 
 * link:https://www.gitbook.com/book/wols/ntpstats-ng/details/de/[Documentation (German)]
 * link:https://www.gitbook.com/book/wols/ntpstats-ng/details/en/[Documentation (English)]
+
+// End of ntpstats-ng/README.adoc

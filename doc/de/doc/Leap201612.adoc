@@ -1,6 +1,11 @@
 = Schaltsekunde 2016-12-31 23:59:60
+:linkattrs:
 
 Die erste Neujahrsstunde 2017 in Deutschland...
 
 ...könnte man feiern oder diverse Shows und Wiederholungen im Fernsehen schauen.
-Man kann aber auch mal beobachten wie die Schaltsekunde via NTP "`rüberkommt`".
+Man kann aber auch mal beobachten wie die Schaltsekunde via NTP "`rüber kommt`".
+
+TIP: Wird fortgesetzt...
+
+// End of ntpstats-ng/doc/de/doc/Leap201612.adoc

@@ -82,8 +82,6 @@ systemctl start logstash.service
 systemctl start ntpd.service
 ----
 
-----
+TIP: Wird fortgesetzt...
 
-----
-
-// End of Logstash.adoc
+// End of ntpstats-ng/doc/de/doc/Logstash.adoc

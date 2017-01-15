@@ -11,4 +11,6 @@
 == Anhang
 
 [upperalpha]
-. link:A-BOOKMARKS.adoc[Lesezeichen]
+. link:A-Bookmarks.adoc[Lesezeichen]
+
+// End of ntpstats-ng/doc/de/doc/SUMMARY.adoc

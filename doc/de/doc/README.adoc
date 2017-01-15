@@ -17,3 +17,5 @@ veröffentlichten Version; mit keinen unveränderlichen Abschnitten, mit keinen
 Vorderseitentexten und keinen Rückseitentexten. Eine Kopie dieser Lizenz ist in
 dem Abschnitt enthalten, der mit "GNU Free Documentation License"
 betitelt ist.
+
+// End of ntpstats-ng/doc/de/doc/README.adoc

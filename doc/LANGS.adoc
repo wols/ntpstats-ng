@@ -2,3 +2,5 @@
 
 * link:de/[Deutsch]
 * link:en/[English]
+
+// End of ntpstats-ng/doc/LANGS.adoc
