@@ -59,3 +59,31 @@ output {
     }
 }
 ----
+
+== Es funktioniert!
+
+Die Dienste `ntpd` und `logstash` sind gestoppt und die oben beschriebene Konfiguration ist gültig.
+
+----
+tail -F /var/log/messages /var/log/logstash/logstash-plain.log /var/log/ntp/ntp.log /tmp/ntpstats-ng-20170115.json
+----
+
+.Gentoo
+----
+/etc/init.d/logstash start
+
+/etc/init.d/ntpd start
+----
+
+.CentOS 7
+----
+systemctl start logstash.service
+
+systemctl start ntpd.service
+----
+
+----
+
+----
+
+// End of Logstash.adoc
