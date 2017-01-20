@@ -1,10 +1,9 @@
 = Anhang A: Lesezeichen
 :linkattrs:
 
-* [[bookmark_ntf]]link:http://nwtime.org/[Network Time Foundation, window="_blank"]
-* [[bookmark_ietf-ntp-bcp]]link:https://tools.ietf.org/html/draft-ietf-ntp-bcp-02[Network Time Protocol Best Current Practices, window="_blank"]
-
 * NTP
+** [[bookmark_ntf]]link:http://nwtime.org/[Network Time Foundation, window="_blank"]
+** [[bookmark_ietf-ntp-bcp]]link:https://tools.ietf.org/html/draft-ietf-ntp-bcp-02[Network Time Protocol Best Current Practices, window="_blank"]
 ** [[bookmark_ntp_leap_smearing]]link:https://docs.ntpsec.org/latest/leapsmear.html[Leap Second Smearing with NTP, window="_blank"]
 
 * Sonstige
