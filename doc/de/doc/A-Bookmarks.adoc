@@ -2,9 +2,13 @@
 :linkattrs:
 
 * NTP
+** [[bookmark_ntp]]link:https://www.eecis.udel.edu/~mills/ntp/html/index.html[The Network Time Protocol (NTP) Distribution, window="_blank"]
+*** [[bookmark_ntp_monopt]]link:https://www.eecis.udel.edu/~mills/ntp/html/monopt.html[Monitoring Commands and Options, window="_blank"]
 ** [[bookmark_ntf]]link:http://nwtime.org/[Network Time Foundation, window="_blank"]
+*** [[bookmark_ntf_individuals]]link:http://nwtime.org/individual-members-and-donors/[NTF’s Individual Members and Donors, window="_blank"]
 ** [[bookmark_ietf-ntp-bcp]]link:https://tools.ietf.org/html/draft-ietf-ntp-bcp-02[Network Time Protocol Best Current Practices, window="_blank"]
-** [[bookmark_ntp_leap_smearing]]link:https://docs.ntpsec.org/latest/leapsmear.html[Leap Second Smearing with NTP, window="_blank"]
+** [[bookmark_ntp_leap_smearing]]link:https://www.ntpsec.org/[NTPsec, window="_blank"]
+*** [[bookmark_ntp_leap_smearing]]link:https://docs.ntpsec.org/latest/leapsmear.html[Leap Second Smearing with NTP, window="_blank"]
 
 * Sonstige
 ** [[bookmark_joda_time]]link:http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html[Joda-Time (java time library), window="_blank"]

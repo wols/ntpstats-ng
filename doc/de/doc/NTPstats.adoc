@@ -1,0 +1,38 @@
+= NTP Statistiken
+:linkattrs:
+
+Quelle: xref:A-Bookmarks.adoc#bookmark_ntp_monopt[NTP - Monitoring Commands and Options]
+
+.`ntpd` Statistiken
+[options="header"]
+|====
+|Type|ntpstats-ng Version
+
+|`clockstats` |
+
+|`cryptostats`|
+
+|`loopstats`  |`0.1.0`
+
+|`peerstats`  |`0.1.0`
+
+|`protostats` |
+
+|`rawstats`   |
+
+|`sysstats`   |
+
+|`timingstats`|
+|====
+
+.andere Statistiken
+[options="header"]
+|====
+|Type|ntpstats-ng Version
+
+|`mbgmonstats`|`0.1.0`
+|====
+
+TIP: Wird fortgesetzt...
+
+// End of ntpstats-ng/doc/de/doc/NTPstats.adoc
