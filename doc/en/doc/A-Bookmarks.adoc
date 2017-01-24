@@ -10,7 +10,7 @@
 ** [[bookmark_ntp_leap_smearing]]link:https://www.ntpsec.org/[NTPsec, window="_blank"]
 *** [[bookmark_ntp_leap_smearing]]link:https://docs.ntpsec.org/latest/leapsmear.html[Leap Second Smearing with NTP, window="_blank"]
 
-* Sonstige
+* Others
 ** [[bookmark_joda_time]]link:http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html[Joda-Time (java time library), window="_blank"]
 
 // End of ntpstats-ng/doc/en/doc/A-Bookmarks.adoc
