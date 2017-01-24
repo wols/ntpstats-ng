@@ -6,6 +6,9 @@ NTP statistics - Next Generation
 
 Deutsche Version
 
+.Screenshot
+image::../images/screenshot.png[Screenshot]
+
 == Lizenz
 
 ntpstats-ng (C) 2015-2017 WOLfgang Schricker

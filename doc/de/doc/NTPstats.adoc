@@ -5,7 +5,7 @@ Quelle: xref:A-Bookmarks.adoc#bookmark_ntp_monopt[NTP - Monitoring Commands and 
 
 .`ntpd` Statistiken
 [options="header"]
-|====
+|===
 |Type|ntpstats-ng Version
 
 |`clockstats` |
@@ -23,15 +23,15 @@ Quelle: xref:A-Bookmarks.adoc#bookmark_ntp_monopt[NTP - Monitoring Commands and 
 |`sysstats`   |
 
 |`timingstats`|
-|====
+|===
 
 .andere Statistiken
 [options="header"]
-|====
+|===
 |Type|ntpstats-ng Version
 
 |`mbgmonstats`|`0.1.0`
-|====
+|===
 
 TIP: Wird fortgesetzt...
 
