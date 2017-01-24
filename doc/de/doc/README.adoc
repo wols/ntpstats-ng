@@ -1,4 +1,5 @@
 = ntpstats-ng
+:image-captions:
 
 NTP statistics - Next Generation
 
@@ -7,7 +8,7 @@ NTP statistics - Next Generation
 Deutsche Version
 
 .Screenshot
-image::../images/screenshot.png[Screenshot]
+image::images/screenshot.png[Screenshot]
 
 == Lizenz
 
