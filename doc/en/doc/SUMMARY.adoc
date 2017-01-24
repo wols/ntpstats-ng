@@ -1,5 +1,10 @@
 = Table of contents
 
-* Table of contents
-* Introduction
-* 1 Dataflow
+. link:SUMMARY.adoc[TOC]
+
+== Appendix
+
+[upperalpha]
+. link:A-Bookmarks.adoc[Bookmarks]
+
+// End of ntpstats-ng/doc/en/doc/SUMMARY.adoc
