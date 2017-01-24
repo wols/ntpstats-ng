@@ -1,4 +1,4 @@
-= Anhang A: Lesezeichen
+= Appendix A: Bookmarks
 :linkattrs:
 
 * NTP
@@ -13,4 +13,4 @@
 * Sonstige
 ** [[bookmark_joda_time]]link:http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html[Joda-Time (java time library), window="_blank"]
 
-// End of ntpstats-ng/doc/de/doc/A-Lesezeichen.adoc
+// End of ntpstats-ng/doc/en/doc/A-Bookmarks.adoc
