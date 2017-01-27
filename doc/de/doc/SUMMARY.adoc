@@ -2,10 +2,10 @@
 
 . link:SUMMARY.adoc[INHALT]
 . link:README.adoc[Einleitung]
-. link:Leap201612.adoc[Schaltsekunde 2016-12-31]
-. ELG - Elasticsearch
+. link:Elasticsearch.adoc[ELG - Elasticsearch]
 . link:Logstash.adoc[ELG - Logstash]
-. ELG - Grafana
+. link:Grafana.adoc[ELG - Grafana]
+. link:Leap201612.adoc[Schaltsekunde 2016-12-31]
 
 == Anhang
 

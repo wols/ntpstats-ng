@@ -1,0 +1,8 @@
+= Grafana
+:linkattrs:
+:toc:       macro
+:toc-title:
+
+ELG Stack = link:Elasticsearch.adoc[Elasticsearch], link:Logstash.adoc[Logstash] und Grafana
+
+// End of ntpstats-ng/doc/de/doc/Grafana.adoc
