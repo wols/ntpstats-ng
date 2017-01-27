@@ -14,14 +14,14 @@ mkdir /var/log/ntp
 chown ntp:ntp /var/log/ntp
 ----
 
-.Gentoo
+.Gentoo, ntp-4.2.8p9
 ----
 # /etc/conf.d/ntpd
 
 NTPD_OPTS="-u ntp:ntp -l /var/log/ntp/ntp.log"
 ----
 
-.CentOS 7
+.CentOS 7, ntp-4.2.6p5
 ----
 # /etc/sysconfig/ntpd
 #
@@ -35,17 +35,18 @@ OPTIONS="-g -l /var/log/ntp/ntp.log"
 Die Logstash-Konfiguration teilt sich in die Abschnitte `input`, `filter` und
 `output`.
 
-Als Typ wird `ntplog` festgelegt.
+Als `input`-Typ wird `ntplog` festgelegt.
 
-Der Timestamp-Anteil des Dateinamens wird im xref:A-Bookmarks.adoc#bookmark_joda_time[Joda-Time-Format] angegeben.
+Der Zeitstempel-Anteil des `output`-Dateinamens wird im xref:A-Bookmarks.adoc#bookmark_joda_time[Joda-Time-Format] angegeben.
 
+.logstash-5.1.2
 ----
 # /etc/logstash/conf.d/ntpstats-ng.conf
 
 input {
     file {
-        type => "ntplog"
         path => [ "/var/log/ntp/ntp.log" ]
+        type => "ntplog"
     }
 }
 
@@ -68,14 +69,14 @@ Die Dienste `ntpd` und `logstash` sind gestoppt und die oben beschriebene Konfig
 tail -F /var/log/messages /var/log/logstash/logstash-plain.log /var/log/ntp/ntp.log /tmp/ntpstats-ng-20170115.json
 ----
 
-.Gentoo
+.Gentoo, openrc
 ----
 /etc/init.d/logstash start
 
 /etc/init.d/ntpd start
 ----
 
-.CentOS 7
+.CentOS 7, syslogd
 ----
 systemctl start logstash.service
 
