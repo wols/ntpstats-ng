@@ -1,7 +1,7 @@
 = Logstash
 :linkattrs:
-:toc:       macro
-:toc-title: ""
+:toc:           macro
+:toc-title:     Inhalt
 
 ELG Stack = link:Elasticsearch.adoc[Elasticsearch], Logstash und link:Grafana.adoc[Grafana]
 
@@ -60,9 +60,9 @@ filter {}
 
 output {
     if [type] == "ntplog" {
-	file {
-	    path => "/tmp/ntpstats-ng-%{+YYYYMMdd}.json"
-	}
+        file {
+            path => "/tmp/ntpstats-ng-%{+YYYYMMdd}.json"
+        }
     }
 }
 ----
