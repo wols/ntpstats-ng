@@ -1,7 +1,7 @@
 = Elasticsearch
 :linkattrs:
 :toc:       macro
-:toc-title:
+:toc-title: ''
 
 ELG Stack = Elasticsearch, link:Logstash.adoc[Logstash] und link:Grafana.adoc[Grafana]
 
