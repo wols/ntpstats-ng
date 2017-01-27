@@ -1,5 +1,8 @@
 = Logstash
 :linkattrs:
+:toc:       macro
+
+toc::[]
 
 == Erste Schritte
 
