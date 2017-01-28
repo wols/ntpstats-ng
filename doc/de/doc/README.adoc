@@ -4,11 +4,13 @@
 
 NTP statistics - Next Generation
 
-== Einleitung
-
 Deutsche Version
 
-image::screenshot.png[Screenshot]
+== Einleitung
+
+NTP Statistiken - Was? Ja, *Next Generation*.
+
+image::screenshot_ntpstats-live+peerstats.png[Screenshot ntpstats-live und -peerstats]
 
 == Lizenz
 
