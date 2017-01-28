@@ -1,9 +1,12 @@
 = NTP Statistiken
 :linkattrs:
+:toc:           macro
+:toc-title:     Inhalt
 
-Quelle: xref:A-Bookmarks.adoc#bookmark_ntp_monopt[NTP - Monitoring Commands and Options]
+toc::[]
 
-.`ntpd` Statistiken
+== NTP
+
 [options="header"]
 |===
 |Type|ntpstats-ng Version
@@ -25,7 +28,10 @@ Quelle: xref:A-Bookmarks.adoc#bookmark_ntp_monopt[NTP - Monitoring Commands and 
 |`timingstats`|
 |===
 
-.andere Statistiken
+Quelle: xref:A-Bookmarks.adoc#bookmark_ntp_monopt[NTP - Monitoring Commands and Options]
+
+== Andere
+
 [options="header"]
 |===
 |Type|ntpstats-ng Version

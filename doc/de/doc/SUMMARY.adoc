@@ -1,9 +1,10 @@
-= INHALT
+= link:SUMMARY.adoc[INHALT]
 
-. link:SUMMARY.adoc[INHALT]
 . link:README.adoc[Einleitung]
-. link:Elasticsearch.adoc[ELG - Elasticsearch]
+. link:NTPstats.adoc[NTP Statistiken]
+. link:NTPstats-NG.adoc[NTP statistics - Next Generation]
 . link:Logstash.adoc[ELG - Logstash]
+. link:Elasticsearch.adoc[ELG - Elasticsearch]
 . link:Grafana.adoc[ELG - Grafana]
 . link:Leap201612.adoc[Schaltsekunde 2016-12-31]
 

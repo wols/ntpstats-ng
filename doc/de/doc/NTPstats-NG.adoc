@@ -1,0 +1,10 @@
+= NTP statistics - Next Generation
+:linkattrs:
+:toc:           macro
+:toc-title:     Inhalt
+
+toc::[]
+
+TIP: Wird fortgesetzt...
+
+// End of ntpstats-ng/doc/de/doc/NTPstats-NG.adoc
