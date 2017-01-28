@@ -1,4 +1,8 @@
-= link:SUMMARY.adoc[INHALT]
+= INHALT
+
+* link:SUMMARY.adoc[INHALT]
+
+//^
 
 . link:README.adoc[Einleitung]
 . link:NTPstats.adoc[NTP Statistiken]
