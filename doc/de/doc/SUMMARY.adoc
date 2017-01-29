@@ -17,4 +17,8 @@
 [upperalpha]
 . link:A-Bookmarks.adoc[Lesezeichen]
 
+'''
+
+xref:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
+
 // End of ntpstats-ng/doc/de/doc/SUMMARY.adoc

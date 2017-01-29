@@ -14,4 +14,8 @@
 * Andere
 ** [[bookmark_joda_time]]link:http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html[Joda-Time (java time library), window="_blank"]
 
+'''
+
+xref:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
+
 // End of ntpstats-ng/doc/de/doc/A-Bookmarks.adoc

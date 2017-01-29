@@ -7,4 +7,8 @@ ELG Stack = Elasticsearch, link:Logstash.adoc[Logstash] und link:Grafana.adoc[Gr
 
 TIP: Wird fortgesetzt...
 
+'''
+
+xref:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
+
 // End of ntpstats-ng/doc/de/doc/Elasticsearch.adoc
