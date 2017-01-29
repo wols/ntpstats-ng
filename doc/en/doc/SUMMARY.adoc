@@ -4,10 +4,11 @@
 
 //^
 
-
+. link:README.adoc[NTP statistics - What?]
 
 == Appendix
 
+[upperalpha]
 
 
 '''
