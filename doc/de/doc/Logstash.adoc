@@ -16,12 +16,14 @@ Um die Verwendung von Logstash zu verstehen, soll als erstes Beispiel die Log-Da
 
 === ntpd
 
+[source%nowrap, sh]
 ----
 mkdir /var/log/ntp
 chown ntp:ntp /var/log/ntp
 ----
 
 .Gentoo, ntp-4.2.8p9
+[source%nowrap]
 ----
 # /etc/conf.d/ntpd
 
@@ -29,6 +31,7 @@ NTPD_OPTS="-u ntp:ntp -l /var/log/ntp/ntp.log"
 ----
 
 .CentOS 7, ntp-4.2.6p5
+[source%nowrap]
 ----
 # /etc/sysconfig/ntpd
 #
@@ -39,14 +42,14 @@ OPTIONS="-g -l /var/log/ntp/ntp.log"
 
 === logstash
 
-Die Logstash-Konfiguration teilt sich in die Abschnitte `input`, `filter` und
-`output`.
+Die Logstash-Konfiguration teilt sich in die Abschnitte `input`, `filter` und `output`.
 
-Als `input`-Typ wird `ntplog` festgelegt.
+Als `input`-Typ wird von uns `ntplog` festgelegt.
 
 Der Zeitstempel-Anteil des `output`-Dateinamens wird im xref:A-Bookmarks.adoc#bookmark_joda_time[Joda-Time-Format] angegeben.
 
 .logstash-5.1.2
+[source%nowrap]
 ----
 # /etc/logstash/conf.d/ntpstats-ng.conf
 
@@ -73,18 +76,51 @@ output {
 Die Dienste `ntpd` und `logstash` werden mit der oben beschriebene Konfiguration gestartet.
 
 .Gentoo, openrc
+[source%nowrap, sh]
 ----
 /etc/init.d/logstash start
 /etc/init.d/ntpd start
 ----
 
 .CentOS 7, syslogd
+[source%nowrap, sh]
 ----
 systemctl start logstash.service
 systemctl start ntpd.service
 ----
 
+NOTE: Kurz nach Start der Dienste werden die beiden Dateien `/var/log/ntp/ntp.log` und `/tmp/ntpstats-ng-20170129.json` angelegt.
 
+Vergleichen wir die jeweils *erste Zeile* der beiden Dateien.
+
+.`head -n 1 /var/log/ntp/ntp.log`
+[source%nowrap]
+----
+29 Jan 22:15:59 ntpd[19633]: ntpd 4.2.8p9@1.3265-o Thu Nov 24 08:57:19 UTC 2016 (1): Starting
+----
+
+.`head -n 1 /tmp/ntpstats-ng-20170129.json`
+[source%nowrap]
+----
+{"path":"/var/log/ntp/ntp.log","@timestamp":"2017-01-29T22:16:14.805Z","@version":"1","host":"vdr.home.wols.org","message":"29 Jan 22:15:59 ntpd[19633]: ntpd 4.2.8p9@1.3265-o Thu Nov 24 08:57:19 UTC 2016 (1): Starting","type":"ntplog"}
+----
+
+TIP: Bei der Lesbarkeit hilft uns der JSON-Kommandozeilenprozessor xref:A-Bookmarks.adoc#bookmark_jq[`jq`].
+
+.`head -n 1 /tmp/ntpstats-ng-20170129.json | jq`
+[source%nowrap, json]
+----
+{
+  "path": "/var/log/ntp/ntp.log",
+  "@timestamp": "2017-01-29T22:16:14.805Z",
+  "@version": "1",
+  "host": "vdr.home.wols.org",
+  "message": "29 Jan 22:15:59 ntpd[19633]: ntpd 4.2.8p9@1.3265-o Thu Nov 24 08:57:19 UTC 2016 (1): Starting",
+  "type": "ntplog"
+}
+----
+
+'''
 
 TIP: Wird fortgesetzt...
 

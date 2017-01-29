@@ -13,6 +13,7 @@
 
 * Andere
 ** [[bookmark_joda_time]]link:http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html[Joda-Time (java time library), window="_blank"]
+** [[bookmark_jq]]link:https://stedolan.github.io/jq/[jq command-line JSON processor, window="_blank"]
 
 '''
 
