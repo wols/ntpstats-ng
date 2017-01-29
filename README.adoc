@@ -1,4 +1,6 @@
 = ntpstats-ng
+:image-captions:
+:imagesdir:      doc/images
 :linkattrs:
 
 NTP statistics - Next Generation
@@ -6,6 +8,8 @@ NTP statistics - Next Generation
 Read the upcoming documentation (powered by GitBook):
 
 * link:https://www.gitbook.com/book/wols/ntpstats-ng/details/de/[Documentation (German)]
-* link:https://www.gitbook.com/book/wols/ntpstats-ng/details/en/[Documentation (English)]
+* Documentation (English)
+
+image::screenshot_ntpstats-live+peerstats.png[Screenshot ntpstats-live und -peerstats]
 
 // End of ntpstats-ng/README.adoc
