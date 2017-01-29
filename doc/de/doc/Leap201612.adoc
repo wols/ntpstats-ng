@@ -1,4 +1,5 @@
 = Schaltsekunde 2016-12-31 23:59:60
+:icons:         font
 :linkattrs:
 :toc:           macro
 :toc-title:     Inhalt

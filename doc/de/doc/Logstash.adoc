@@ -1,4 +1,5 @@
 = Logstash
+:icons:         font
 :linkattrs:
 :toc:           macro
 :toc-title:     Inhalt
@@ -69,25 +70,21 @@ output {
 
 == Es funktioniert!
 
-Die Dienste `ntpd` und `logstash` sind gestoppt und die oben beschriebene Konfiguration ist gültig.
-
-----
-tail -F /var/log/messages /var/log/logstash/logstash-plain.log /var/log/ntp/ntp.log /tmp/ntpstats-ng-20170115.json
-----
+Die Dienste `ntpd` und `logstash` werden mit der oben beschriebene Konfiguration gestartet.
 
 .Gentoo, openrc
 ----
 /etc/init.d/logstash start
-
 /etc/init.d/ntpd start
 ----
 
 .CentOS 7, syslogd
 ----
 systemctl start logstash.service
-
 systemctl start ntpd.service
 ----
+
+
 
 TIP: Wird fortgesetzt...
 

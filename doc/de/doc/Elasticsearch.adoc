@@ -1,4 +1,5 @@
 = Elasticsearch
+:icons:         font
 :linkattrs:
 :toc:           macro
 :toc-title:     Inhalt

@@ -1,4 +1,5 @@
 = NTP statistics - Next Generation
+:icons:         font
 :linkattrs:
 :toc:           macro
 :toc-title:     Inhalt
