@@ -4,7 +4,7 @@
 
 //^
 
-. link:README.adoc[Einleitung]
+. link:README.adoc[NTP-Statistiken - Was?]
 . link:NTPstats.adoc[NTP Statistiken]
 . link:NTPstats-NG.adoc[NTP statistics - Next Generation]
 . link:Logstash.adoc[ELG - Logstash]

@@ -1,6 +1,7 @@
 = ntpstats-ng
 :image-captions:
 :imagesdir:      ../../images
+:linkattrs:
 
 NTP statistics - Next Generation
 
@@ -16,14 +17,8 @@ image::screenshot_ntpstats-live+peerstats.png[Screenshot ntpstats-live und -peer
 
 ntpstats-ng (C) 2015-2017 WOLfgang Schricker
 
-Es wird die Erlaubnis gegeben dieses Dokument zu kopieren, verteilen und/oder
-zu verändern unter den Bedingungen der GNU Free Documentation License,
-Version 1.3 oder einer späteren, von der Free Software Foundation
-veröffentlichten Version; mit keinen unveränderlichen Abschnitten, mit keinen
-Vorderseitentexten und keinen Rückseitentexten. Eine Kopie dieser Lizenz ist in
-dem Abschnitt enthalten, der mit "GNU Free Documentation License"
-betitelt ist.
-
-Die ganzen Details stehen in link:../../../LICENSE[LICENSE].
+Es wird die Erlaubnis gegeben dieses Dokument zu kopieren, verteilen und/oder zu verändern unter den Bedingungen der *GNU Free Documentation License, Version 1.3* oder einer späteren, von der Free Software Foundation veröffentlichten Version;
+mit keinen unveränderlichen Abschnitten, mit keinen Vorderseitentexten und keinen Rückseitentexten.
+Eine Kopie dieser Lizenz ist link:https://github.com/wols/ntpstats-ng/blob/master/LICENSE[in dem Abschnitt, window="_blank"] enthalten, der mit "GNU Free Documentation License" betitelt ist.
 
 // End of ntpstats-ng/doc/de/doc/README.adoc
