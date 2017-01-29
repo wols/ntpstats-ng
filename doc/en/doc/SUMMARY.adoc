@@ -1,10 +1,17 @@
-= Table of contents
+= TABLE OF CONTENTS
 
-. link:SUMMARY.adoc[TOC]
+* link:SUMMARY.adoc[TOC]
+
+//^
+
+
 
 == Appendix
 
-[upperalpha]
-. link:A-Bookmarks.adoc[Bookmarks]
+
+
+'''
+
+link:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
 
 // End of ntpstats-ng/doc/en/doc/SUMMARY.adoc
