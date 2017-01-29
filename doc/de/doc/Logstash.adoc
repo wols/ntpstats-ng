@@ -120,11 +120,21 @@ TIP: Bei der Lesbarkeit hilft uns der JSON-Kommandozeilenprozessor xref:A-Bookma
 }
 ----
 
-'''
+Die Felder `path` und `type` aus unserer xref:_logstash[Konfiguration] finden wir sofort wieder.
+
+In `message` ist der komplette Inhalt der Log-Zeile gelandet.
+
+Hinzugekommen sind die Felder `host`, `@timestamp` und `@version`.
+
+.Weiterführende Informationen
+* link:https://github.com/elastic/logstash/issues/3866['elastic/logstash Issue#3866', window="_blank"]
+* link:https://www.elastic.co/de/blog/little-logstash-lessons-part-using-grok-mutate-type-data[Kurze Logstash-Lektionen – Teil 1: Datentypen festlegen mit Grok und Mutate, window="_blank"]
+
+---
 
 TIP: Wird fortgesetzt...
 
-'''
+---
 
 link:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
 

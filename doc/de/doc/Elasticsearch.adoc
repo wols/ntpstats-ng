@@ -6,9 +6,11 @@
 
 ELG Stack = Elasticsearch, link:Logstash.adoc[Logstash] und link:Grafana.adoc[Grafana]
 
+---
+
 TIP: Wird fortgesetzt...
 
-'''
+---
 
 link:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
 

@@ -11,7 +11,7 @@
 [upperalpha]
 
 
-'''
+---
 
 link:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
 

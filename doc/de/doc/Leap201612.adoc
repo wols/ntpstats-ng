@@ -9,9 +9,11 @@ Man kann aber auch mal beobachten wie die Schaltsekunde via NTP "`rüber kommt`"
 
 toc::[]
 
+---
+
 TIP: Wird fortgesetzt...
 
-'''
+---
 
 link:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
 

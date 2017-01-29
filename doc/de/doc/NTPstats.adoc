@@ -40,9 +40,11 @@ Quelle: xref:A-Bookmarks.adoc#bookmark_ntp_monopt[NTP - Monitoring Commands and 
 |`mbgmonstats`|`0.1.0`
 |===
 
+---
+
 TIP: Wird fortgesetzt...
 
-'''
+---
 
 link:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
 
