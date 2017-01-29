@@ -6,9 +6,9 @@ NTP statistics - Next Generation
 
 Deutsche Version
 
-== Einleitung
+== NTP-Statistiken - Was?
 
-NTP Statistiken - Was? Ja, *Next Generation*.
+Ja, *Next Generation*...
 
 image::screenshot_ntpstats-live+peerstats.png[Screenshot ntpstats-live und -peerstats]
 
@@ -23,5 +23,7 @@ veröffentlichten Version; mit keinen unveränderlichen Abschnitten, mit keinen
 Vorderseitentexten und keinen Rückseitentexten. Eine Kopie dieser Lizenz ist in
 dem Abschnitt enthalten, der mit "GNU Free Documentation License"
 betitelt ist.
+
+Die ganzen Details stehen in link:../../../LICENSE[LICENSE].
 
 // End of ntpstats-ng/doc/de/doc/README.adoc
