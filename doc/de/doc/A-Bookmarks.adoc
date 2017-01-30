@@ -11,9 +11,21 @@
 ** [[bookmark_ntp_leap_smearing]]link:https://www.ntpsec.org/[NTPsec, window="_blank"]
 *** [[bookmark_ntp_leap_smearing]]link:https://docs.ntpsec.org/latest/leapsmear.html[Leap Second Smearing with NTP, window="_blank"]
 
-* Andere
+* ELG
+** Elasticsearch
+** Logstash
+*** Biler, Darwin: Forwarding log files to Logstash server via SSH. [[bookmark_]]link:http://www.darwinbiler.com/forwarding-log-files-to-logstash-server-via-ssh/[, window="_blank"] (2017-01-30).
+** Grafana
+
+* Ressourcen
 ** [[bookmark_joda_time]]link:http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html[Joda-Time (java time library), window="_blank"]
 ** [[bookmark_jq]]link:https://stedolan.github.io/jq/[jq command-line JSON processor, window="_blank"]
+
+//
+** Wikipedia: Zitieren von Internetquellen. [[bookmark_wpde_zitieren_internet]]link:https://de.wikipedia.org/wiki/Zitieren_von_Internetquellen[, window="_blank"] (2017-01-30).
+//
+// Name, Vorname: Titel. URL (Abfragedatum).
+// name, given: titel. [[bookmark_]]link:[, window="_blank"] (2017-00-00).
 
 ---
 
