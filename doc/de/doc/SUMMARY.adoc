@@ -16,6 +16,7 @@
 
 [upperalpha]
 . link:A-Bookmarks.adoc[Lesezeichen]
+. link:B-Equipment.adoc[Equipment]
 
 ---
 
