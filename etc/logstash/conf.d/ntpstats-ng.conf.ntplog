@@ -1,0 +1,24 @@
+# ntpstats-ng.conf.log
+#
+# 2017-01-29
+# WOLfgang Schricker <time@wols.org>
+# GPL-3
+
+input {
+    file {
+        path => [ "/var/log/ntp/ntp.log" ]
+        type => "syslog-ntp"
+    }
+}
+
+filter {}
+
+output {
+    if [type] == "syslog-ntp" {
+        file {
+            path => "/tmp/ntpstats-ng-%{+YYYYMMdd}.json"
+        }
+    }
+}
+
+# EOF

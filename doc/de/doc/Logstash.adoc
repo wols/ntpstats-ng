@@ -44,7 +44,7 @@ OPTIONS="-g -l /var/log/ntp/ntp.log"
 
 Die Logstash-Konfiguration teilt sich in die Abschnitte `input`, `filter` und `output`.
 
-Als `input`-Typ wird von uns `ntplog` festgelegt.
+Als `input`-Typ wird von uns `syslog-ntp` festgelegt.
 
 Der Zeitstempel-Anteil des `output`-Dateinamens wird im xref:A-Bookmarks.adoc#bookmark_joda_time[Joda-Time-Format] angegeben.
 
@@ -56,14 +56,14 @@ Der Zeitstempel-Anteil des `output`-Dateinamens wird im xref:A-Bookmarks.adoc#bo
 input {
     file {
         path => [ "/var/log/ntp/ntp.log" ]
-        type => "ntplog"
+        type => "syslog-ntp"
     }
 }
 
 filter {}
 
 output {
-    if [type] == "ntplog" {
+    if [type] == "syslog-ntp" {
         file {
             path => "/tmp/ntpstats-ng-%{+YYYYMMdd}.json"
         }
@@ -102,10 +102,10 @@ Vergleichen wir die jeweils *erste Zeile* der beiden Dateien.
 .`head -n 1 /tmp/ntpstats-ng-20170129.json`
 [source%nowrap]
 ----
-{"path":"/var/log/ntp/ntp.log","@timestamp":"2017-01-29T22:16:14.805Z","@version":"1","host":"vdr.home.wols.org","message":"29 Jan 22:15:59 ntpd[19633]: ntpd 4.2.8p9@1.3265-o Thu Nov 24 08:57:19 UTC 2016 (1): Starting","type":"ntplog"}
+{"path":"/var/log/ntp/ntp.log","@timestamp":"2017-01-29T22:16:14.805Z","@version":"1","host":"vdr.home.wols.org","message":"29 Jan 22:15:59 ntpd[19633]: ntpd 4.2.8p9@1.3265-o Thu Nov 24 08:57:19 UTC 2016 (1): Starting","type":"syslog-ntp"}
 ----
 
-TIP: Bei der Lesbarkeit hilft uns der JSON-Kommandozeilenprozessor xref:A-Bookmarks.adoc#bookmark_jq[`jq`].
+TIP: Hier hilft uns der JSON-Kommandozeilenprozessor xref:A-Bookmarks.adoc#bookmark_jq[`jq`].
 
 .`head -n 1 /tmp/ntpstats-ng-20170129.json | jq`
 [source%nowrap, json]
@@ -116,11 +116,11 @@ TIP: Bei der Lesbarkeit hilft uns der JSON-Kommandozeilenprozessor xref:A-Bookma
   "@version": "1",
   "host": "vdr.home.wols.org",
   "message": "29 Jan 22:15:59 ntpd[19633]: ntpd 4.2.8p9@1.3265-o Thu Nov 24 08:57:19 UTC 2016 (1): Starting",
-  "type": "ntplog"
+  "type": "syslog-ntp"
 }
 ----
 
-=== Vergleiche
+== Vergleiche
 
 Die Felder `path` und `type` aus unserer xref:_logstash[Konfiguration] finden wir sofort wieder.
 In `message` ist der komplette Inhalt der Log-Zeile gelandet.
@@ -129,15 +129,54 @@ Hinzugekommen sind die Felder `@timestamp`, `@version` und `host`.
 In `host` steht der Hostname des Logstash Host - dazu später mehr.footnote:[link:https://www.elastic.co/de/blog/little-logstash-lessons-part-using-grok-mutate-type-data[Kurze Logstash-Lektionen - Teil 1, window="_blank"]]
 Das Feld `@version` brauchen wir eigentlich nicht.footnote:[link:https://github.com/elastic/logstash/issues/3866[GitHub:elastic/logstash Issue#3866, window="_blank"]]
 
-==== Datum und Uhrzeit
-
-Das Format von `@timestamp` entspricht bereits dem für die spätere Weiterleitung an link:Elasticsearch.adoc[Elasticsearch] benötigtem.
-
-NOTE: Datum und Uhrzeit sind in `@timestamp` und `message` verschieden!
+NOTE: Datum und Uhrzeit sind in `message` und `@timestamp` verschieden!
 
 Die Log-Zeile wurde am "29. Januar, 22:15:59" geschrieben - Jahr und Zeitzone fehlen.
 
 Die Verarbeitung durch Logstash erfolgte am "29. Januar 2017, 22:16:14.805, UTC" - etwa 15 Sekunden später.
+
+Das Format von `@timestamp` entspricht dem für die Weiterleitung an link:Elasticsearch.adoc[Elasticsearch] benötigtem.
+Wir wollen aber die Ereignisse in der exakten *Log-Reihenfolge* erhalten und später analysieren können.
+Wenden wir dazu die Logstash-Filter auf unseren Typ `syslog-ntp` an.
+
+== Filter
+
+.logstash-5.1.2
+[source%nowrap]
+----
+# /etc/logstash/conf.d/ntpstats-ng.conf
+
+input {
+    # ...
+}
+
+filter {
+    if [type] == "syslog-ntp" {
+        grok {
+            match     => { "message"  => "%{MONTHDAY:msg_day} %{MONTH:msg_month} %{TIME:msg_time} %{SYSLOGPROG}: %{GREEDYDATA:message}" }
+            add_field => { "logstamp" => "%{msg_day} %{msg_month} %{msg_time}" }
+        }
+    }
+}
+
+output {
+    # ...
+}
+----
+
+.Gentoo, openrc
+[source%nowrap, sh]
+----
+/etc/init.d/logstash restart
+----
+
+.CentOS 7, syslogd
+[source%nowrap, sh]
+----
+systemctl restart logstash.service
+----
+
+
 
 ---
 
