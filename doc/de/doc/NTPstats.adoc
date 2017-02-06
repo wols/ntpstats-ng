@@ -12,21 +12,21 @@ toc::[]
 |===
 |Type|ntpstats-ng Version
 
-|`clockstats` |
+|`clockstats`  |
 
-|`cryptostats`|
+|`cryptostats` |
 
-|`loopstats`  |`0.1.0`
+|`loopstats`   |`0.1.0`
 
-|`peerstats`  |`0.1.0`
+|`peerstats`   |`0.1.0`
 
-|`protostats` |
+|`protostats`  |
 
-|`rawstats`   |
+|`rawstats`    |
 
-|`sysstats`   |
+|`sysstats`    |
 
-|`timingstats`|
+|`timingstats` |
 |===
 
 Quelle: xref:A-Bookmarks.adoc#bookmark_ntp_monopt[NTP - Monitoring Commands and Options]
@@ -37,7 +37,11 @@ Quelle: xref:A-Bookmarks.adoc#bookmark_ntp_monopt[NTP - Monitoring Commands and 
 |===
 |Type|ntpstats-ng Version
 
-|`mbgmonstats`|`0.1.0`
+|`mbgmonstats`  |`0.1.0`
+
+|`ntppoolstats` |`0.1.0`
+
+|`ntplog`       |`0.1.0`
 |===
 
 ---

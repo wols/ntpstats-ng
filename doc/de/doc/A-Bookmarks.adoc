@@ -36,6 +36,9 @@ link:https://docs.ntpsec.org/latest/leapsmear.html[, window="_blank"] (2017-01-3
 *** [[bookmark_logstash_ssh_forward]]Biler, Darwin: Forwarding log files to Logstash server via SSH. +
 link:http://www.darwinbiler.com/forwarding-log-files-to-logstash-server-via-ssh/[, window="_blank"] (2017-01-30).
 
+*** [[bookmark_logstash_grok_debugger]]Grok Debugger. +
+link:https://grokdebug.herokuapp.com/[, window="_blank"] (2017-02-06).
+
 ** Grafana
 
 * Ressourcen
