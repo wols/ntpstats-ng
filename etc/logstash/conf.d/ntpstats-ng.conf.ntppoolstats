@@ -1,0 +1,62 @@
+# ntpstats-ng.conf.ntppoolstats
+#
+# 2017-02-06
+# WOLfgang Schricker <time@wols.org>
+# GPL-3
+
+input {
+    http_poller {
+        add_field => {
+            "statshost"      => "los_angeles"
+            "source_address" => "80.244.251.222"
+        }
+        urls      => {
+            stats => "http://www.pool.ntp.org/scores/80.244.251.222/log?limit=1"
+        }
+        schedule  => { "every" => "15m" }
+        codec     => "plain"
+        type      => "ntppoolstats"
+    }
+}
+
+filter {
+    if [type] == "ntppoolstats" {
+
+        # "message":"ts_epoch,ts,offset,step,score,leap\n1486332838,\"2017-02-05 22:13:58\",-0.0148128271102905,1,20,0\n"
+
+        grok {
+            match => {
+                "message" => "ts_epoch,ts,offset,step,score,leap\n%{NUMBER:ts_epoch:int},\"%{TIMESTAMP_ISO8601:statsstamp}\",%{NUMBER:clock_offset:float},%{NUMBER:step:int},%{NUMBER:score:float},%{NUMBER:leap:int}\n"
+            }
+            remove_field => [ "message", "ts_epoch" ]
+        }
+
+        date {
+            match    => [ "statsstamp", "YYYY-MM-dd HH:mm:ss" ]
+            target   => "statsstamp"
+            timezone => "UTC"
+        }
+
+        mutate { remove_field => "@version" }
+    }
+}
+
+output {
+    if [type] == "ntppoolstats" {
+
+        # TODO "_grokparsefailure" or "_dateparsefailure" in [tags]
+
+        file {
+            path => "/tmp/ntpstats-ng-%{+YYYYMMdd}.json"
+        }
+
+        if [score] >= 10 {
+            # TODO nagios { "OK" }
+        }
+        else {
+            # TODO nagios { "WARNING" }
+        }
+    }
+}
+
+# EOF
