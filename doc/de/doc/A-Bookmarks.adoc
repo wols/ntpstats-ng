@@ -12,6 +12,9 @@ link:https://www.eecis.udel.edu/~mills/ntp/html/monopt.html[, window="_blank"] (
 ** [[bookmark_ntp_project_scripts_stats]]NTP project - Statistics processing scripts (README). +
 link:https://github.com/ntp-project/ntp/blob/stable/scripts/stats/README[, window="_blank"] (2017-01-30).
 
+** [[bookmark_ntp_support_scripts_stats]]NTP Support - Monitoring and Controlling NTP. +
+link:http://support.ntp.org/bin/view/Support/MonitoringAndControllingNTP#scripts_stats_tools[, window="_blank"] (2017-02-06).
+
 ** [[bookmark_ntf]]Network Time Foundation. +
 link:http://nwtime.org/[, window="_blank"] (2017-01-30).
 
