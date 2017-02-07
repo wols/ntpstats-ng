@@ -36,6 +36,9 @@ link:https://docs.ntpsec.org/latest/leapsmear.html[, window="_blank"] (2017-01-3
 *** [[bookmark_logstash_ssh_forward]]Biler, Darwin: Forwarding log files to Logstash server via SSH. +
 link:http://www.darwinbiler.com/forwarding-log-files-to-logstash-server-via-ssh/[, window="_blank"] (2017-01-30).
 
+*** [[bookmark_logstash_grok_type]]Mildenstein, Aaron: Kurze Logstash-Lektionen – Teil 1: Datentypen festlegen mit Grok und Mutate. +
+link:https://www.elastic.co/de/blog/little-logstash-lessons-part-using-grok-mutate-type-data[, window="_blank"] (2017-02-08).
+
 ** Grafana
 
 * Ressourcen
@@ -45,6 +48,9 @@ link:http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeForma
 
 ** [[bookmark_jq]]jq. command-line JSON processor. +
 link:https://stedolan.github.io/jq/[, window="_blank"] (2017-01-30).
+
+** [[bookmark_regex_debugger]]Regex101 - online regex editor and debugger. +
+link:https://regex101.com/[, window="_blank"] (2017-02-08).
 
 ** [[bookmark_]]Preston-Werner, Tom: Semantic Versioning. +
 link:http://semver.org/[, window="_blank"] (2017-01-30).
