@@ -7,7 +7,7 @@
 toc::[]
 
 Es gibt einige Hilfsmittel um NTP-Statistiken darzustellen und zu analysieren.
-Die "Originale" liegen der NTP Referenz bei: xref:A-Bookmarks.adoc#bookmark_ntp_project_scripts_stats[NTP project - Statistics processing scripts (README)].
+Die "Originale" liegen der NTP Referenz bei: xref:../A-Bookmarks.adoc#bookmark_ntp_project_scripts_stats[NTP project - Statistics processing scripts (README)].
 
 ---
 
