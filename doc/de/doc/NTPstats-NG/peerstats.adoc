@@ -1,0 +1,17 @@
+= ntpstats-ng peerstats
+:icons:         font
+:linkattrs:
+:toc:           macro
+:toc-title:     Inhalt
+
+toc::[]
+
+---
+
+TIP: Verarbeitung von `peerstats`...
+
+---
+
+link:../README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
+
+// End of ntpstats-ng/doc/de/doc/NTPstats-NG/peerstats.adoc
