@@ -5,11 +5,9 @@
 
 //^
 
-[arabic]
 . link:README.adoc[NTP-Statistiken - Was?]
 . link:NTPstats.adoc[NTP Statistiken]
 . link:NTPstats-NG/README.adoc[NTP statistics - Next Generation]
-[arabic]
 .. link:https://github.com/wols/ntpstats-ng/issues/13[loopstats, window="_blank"]
 .. link:NTPstats-NG/peerstats.adoc[peerstats]
 .. link:https://github.com/wols/ntpstats-ng/issues/15[ntppoolstats, window="_blank"]
