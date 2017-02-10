@@ -1,4 +1,4 @@
-= ntpstats-ng peerstats
+= ntpstats-ng - peerstats
 :icons:         font
 :linkattrs:
 :toc:           macro
@@ -6,12 +6,66 @@
 
 toc::[]
 
+== logstash
+
+=== input
+
+==== file
+
+.logstash-5.1.2
+[source%nowrap]
+----
+input {
+    file {
+        path => [ "/var/log/ntp/stats/HOSTNAME.peerstats" ]
+        type => "peerstats"
+    }
+}
+----
+
+==== tcp
+
+.logstash-5.1.2
+[source%nowrap]
+----
+input {
+    tcp {
+        # TODO
+        type => "peerstats"
+    }
+}
+----
+
+=== filter
+
+.logstash-5.1.2
+[source%nowrap]
+----
+filter {
+    if [type] == "peerstats" {
+        # TODO
+    }
+}
+----
+
+=== output
+
+.logstash-5.1.2
+[source%nowrap]
+----
+output {
+    if [type] == "peerstats" {
+        # TODO
+    }
+}
+----
+
 ---
 
-TIP: Verarbeitung von `peerstats`...
+TIP: Wird fortgesetzt...
 
 ---
 
-link:../README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
+xref:../README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
 
 // End of ntpstats-ng/doc/de/doc/NTPstats-NG/peerstats.adoc
