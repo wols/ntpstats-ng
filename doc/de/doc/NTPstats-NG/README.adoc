@@ -7,10 +7,10 @@ Die "Originale" liegen der NTP Referenz bei: xref:../A-Bookmarks.adoc#bookmark_n
 
 .Statistik-Typen `ntpstats-ng-0.1.0`
 
-xref:ntppoolstats.adoc[ntppoolstats]::
+link:ntppoolstats.adoc[ntppoolstats]::
 TODO Kurzbeschreibung.
 
-xref:peerstats.adoc[peerstats]::
+link:peerstats.adoc[peerstats]::
 TODO Kurzbeschreibung.
 
 ---
@@ -19,6 +19,6 @@ TIP: Wird fortgesetzt...
 
 ---
 
-xref:../README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
+link:../README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
 
 // End of ntpstats-ng/doc/de/doc/NTPstats-NG/README.adoc
