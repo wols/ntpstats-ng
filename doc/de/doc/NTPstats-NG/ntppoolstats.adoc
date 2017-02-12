@@ -13,7 +13,7 @@ toc::[]
 == Datenfluss
 
 .Datenfluss
-ifndef::env-github,gitbook.version[]
+ifndef::env-github+gitbook.version[]
 [ditaa, target="diagram/dataflow_ntppoolstats", png]
 ----
 /--------------\     +-------+   +--------+   +--------+     /---------------\     /---------\
