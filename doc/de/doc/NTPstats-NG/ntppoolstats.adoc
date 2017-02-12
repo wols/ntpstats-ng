@@ -83,7 +83,7 @@ input {
     http_poller {
         # replace the two placeholders <SOURCE_ADDRESS> with your server IP address
         add_field => {
-            "elastic_index"  => "%{+YYYY.MM.dd}"
+            "elastic_index"  => "ntpstats-live"
             "statshost"      => "los_angeles"
             "source_address" => "<SOURCE_ADDRESS>"
         }
@@ -140,7 +140,7 @@ filter {
 ----
         grok {
             match => {
-                "message" => "ts_epoch,ts,offset,step,score,leap\n%{NUMBER:ts_epoch:int},\"%{TIMESTAMP_ISO8601:statsstamp}\",(%{NUMBER:clock_offset:float})?,%{NUMBER:step:int},%{NUMBER:score:float},%{NUMBER:leap:int}\n"
+                "message" => "ts_epoch,ts,offset,step,score,leap\n%{NUMBER:ts_epoch:int},\"%{TIMESTAMP_ISO8601:statsstamp}\",(%{NUMBER:clock_offset:float})?,%{NUMBER:step:float},%{NUMBER:score:float},%{NUMBER:leap:int}\n"
             }
             remove_field => [ "@version", "ts_epoch" ]
         }
