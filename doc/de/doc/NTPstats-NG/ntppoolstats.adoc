@@ -13,7 +13,7 @@ toc::[]
 == Datenfluss
 
 .Datenfluss
-ifndef::env-github[]
+ifndef::env-github,gitbook.version[]
 [ditaa, target="diagram/dataflow_ntppoolstats", png]
 ----
 /--------------\     +-------+   +--------+   +--------+     /---------------\     /---------\
@@ -23,7 +23,7 @@ ifndef::env-github[]
 \--------------/     +-------+   +--------+   +--------+     \---------------/     \---------/
 ----
 endif::[]
-ifdef::env-github[]
+ifdef::env-github,gitbook.version[]
 image::diagram/dataflow_ntppoolstats.png[]
 endif::[]
 
@@ -56,7 +56,7 @@ output {
 <2> xref:ntppoolstats.adoc#_grok[grok]
 <3> xref:ntppoolstats.adoc#_date[date]
 <4> xref:ntppoolstats.adoc#_ruby[ruby]
-<5> xref:ntppoolstats.adoc#_mutate[mutate] für `score >= 10`
+<5> xref:ntppoolstats.adoc#_mutate[mutate]
 <6> xref:ntppoolstats.adoc#_file[file]
 <7> xref:ntppoolstats.adoc#_elasticsearch[elasticsearch]
 
