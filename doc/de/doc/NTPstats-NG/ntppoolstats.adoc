@@ -1,5 +1,6 @@
 = ntpstats-ng - ntppoolstats
 :icons:         font
+:imagesdir:     ../../../images
 :imagesoutdir:  ../../../images
 :linkattrs:
 :toc:           macro
