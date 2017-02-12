@@ -1,4 +1,5 @@
 = INHALT
+:linkattrs:
 
 * link:SUMMARY.adoc[INHALT]
 
@@ -6,7 +7,12 @@
 
 . link:README.adoc[NTP-Statistiken - Was?]
 . link:NTPstats.adoc[NTP Statistiken]
-. link:NTPstats-NG.adoc[NTP statistics - Next Generation]
+. link:NTPstats-NG/README.adoc[NTP statistics - Next Generation]
+.. link:https://github.com/wols/ntpstats-ng/issues/13[loopstats, window="_blank"]
+.. link:NTPstats-NG/peerstats.adoc[peerstats]
+.. link:NTPstats-NG/ntppoolstats.adoc[ntppoolstats]
+.. link:https://github.com/wols/ntpstats-ng/issues/14[mbgmonstats, window="_blank"]
+.. link:https://github.com/wols/ntpstats-ng/issues/16[ntplog, window="_blank"]
 . link:Logstash.adoc[ELG - Logstash]
 . link:Elasticsearch.adoc[ELG - Elasticsearch]
 . link:Grafana.adoc[ELG - Grafana]

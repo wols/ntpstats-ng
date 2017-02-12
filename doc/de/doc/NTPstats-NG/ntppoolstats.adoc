@@ -1,0 +1,249 @@
+= ntpstats-ng - ntppoolstats
+:icons:         font
+:imagesdir:     ../../../images
+:imagesoutdir:  ../../../images
+:linkattrs:
+:toc:           macro
+:toc-title:     Inhalt
+
+CSV-Daten vom xref:../A-Bookmarks.adoc#bookmark_ntppool[pool.ntp.org Projekt] als Quelle für 'ntppoolstats'.
+
+toc::[]
+
+== Datenfluss
+
+.Datenfluss
+ifeval::["{{gitbook.version}}" != "3.2.2"]
+ifndef::env-github[]
+[ditaa, target="diagram/dataflow_ntppoolstats", png]
+----
+/--------------\     +-------+   +--------+   +--------+     /---------------\     /---------\
+|              |     |       |   |        |   |        |     |               |     |         |
+| pool.ntp.org *---->| input +-->| filter +-->| output +---->* Elasticsearch *---->| Grafana |
+|              |     |       |   |        |   |        |     |               |     |         |
+\--------------/     +-------+   +--------+   +--------+     \---------------/     \---------/
+----
+endif::env-github[]
+ifdef::env-github[]
+image::diagram/dataflow_ntppoolstats.png[]
+endif::env-github[]
+endif::[]
+ifeval::["{{gitbook.version}}" == "3.2.2"]
+image::diagram/dataflow_ntppoolstats.png[]
+endif::[]
+
+== Logstash
+
+.logstash-5.1.2
+[source%nowrap]
+----
+# /etc/logstash/conf.d/ntpstats-ng.conf.ntppoolstats
+
+input {
+    http_poller { ... } # <1>
+}
+
+filter {
+    grok { ... } # <2>
+    date { ... } # <3>
+    ruby { ... } # <4>
+    if [score] > 10 {
+        mutate { ... } # <5>
+    }
+}
+
+output {
+    file { ... } # <6>
+    elasticsearch { ... } # <7>
+}
+----
+<1> xref:ntppoolstats.adoc#_http_poller[http_poller]
+<2> xref:ntppoolstats.adoc#_grok[grok]
+<3> xref:ntppoolstats.adoc#_date[date]
+<4> xref:ntppoolstats.adoc#_ruby[ruby]
+<5> xref:ntppoolstats.adoc#_mutate[mutate]
+<6> xref:ntppoolstats.adoc#_file[file]
+<7> xref:ntppoolstats.adoc#_elasticsearch[elasticsearch]
+
+---
+
+NOTE: Die komplette Datei findet sich hier: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/ntpstats-ng.conf.ntppoolstats[ntpstats-ng.conf.ntppoolstats, window="_blank"]
+
+---
+
+=== input
+
+==== http_poller
+
+Zum zyklischen Abholen der aktuellen CSV-Daten nutzen wir `logstash-input-http_poller`.
+
+[source%nowrap]
+----
+input {
+    http_poller {
+        # replace the two placeholders <SOURCE_ADDRESS> with your server IP address
+        add_field => {
+            "elastic_index"  => "ntpstats-live"
+            "statshost"      => "los_angeles"
+            "source_address" => "<SOURCE_ADDRESS>"
+        }
+        urls      => {
+            stats => "http://www.pool.ntp.org/scores/<SOURCE_ADDRESS>/log?limit=1"
+        }
+        schedule  => { "every" => "15m" }
+        codec     => "plain"
+        type      => "ntppoolstats"
+    }
+}
+----
+
+Das Ergebnis:
+
+[source%nowrap]
+----
+"message":"ts_epoch,ts,offset,step,score,leap\n1486332838,\"2017-02-05 22:13:58\",-0.0148128271102905,1,20,0\n"
+----
+
+Als Vorgriff auf den xref:ntppoolstats.adoc#_file[Output] (im JSON-Format):
+
+.`head -n 1 /tmp/ntpstats-ng-2017-02-05.json | jq`
+[source%nowrap, json]
+----
+{
+  "clock_offset": -0.0148128271102905,
+  "statsstamp": "2017-02-05T22:13:58.000Z",
+  "message": "score:20.0 OK",
+  "type": "ntppoolstats",
+  "elastic_index": "ntpstats-live-2017-02-05",
+  "score": 20,
+  "@timestamp": "2017-02-05T22:29:49.080Z",
+  "source_address": "<SOURCE_ADDRESS>",
+  "step": 1,
+  "leap": 0,
+  "statshost": "los_angeles"
+}
+----
+
+=== filter
+
+Die folgenden Filter werden wieder nur auf die typisierten Events angewandt.
+
+[source%nowrap]
+----
+filter {
+    if [type] == "ntppoolstats" {
+----
+
+==== grok
+
+[source%nowrap]
+----
+        grok {
+            match => {
+                "message" => "ts_epoch,ts,offset,step,score,leap\n%{NUMBER:ts_epoch:int},\"%{TIMESTAMP_ISO8601:statsstamp}\",(%{NUMBER:clock_offset:float})?,%{NUMBER:step:float},%{NUMBER:score:float},%{NUMBER:leap:int}\n"
+            }
+            remove_field => [ "@version", "ts_epoch" ]
+        }
+----
+
+==== date
+
+[source%nowrap]
+----
+        date {
+            match    => [ "statsstamp", "YYYY-MM-dd HH:mm:ss" ]
+            target   => "statsstamp"
+            timezone => "UTC"
+        }
+----
+
+==== ruby
+
+[source%nowrap, ruby]
+----
+        ruby {
+            # logstash >= 5.0
+            code => "
+                statsstamp    = event.get('statsstamp').to_s;
+                statsstamp    = DateTime.parse(statsstamp).strftime('%Y-%m-%d');
+                elastic_index = event.get('elastic_index') + '-' + statsstamp;
+
+                event.set('elastic_index', elastic_index);
+            "
+        }
+----
+
+==== mutate
+
+Nur Server mit einer Bewertung über "10" werden in den Pool aufgenommen.
+
+[source%nowrap]
+----
+        if [score] > 10 {
+            mutate {
+                replace => { "message" => "score:%{score} OK" }
+            }
+        } else {
+            mutate {
+                replace => { "message" => "score:%{score} WARNING" }
+            }
+        }
+    }
+}
+----
+
+=== output
+
+[source%nowrap]
+----
+output {
+    if [type] == "ntppoolstats" {
+----
+
+==== file
+
+[source%nowrap]
+----
+        # DEBUG
+        file {
+            path => "/tmp/ntpstats-ng-%{elastic_index}.json"
+        }
+----
+
+==== elasticsearch
+
+[source%nowrap]
+----
+        if  ! ( "_grokparsefailure" in [tags] )
+        and ! ( "_dateparsefailure" in [tags] )
+        and ! ( "_rubyexception"    in [tags] ) {
+            elasticsearch {
+                hosts => [ "localhost:9200" ]
+                index => "%{elastic_index}"
+            }
+        }
+----
+
+[source%nowrap]
+----
+    }
+}
+----
+
+== Elasticsearch
+
+
+
+== Grafana
+
+
+
+---
+
+TIP: Wird fortgesetzt...
+
+---
+
+link:../README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
+
+// End of ntpstats-ng/doc/de/doc/NTPstats-NG/peerstats.adoc
