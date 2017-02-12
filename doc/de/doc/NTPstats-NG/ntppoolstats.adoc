@@ -26,7 +26,7 @@ endif::env-github[]
 ifdef::env-github[]
 image::diagram/dataflow_ntppoolstats.png[]
 endif::env-github[]
-ifeval::[{{gitbook.version}}]
+ifeval::["{{gitbook.version}}" > "0"]
 image::diagram/dataflow_ntppoolstats.png[]
 endif::[]
 
