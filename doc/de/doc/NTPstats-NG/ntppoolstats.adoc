@@ -206,7 +206,7 @@ output {
 ----
         # DEBUG
         file {
-            path => "/tmp/ntpstats-ng-%{elastic_index}.json"
+            path => "/tmp/%{elastic_index}.json"
         }
 ----
 
@@ -246,4 +246,4 @@ TIP: Wird fortgesetzt...
 
 link:../README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
 
-// End of ntpstats-ng/doc/de/doc/NTPstats-NG/peerstats.adoc
+// End of ntpstats-ng/doc/de/doc/NTPstats-NG/ntppoolstats.adoc
