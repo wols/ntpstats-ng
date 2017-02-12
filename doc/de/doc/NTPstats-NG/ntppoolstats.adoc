@@ -12,6 +12,8 @@ toc::[]
 
 == Datenfluss
 
+`gitbook.version` = "{{gitbook.version}}"
+
 .Datenfluss
 ifeval::["{{gitbook.version}}" == '{{gitbook.version}}']
 ifndef::env-github[]
