@@ -13,8 +13,7 @@ toc::[]
 == Datenfluss
 
 .Datenfluss
-ifeval::["{{env-gitbook}}" != "1"]
-ifndef::env-github[]
+ifndef::env-github+env-gitbook[]
 [ditaa, target="diagram/dataflow_ntppoolstats", png]
 ----
 /--------------\     +-------+   +--------+   +--------+     /---------------\     /---------\
@@ -23,14 +22,13 @@ ifndef::env-github[]
 |              |     |       |   |        |   |        |     |               |     |         |
 \--------------/     +-------+   +--------+   +--------+     \---------------/     \---------/
 ----
-endif::env-github[]
+endif::env-github+env-gitbook[]
 ifdef::env-github[]
 image::diagram/dataflow_ntppoolstats.png[]
 endif::env-github[]
-endif::[]
-ifeval::["{{env-gitbook}}" == "1"]
+ifdef::env-gitbook[]
 image::diagram/dataflow_ntppoolstats.png[]
-endif::[]
+endif::env-gitbook[]
 
 == Logstash
 
