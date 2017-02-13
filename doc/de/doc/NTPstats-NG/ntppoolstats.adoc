@@ -12,7 +12,7 @@ toc::[]
 
 == Datenfluss
 
-.Datenfluss
+.ntppoolstats Datenfluss
 ifeval::["{{gitbook.version}}" != "3.2.2"]
 ifndef::env-github[]
 [ditaa, target="diagram/ntppoolstats_dataflow", png]

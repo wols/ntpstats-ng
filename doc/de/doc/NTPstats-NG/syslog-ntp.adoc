@@ -1,0 +1,123 @@
+= Übertragung
+:icons:         font
+:linkattrs:
+:toc:           macro
+:toc-title:     Inhalt
+
+Übertragung von NTP Statistken mit Hilfe von syslog-ng - cool!
+
+toc::[]
+
+== Datenfluss
+
+.syslog-ntp Datenfluss
+ifeval::["{{gitbook.version}}" != "3.2.2"]
+ifndef::env-github[]
+[ditaa, target="diagram/syslog-ntp_dataflow", png]
+----
++-----------+
+| loopstats |
+|{d}        +--+   /-----------\   /-------+----------+--------\   /---------------\   /---------\
++-----------+  +-->|           |   |       |          |        |   |               |   |         |
+                   | syslog-ng +-->* input | Logstash | output +-->* Elasticsearch *-->| Grafana |
++-----------+  +-->|           |   |       |          |        |   |               |   |         |
+| peerstats |  |   \-----------/   \---+---+----------+--------/   \---------------/   \---------/
+|{d}        +--+                       |                  ^
++-----------+                          |   +----------+   |
+                                       +---+  filter  +---+
+                                           +----------+
+----
+endif::env-github[]
+ifdef::env-github[]
+image::diagram/syslog-ntp_dataflow.png[]
+endif::env-github[]
+endif::[]
+ifeval::["{{gitbook.version}}" == "3.2.2"]
+image::diagram/syslog-ntp_dataflow.png[]
+endif::[]
+
+== syslog-ng
+
+=== options
+
+.syslog-ng-3.7.3
+[source%nowrap]
+----
+options {
+    # ...
+    ts_format(iso);
+};
+----
+
+=== source
+
+[source%nowrap]
+----
+source loopstats {
+    file(
+        "/var/log/ntp/stats/HOSTNAME.loopstats"
+        follow-freq(5)
+        flags(no-parse)
+    );
+};
+
+source peerstats {
+    file(
+        "/var/log/ntp/stats/HOSTNAME.peerstats"
+        follow-freq(5)
+        flags(no-parse)
+    );
+};
+----
+
+=== destination
+
+[source%nowrap]
+----
+destination syslog-ntp {
+    network(
+        "localhost"
+        port(5123)
+        transport("tcp")
+        template("${TAGS} ${MSG}\n")
+        template-escape(no)
+    );
+};
+----
+
+=== log
+
+[source%nowrap]
+----
+log {
+    source(loopstats);
+    source(peerstats);
+    destination(syslog-ntp);
+};
+----
+
+== Logstash
+
+.logstash-5.1.2
+[source%nowrap]
+----
+# /etc/logstash/conf.d/ntpstats-ng.conf.syslog-ntp
+
+input {
+    tcp {
+        port => 5123
+        mode => "server"
+        type => "syslog-ntp"
+    }
+}
+----
+
+---
+
+TIP: Wird fortgesetzt...
+
+---
+
+link:../README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
+
+// End of ntpstats-ng/doc/de/doc/NTPstats-NG/syslog-ntp.adoc
