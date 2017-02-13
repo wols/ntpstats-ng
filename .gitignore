@@ -1,5 +1,5 @@
 # ntpstats-ng/.gitignore
 
-/doc/html/
+/doc/de/html/
 /etc/
 /src/
