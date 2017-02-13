@@ -19,11 +19,11 @@
 . link:Grafana.adoc[ELG - Grafana]
 . link:Leap201612.adoc[Schaltsekunde 2016-12-31]
 
-== Anhang
+== ANHANG
 
 [upperalpha]
-. link:A-Bookmarks.adoc[A: Lesezeichen]
-. link:B-Equipment.adoc[B: Equipment]
+. link:A-Bookmarks.adoc[Lesezeichen]
+. link:B-Equipment.adoc[Equipment]
 
 ---
 
