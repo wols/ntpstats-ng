@@ -22,8 +22,8 @@
 == Anhang
 
 [upperalpha]
-. link:A-Bookmarks.adoc[Lesezeichen]
-. link:B-Equipment.adoc[Equipment]
+. link:A-Bookmarks.adoc[A: Lesezeichen]
+. link:B-Equipment.adoc[B: Equipment]
 
 ---
 
