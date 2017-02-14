@@ -1,37 +1,76 @@
 = NTP Statistiken
 :icons:         font
+:imagesdir:     ../../images
+:imagesoutdir:  ../../images
 :linkattrs:
 :toc:           macro
 :toc-title:     Inhalt
+ifdef::env-github[]
+:tip-caption:   :bulb:
+endif::[]
 
 toc::[]
 
-== NTP
+== Statistik-Typen
+
+.Typen
+ifeval::["{{gitbook.version}}" != "3.2.2"]
+ifndef::env-github[]
+[ditaa, target="diagram/ntpstats_types", png]
+----
+NTP                 Meinberg            ntp.pool.org
+Daemon-Satistik     NTP-Monitor         Server-Statistik
+
++-------------+     +-------------+     +--------------+
+| clockstats  |     | mbgmonstats |     | ntppoolstats |
++-------------+     |{d}          |     |{d}           |
+| cryptostats |     +-------------+     +--------------+
++-------------+
+| loopstats   |
++-------------+
+| peerstats   |
++-------------+
+| protostats  |
++-------------+
+| rawstats    |
++-------------+
+| sysstats    |
++-------------+
+| timingstats |
+|{d}          |
++-------------+
+----
+endif::env-github[]
+ifdef::env-github[]
+image::diagram/ntpstats_types.png[]
+endif::env-github[]
+endif::[]
+ifeval::["{{gitbook.version}}" == "3.2.2"]
+image::diagram/ntpstats_types.png[]
+endif::[]
+
+=== Unterstützte Statistiken
 
 [options="header"]
 |===
 |Type|ntpstats-ng Version
 
-|`clockstats`  |
+|`clockstats`  |`-`
 
-|`cryptostats` |
+|`cryptostats` |`-`
 
 |`loopstats`   |`0.1.0`
 
 |`peerstats`   |`0.1.0`
 
-|`protostats`  |
+|`protostats`  |`-`
 
-|`rawstats`    |
+|`rawstats`    |`-`
 
-|`sysstats`    |
+|`sysstats`    |`-`
 
-|`timingstats` |
+|`timingstats` |`-`
 |===
-
-Quelle: xref:A-Bookmarks.adoc#bookmark_ntp_monopt[NTP - Monitoring Commands and Options]
-
-== Andere
 
 [options="header"]
 |===
