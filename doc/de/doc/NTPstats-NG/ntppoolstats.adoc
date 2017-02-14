@@ -192,6 +192,10 @@ Nur Server mit einer Bewertung über "10" werden in den Pool aufgenommen.
                 replace => { "message" => "score:%{score} WARNING" }
             }
         }
+----
+
+[source%nowrap]
+----
     }
 }
 ----
@@ -233,14 +237,6 @@ output {
     }
 }
 ----
-
-== Elasticsearch
-
-
-
-== Grafana
-
-
 
 ---
 
