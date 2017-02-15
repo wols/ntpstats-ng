@@ -5,8 +5,12 @@
 
 //^
 
-. link:README.adoc[NTP-Statistiken - Was?]
-. link:NTPstats.adoc[NTP Statistiken]
+. link:README.adoc[NTP Statistiken - Was?]
+. link:NTPstats.adoc[Statistik-Typen]
+. ELG Stack
+.. link:ELG/Elasticsearch.adoc[Elasticsearch]
+.. link:ELG/Logstash.adoc[Logstash]
+.. link:ELG/Grafana.adoc[Grafana]
 . link:NTPstats-NG/README.adoc[NTP statistics - Next Generation]
 .. link:https://github.com/wols/ntpstats-ng/issues/13[loopstats, window="_blank"]
 .. link:NTPstats-NG/peerstats.adoc[peerstats]
@@ -14,9 +18,6 @@
 .. link:https://github.com/wols/ntpstats-ng/issues/14[mbgmonstats, window="_blank"]
 .. link:https://github.com/wols/ntpstats-ng/issues/16[ntplog, window="_blank"]
 .. link:NTPstats-NG/syslog-ntp.adoc[Übertragung]
-. link:Logstash.adoc[ELG - Logstash]
-. link:Elasticsearch.adoc[ELG - Elasticsearch]
-. link:Grafana.adoc[ELG - Grafana]
 . link:Leap201612.adoc[Schaltsekunde 2016-12-31]
 
 == ANHANG

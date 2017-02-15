@@ -1,4 +1,5 @@
 = TABLE OF CONTENTS
+:linkattrs:
 
 * link:SUMMARY.adoc[TOC]
 
@@ -9,7 +10,7 @@
 == Appendix
 
 [upperalpha]
-
+. link:../../de/A-Bookmarks.adoc[Bookmarks]
 
 ---
 

@@ -3,6 +3,9 @@
 :linkattrs:
 :toc:           macro
 :toc-title:     Inhalt
+ifdef::env-github[]
+:tip-caption:   :bulb:
+endif::[]
 
 ELG Stack = link:Elasticsearch.adoc[Elasticsearch], Logstash und link:Grafana.adoc[Grafana]
 
@@ -182,6 +185,6 @@ TIP: Wird fortgesetzt...
 
 ---
 
-link:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
+link:../README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
 
 // End of ntpstats-ng/doc/de/doc/Logstash.adoc

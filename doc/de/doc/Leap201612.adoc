@@ -3,6 +3,9 @@
 :linkattrs:
 :toc:           macro
 :toc-title:     Inhalt
+ifdef::env-github[]
+:tip-caption:   :bulb:
+endif::[]
 
 Die erste Neujahrsstunde 2017 in Deutschland könnte man feiern oder diverse Shows und Wiederholungen im Fernsehen schauen.
 Man kann aber auch mal beobachten wie die Schaltsekunde via NTP "`rüber kommt`".

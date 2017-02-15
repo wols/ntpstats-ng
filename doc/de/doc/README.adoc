@@ -7,9 +7,9 @@ NTP statistics - Next Generation
 
 Deutsche Version
 
-== NTP-Statistiken - Was?
+== NTP statistics - Was?
 
-Ja, *Next Generation*...
+Ja, **N**etwork **T**ime **P**rotocol Statistiken - *Nächste Generation*...
 
 image::screenshot_ntpstats-live+peerstats.png[Screenshot ntpstats-live und -peerstats]
 

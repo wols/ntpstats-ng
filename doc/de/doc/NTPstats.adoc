@@ -1,4 +1,4 @@
-= NTP Statistiken
+= Statistik-Typen
 :icons:         font
 :imagesdir:     ../../images
 :imagesoutdir:  ../../images
@@ -11,34 +11,44 @@ endif::[]
 
 toc::[]
 
-== Statistik-Typen
-
 .Typen
 ifeval::["{{gitbook.version}}" != "3.2.2"]
 ifndef::env-github[]
 [ditaa, target="diagram/ntpstats_types", png]
 ----
-NTP                 Meinberg            ntp.pool.org
-Daemon-Satistik     NTP-Monitor         Server-Statistik
-
-+-------------+     +-------------+     +--------------+
-| clockstats  |     | mbgmonstats |     | ntppoolstats |
-+-------------+     |{d}          |     |{d}           |
-| cryptostats |     +-------------+     +--------------+
-+-------------+
-| loopstats   |
-+-------------+
-| peerstats   |
-+-------------+
-| protostats  |
-+-------------+
-| rawstats    |
-+-------------+
-| sysstats    |
-+-------------+
-| timingstats |
-|{d}          |
-+-------------+
++--------------+
+| clockstats   |
++--------------+
+| cryptostats  |
++--------------+
+| loopstats    |
++--------------+
+| peerstats    |
++--------------+
+| protostats   |
++--------------+
+| rawstats     |
++--------------+
+| sysstats     |
++--------------+
+| timingstats  |   /-------+
+|{d}           +-->|       |
++--------------+   |       |
+                   |       |
++--------------+   |       |
+| log          |   |       |
+|{d}           +-->|       +----------+--------\   /---------------\
++--------------+   |       |          |        |   |               |
+                   | input | Logstash | output +-->* Elasticsearch |
++--------------+   |       |          |        |   |               |
+| mbgmonstats  |   |       +----------+--------/   \---------------/
+|{d}           +-->|       |
++--------------+   |       |
+                   |       |
++--------------+   |       |
+| ntppoolstats |   |       |
+|{d}           +-->|       |
++--------------+   \-------+
 ----
 endif::env-github[]
 ifdef::env-github[]
@@ -49,7 +59,7 @@ ifeval::["{{gitbook.version}}" == "3.2.2"]
 image::diagram/ntpstats_types.png[]
 endif::[]
 
-=== Unterstützte Statistiken
+== Unterstützte Statistiken
 
 [options="header"]
 |===

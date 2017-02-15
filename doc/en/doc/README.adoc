@@ -9,7 +9,7 @@ English version
 
 == NTP statistics - What?
 
-Yes, *Next Generation*...
+Yes, **N**etwork **T**ime **P**rotocol statistics - *Next Generation*...
 
 image::screenshot_ntpstats-live+peerstats.png[Screenshot ntpstats-live und -peerstats]
 

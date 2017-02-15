@@ -1,5 +1,8 @@
 # ntpstats-ng/.gitignore
 
 /doc/de/html/
+/doc/en/html
 /etc/
 /src/
+
+# EOF
