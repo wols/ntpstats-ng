@@ -10,7 +10,7 @@
 == Appendix
 
 [upperalpha]
-. link:../../de/A-Bookmarks.adoc[Bookmarks]
+. link:https://wols.gitbooks.io/ntpstats-ng/content/de/A-Bookmarks.html[Bookmarks]
 
 ---
 

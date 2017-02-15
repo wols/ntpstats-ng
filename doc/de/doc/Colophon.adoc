@@ -1,0 +1,16 @@
+= Kolophon
+:linkattrs:
+
+ntpstats-ng - Das Git"`Book`"
+
+== AsciiDoctor, GutHub und GitBook
+
+---
+
+TIP: Wird fortgesetzt...
+
+---
+
+link:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
+
+// End of ntpstats-ng/doc/de/doc/Colophon.adoc
