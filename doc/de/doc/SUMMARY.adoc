@@ -7,9 +7,9 @@
 
 . link:README.adoc[NTP Statistiken - Was?]
 . link:NTPstats.adoc[Statistik-Typen]
-. link:SUMMARY.adoc[ELG Stack]
-.. link:ELG/Elasticsearch.adoc[Elasticsearch]
+. link:ELG/README.adoc[ELG Stack]
 .. link:ELG/Logstash.adoc[Logstash]
+.. link:ELG/Elasticsearch.adoc[Elasticsearch]
 .. link:ELG/Grafana.adoc[Grafana]
 . link:NTPstats-NG/README.adoc[NTP statistics - Next Generation]
 .. link:https://github.com/wols/ntpstats-ng/issues/13[loopstats, window="_blank"]
