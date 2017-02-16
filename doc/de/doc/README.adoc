@@ -5,11 +5,15 @@
 
 NTP statistics - Next Generation
 
-Deutsche Version
+Deutsche Version 0.1.0
 
 == NTP statistics - Was?
 
-Ja, **N**etwork **T**ime **P**rotocol Statistiken - *Nächste Generation*...
+Ja, **N**etwork **T**ime **P**rotocol Statistiken - *Nächste Generation*.
+
+_ntpstats-ng_ ist keine Software und keine __App__likation.
+
+_ntpstats-ng_ ist eine Systemdokumentation - kommentiert und ergänzt mit Beispielen und Hintergrundinformationen - versioniert auf GitHub und veröffentlicht mit GitBook.
 
 image::screenshot_ntpstats-live+peerstats.png[Screenshot ntpstats-live und -peerstats]
 
