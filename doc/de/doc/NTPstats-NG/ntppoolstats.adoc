@@ -17,15 +17,15 @@ ifeval::["{{gitbook.version}}" != "3.2.2"]
 ifndef::env-github[]
 [ditaa, target="diagram/ntppoolstats_dataflow", png]
 ----
-/------------------\   /-------+----------+--------\   /---------------\   /---------\
-|                  |   |       |          |        |   |               |   |         |
-| www.pool.ntp.org *-->| input | Logstash | output +-->* Elasticsearch *-->| Grafana |
-|                  |   |       |          |        |   |               |   |         |
-\------------------/   \---+---+----------+--------/   \---------------/   \---------/
-                           |                  ^
-                           |   +----------+   |
-                           +---+  filter  +---+
-                               +----------+
+/------------------\ +-------------+   /-------+----------+--------\   /---------------\   /---------\
+|                  | | scores/IP/  |   |       |          |        |   |               |   |         |
+| www.pool.ntp.org +-+ log?limit=1 *-->| input | Logstash | output +-->* Elasticsearch *-->| Grafana |
+|                  | |{d} c000     |   |       |          |        |   |               |   |         |
+\------------------/ +-------------+   \---+---+----------+--------/   \---------------/   \---------/
+                                             |                  ^
+                                             |   +----------+   |
+                                             +---+  filter  +---+
+                                                 +----------+
 ----
 endif::env-github[]
 ifdef::env-github[]
@@ -61,13 +61,13 @@ output {
     elasticsearch { ... } # <7>
 }
 ----
-<1> xref:ntppoolstats.adoc#_http_poller[http_poller]
-<2> xref:ntppoolstats.adoc#_grok[grok]
-<3> xref:ntppoolstats.adoc#_date[date]
-<4> xref:ntppoolstats.adoc#_ruby[ruby]
-<5> xref:ntppoolstats.adoc#_mutate[mutate]
-<6> xref:ntppoolstats.adoc#_file[file]
-<7> xref:ntppoolstats.adoc#_elasticsearch[elasticsearch]
+<1> xref:ntppoolstats.adoc#logstash-input-http_poller[http_poller]
+<2> xref:ntppoolstats.adoc#logstash-filter-grok[grok]
+<3> xref:ntppoolstats.adoc#logstash-filter-date[date]
+<4> xref:ntppoolstats.adoc#logstash-filter-ruby[ruby]
+<5> xref:ntppoolstats.adoc#logstash-filter-mutate[mutate]
+<6> xref:ntppoolstats.adoc#logstash-output-file[file]
+<7> xref:ntppoolstats.adoc#logstash-output-elasticsearch[elasticsearch]
 
 ---
 
@@ -77,7 +77,7 @@ NOTE: Die komplette Datei findet sich hier: link:https://github.com/wols/ntpstat
 
 === input
 
-==== http_poller
+==== [[logstash-input-http_poller]]http_poller
 
 Zum zyklischen Abholen der aktuellen CSV-Daten nutzen wir `logstash-input-http_poller`.
 
@@ -130,7 +130,7 @@ Als Vorgriff auf den xref:ntppoolstats.adoc#_file[Output] (im JSON-Format):
 
 === filter
 
-Die folgenden Filter werden wieder nur auf die typisierten Events angewandt.
+Die folgenden Filter werden nur auf die Events vom Typ `ntppoolstats` angewandt.
 
 [source%nowrap]
 ----
@@ -138,7 +138,7 @@ filter {
     if [type] == "ntppoolstats" {
 ----
 
-==== grok
+==== [[logstash-filter-grok]]grok
 
 [source%nowrap]
 ----
@@ -150,7 +150,7 @@ filter {
         }
 ----
 
-==== date
+==== [[logstash-filter-date]]date
 
 [source%nowrap]
 ----
@@ -161,7 +161,7 @@ filter {
         }
 ----
 
-==== ruby
+==== [[logstash-filter-ruby]]ruby
 
 [source%nowrap, ruby]
 ----
@@ -177,7 +177,7 @@ filter {
         }
 ----
 
-==== mutate
+==== [[logstash-filter-mutate]]mutate
 
 Nur Server mit einer Bewertung über "10" werden in den Pool aufgenommen.
 
@@ -208,7 +208,7 @@ output {
     if [type] == "ntppoolstats" {
 ----
 
-==== file
+==== [[logstash-output-file]]file
 
 [source%nowrap]
 ----
@@ -218,7 +218,7 @@ output {
         }
 ----
 
-==== elasticsearch
+==== [[logstash-output-elasticsearch]]elasticsearch
 
 [source%nowrap]
 ----

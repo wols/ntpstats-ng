@@ -1,18 +1,69 @@
 = ntpstats-ng - peerstats
 :icons:         font
+:imagesdir:     ../../../images
+:imagesoutdir:  ../../../images
 :linkattrs:
 :toc:           macro
 :toc-title:     Inhalt
 
 toc::[]
 
-== logstash
+== Datenfluss
+
+.ntppoolstats Datenfluss
+ifeval::["{{gitbook.version}}" != "3.2.2"]
+ifndef::env-github[]
+[ditaa, target="diagram/peerstats_dataflow", png]
+----
+/------\   +-----------+   /-------+----------+--------\   /---------------\   /---------\
+|      |   |           |   |       |          |        |   |               |   |         |
+| ntpd +-->| peerstats +-->| input | Logstash | output +-->* Elasticsearch *-->| Grafana |
+|      |   |{d} c000   |   |       |          |        |   |               |   |         |
+\------/   +-----------+   \---+---+----------+--------/   \---------------/   \---------/
+                               |                  ^
+                               |   +----------+   |
+                               +---+  filter  +---+
+                                   +----------+
+----
+endif::env-github[]
+ifdef::env-github[]
+image::diagram/peerstats_dataflow.png[]
+endif::env-github[]
+endif::[]
+ifeval::["{{gitbook.version}}" == "3.2.2"]
+image::diagram/peerstats_dataflow.png[]
+endif::[]
+
+== Logstash
+
+.logstash-5.1.2
+[source%nowrap]
+----
+# /etc/logstash/conf.d/ntpstats-ng.conf.peerstats
+
+input {
+    file { ... } # <1>
+}
+
+filter {}
+
+output {
+    file { ... } # <2>
+}
+----
+<1> xref:peerstats.adoc#logstash-input-file[file]
+<2> xref:peerstats.adoc#logstash-output-file[file]
+
+---
+
+NOTE: Die komplette Datei findet sich hier: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/ntpstats-ng.conf.peerstats[ntpstats-ng.conf.peerstats, window="_blank"]
+
+---
 
 === input
 
-==== file
+==== [[logstash-input-file]]file
 
-.logstash-5.1.2
 [source%nowrap]
 ----
 input {
@@ -23,39 +74,33 @@ input {
 }
 ----
 
-==== tcp
-
-.logstash-5.1.2
-[source%nowrap]
-----
-input {
-    tcp {
-        # TODO
-        type => "peerstats"
-    }
-}
-----
-
 === filter
 
-.logstash-5.1.2
 [source%nowrap]
 ----
-filter {
-    if [type] == "peerstats" {
-        # TODO
-    }
-}
+filter {}
 ----
 
 === output
 
-.logstash-5.1.2
 [source%nowrap]
 ----
 output {
     if [type] == "peerstats" {
-        # TODO
+----
+
+==== [[logstash-output-file]]file
+
+[source%nowrap]
+----
+        # DEBUG
+        file {
+            path => "/tmp/ntpstats-live-%{+YYYY-MM-dd}.json"
+        }
+----
+
+[source%nowrap]
+----
     }
 }
 ----
