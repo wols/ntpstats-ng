@@ -1,5 +1,6 @@
 = Kolophon
 :icons:         font
+:imagesdir:     ../images
 :linkattrs:
 ifdef::env-github[]
 :tip-caption:   :bulb:
@@ -8,6 +9,11 @@ endif::[]
 ntpstats-ng - Das "`GitBook`"
 
 == AsciiDoctor, GitHub und GitBook
+
+=== Video
+
+.powered by Gource
+video::video/ntpstats-ng.mp4[]
 
 ---
 
