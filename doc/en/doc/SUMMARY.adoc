@@ -7,11 +7,6 @@
 
 . link:README.adoc[NTP statistics - What?]
 
-== Appendix
-
-[upperalpha]
-. link:https://wols.gitbooks.io/ntpstats-ng/content/de/A-Bookmarks.html[Bookmarks]
-
 ---
 
 link:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker

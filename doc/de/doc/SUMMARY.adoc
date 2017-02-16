@@ -20,8 +20,6 @@
 .. link:NTPstats-NG/syslog-ntp.adoc[Übertragung]
 . link:Leap201612.adoc[Schaltsekunde 2016-12-31]
 
-== ANHANG
-
 [upperalpha]
 . link:A-Bookmarks.adoc[Lesezeichen]
 . link:B-Equipment.adoc[Equipment]
