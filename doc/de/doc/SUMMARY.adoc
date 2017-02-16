@@ -7,7 +7,7 @@
 
 . link:README.adoc[NTP Statistiken - Was?]
 . link:NTPstats.adoc[Statistik-Typen]
-. ELG Stack
+. link:SUMMARY.adoc[ELG Stack]
 .. link:ELG/Elasticsearch.adoc[Elasticsearch]
 .. link:ELG/Logstash.adoc[Logstash]
 .. link:ELG/Grafana.adoc[Grafana]

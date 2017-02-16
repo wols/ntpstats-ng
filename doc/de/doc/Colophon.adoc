@@ -1,9 +1,9 @@
 = Kolophon
 :linkattrs:
 
-ntpstats-ng - Das Git"`Book`"
+ntpstats-ng - Das "`GitBook`"
 
-== AsciiDoctor, GutHub und GitBook
+== AsciiDoctor, GitHub und GitBook
 
 ---
 
