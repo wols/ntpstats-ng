@@ -1,0 +1,22 @@
+= Einleitung
+:icons:         font
+:linkattrs:
+ifdef::env-github[]
+:tip-caption:   :bulb:
+endif::[]
+
+Zuerst hat man wohl zur Sonne geschaut, später zum Kirchturm und heute meist aufs Smartphone.
+
+Warum? Oft um zu erfahren wie spät es ist.
+
+== Zeitquellen
+
+---
+
+TIP: Wird fortgesetzt...
+
+---
+
+link:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
+
+// End of ntpstats-ng/doc/de/doc/Introduction.adoc

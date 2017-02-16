@@ -172,14 +172,35 @@ output {
 .Gentoo, openrc
 [source%nowrap, sh]
 ----
-/etc/init.d/logstash restart
+/etc/init.d/logstash stop
 ----
 
 .CentOS 7, syslogd
 [source%nowrap, sh]
 ----
-systemctl restart logstash.service
+systemctl stop logstash.service
 ----
+
+[source%nowrap, sh]
+----
+rm /tmp/ntpstats-ng-2017-01-29.json
+----
+
+.Gentoo, openrc
+[source%nowrap, sh]
+----
+/etc/init.d/logstash start
+----
+
+.CentOS 7, syslogd
+[source%nowrap, sh]
+----
+systemctl start logstash.service
+----
+
+==== grok
+
+
 
 ---
 

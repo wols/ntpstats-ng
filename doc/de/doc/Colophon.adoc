@@ -1,5 +1,9 @@
 = Kolophon
+:icons:         font
 :linkattrs:
+ifdef::env-github[]
+:tip-caption:   :bulb:
+endif::[]
 
 ntpstats-ng - Das "`GitBook`"
 
