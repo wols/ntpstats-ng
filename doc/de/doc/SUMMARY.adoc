@@ -13,7 +13,7 @@
 .. link:ELG/Elasticsearch.adoc[Elasticsearch]
 .. link:ELG/Grafana.adoc[Grafana]
 . link:NTPstats-NG/README.adoc[NTP statistics - Next Generation]
-.. link:https://github.com/wols/ntpstats-ng/issues/13[loopstats, window="_blank"]
+.. link:NTPstats-NG/loopstats.adoc[loopstats]
 .. link:NTPstats-NG/peerstats.adoc[peerstats]
 .. link:NTPstats-NG/ntppoolstats.adoc[ntppoolstats]
 .. link:https://github.com/wols/ntpstats-ng/issues/14[mbgmonstats, window="_blank"]

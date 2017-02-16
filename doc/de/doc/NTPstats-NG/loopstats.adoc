@@ -1,4 +1,4 @@
-= ntpstats-ng - peerstats
+= ntpstats-ng - loopstats
 :icons:         font
 :imagesdir:     ../../../images
 :imagesoutdir:  ../../../images
@@ -10,14 +10,14 @@ toc::[]
 
 == Datenfluss
 
-.peerstats Datenfluss
+.loopstats Datenfluss
 ifeval::["{{gitbook.version}}" != "3.2.2"]
 ifndef::env-github[]
-[ditaa, target="diagram/peerstats_dataflow", png]
+[ditaa, target="diagram/loopstats_dataflow", png]
 ----
 /------\   +-----------+   /-------+----------+--------\   /---------------\   /---------\
 |      |   |           |   |       |          |        |   |               |   |         |
-| ntpd +-->| peerstats +-->| input | Logstash | output +-->* Elasticsearch *-->| Grafana |
+| ntpd +-->| loopstats +-->| input | Logstash | output +-->* Elasticsearch *-->| Grafana |
 |      |   |{d} c000   |   |       |          |        |   |               |   |         |
 \------/   +-----------+   \---+---+----------+--------/   \---------------/   \---------/
                                |                  ^
@@ -27,11 +27,11 @@ ifndef::env-github[]
 ----
 endif::env-github[]
 ifdef::env-github[]
-image::diagram/peerstats_dataflow.png[]
+image::diagram/loopstats_dataflow.png[]
 endif::env-github[]
 endif::[]
 ifeval::["{{gitbook.version}}" == "3.2.2"]
-image::diagram/peerstats_dataflow.png[]
+image::diagram/loopstats_dataflow.png[]
 endif::[]
 
 == Logstash
@@ -39,7 +39,7 @@ endif::[]
 .logstash-5.1.2
 [source%nowrap]
 ----
-# /etc/logstash/conf.d/ntpstats-ng.conf.peerstats
+# /etc/logstash/conf.d/ntpstats-ng.conf.loopstats
 
 input {
     file { ... } # <1>
@@ -51,12 +51,12 @@ output {
     file { ... } # <2>
 }
 ----
-<1> xref:peerstats.adoc#logstash-input-file[file]
-<2> xref:peerstats.adoc#logstash-output-file[file]
+<1> xref:loopstats.adoc#logstash-input-file[file]
+<2> xref:loopstats.adoc#logstash-output-file[file]
 
 ---
 
-NOTE: Die komplette Datei findet sich hier: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/ntpstats-ng.conf.peerstats[ntpstats-ng.conf.peerstats, window="_blank"]
+NOTE: Die komplette Datei findet sich hier: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/ntpstats-ng.conf.loopstats[ntpstats-ng.conf.loopstats, window="_blank"]
 
 ---
 
@@ -68,8 +68,8 @@ NOTE: Die komplette Datei findet sich hier: link:https://github.com/wols/ntpstat
 ----
 input {
     file {
-        path => [ "/var/log/ntp/stats/HOSTNAME.peerstats" ]
-        type => "peerstats"
+        path => [ "/var/log/ntp/stats/HOSTNAME.loopstats" ]
+        type => "loopstats"
     }
 }
 ----
@@ -86,7 +86,7 @@ filter {}
 [source%nowrap]
 ----
 output {
-    if [type] == "peerstats" {
+    if [type] == "loopstats" {
 ----
 
 ==== [[logstash-output-file]]file
@@ -113,4 +113,4 @@ TIP: Wird fortgesetzt...
 
 link:../README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
 
-// End of ntpstats-ng/doc/de/doc/NTPstats-NG/peerstats.adoc
+// End of ntpstats-ng/doc/de/doc/NTPstats-NG/loopstats.adoc
