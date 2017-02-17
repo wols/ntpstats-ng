@@ -19,7 +19,7 @@ image::screenshot_ntpstats-live+peerstats.png[Screenshot ntpstats-live und -peer
 
 == Lizenz
 
-ntpstats-ng (C) 2015-2017 WOLfgang Schricker
+ntpstats-ng (C) MMXV-MMXVII WOLfgang Schricker
 
 Es wird die Erlaubnis gegeben dieses Dokument zu kopieren, verteilen und/oder zu verändern unter den Bedingungen der *GNU Free Documentation License, Version 1.3* oder einer späteren, von der Free Software Foundation veröffentlichten Version;
 mit keinen unveränderlichen Abschnitten, mit keinen Vorderseitentexten und keinen Rückseitentexten.
