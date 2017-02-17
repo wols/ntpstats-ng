@@ -76,4 +76,4 @@ link:https://de.wikipedia.org/wiki/Zitieren_von_Internetquellen[, window="_blank
 
 link:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
 
-// End of ntpstats-ng/doc/de/doc/A-Bookmarks.adoc
+// End of ntpstats-ng/doc/de/doc/Appendix-Bookmarks.adoc

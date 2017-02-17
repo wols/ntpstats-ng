@@ -49,7 +49,7 @@ Die Logstash-Konfiguration teilt sich in die Abschnitte `input`, `filter` und `o
 
 Als `input`-Typ wird von uns `syslog-ntp` festgelegt.
 
-Der Zeitstempel-Anteil des `output`-Dateinamens wird im xref:A-Bookmarks.adoc#bookmark_joda_time[Joda-Time-Format] angegeben.
+Der Zeitstempel-Anteil des `output`-Dateinamens wird im xref:Appendix-Bookmarks.adoc#bookmark_joda_time[Joda-Time-Format] angegeben.
 
 .logstash-5.1.2
 [source%nowrap]
@@ -110,7 +110,7 @@ Vergleichen wir die jeweils *erste Zeile* der beiden Dateien.
 {"path":"/var/log/ntp/ntp.log","@timestamp":"2017-01-29T22:16:14.805Z","@version":"1","host":"localhost","message":"29 Jan 22:15:59 ntpd[19633]: ntpd 4.2.8p9@1.3265-o Thu Nov 24 08:57:19 UTC 2016 (1): Starting","type":"syslog-ntp"}
 ----
 
-TIP: Hier hilft uns der JSON-Kommandozeilenprozessor xref:A-Bookmarks.adoc#bookmark_jq[`jq`].
+TIP: Hier hilft uns der JSON-Kommandozeilenprozessor xref:Appendix-Bookmarks.adoc#bookmark_jq[`jq`].
 
 .`head -n 1 /tmp/ntpstats-ng-2017-01-29.json | jq`
 [source%nowrap, json]

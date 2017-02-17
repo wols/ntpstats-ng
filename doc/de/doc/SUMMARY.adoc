@@ -22,8 +22,8 @@
 . link:Leap201612.adoc[Schaltsekunde 2016-12-31]
 
 [upperalpha]
-. link:A-Bookmarks.adoc[Lesezeichen]
-. link:B-Equipment.adoc[Equipment]
+. link:Appendix-Bookmarks.adoc[Lesezeichen]
+. link:Appendix-Equipment.adoc[Equipment]
 
 //^
 

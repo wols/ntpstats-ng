@@ -6,7 +6,7 @@
 :toc:           macro
 :toc-title:     Inhalt
 
-CSV-Daten vom xref:../A-Bookmarks.adoc#bookmark_ntppool[pool.ntp.org Projekt] als Quelle für 'ntppoolstats'.
+CSV-Daten vom xref:../Appendix-Bookmarks.adoc#bookmark_ntppool[pool.ntp.org Projekt] als Quelle für 'ntppoolstats'.
 
 toc::[]
 

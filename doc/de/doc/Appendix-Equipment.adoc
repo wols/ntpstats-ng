@@ -18,4 +18,4 @@ TODO.
 
 link:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
 
-// End of ntpstats-ng/doc/de/doc/B-Equipment.adoc
+// End of ntpstats-ng/doc/de/doc/Appendix-Equipment.adoc
