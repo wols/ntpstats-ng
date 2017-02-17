@@ -7,7 +7,7 @@ ifdef::env-github[]
 :tip-caption:   :bulb:
 endif::[]
 
-ELG Stack = link:Elasticsearch.adoc[Elasticsearch], Logstash und link:Grafana.adoc[Grafana]
+link:../ELG.adoc[ELG Stack] = link:Elasticsearch.adoc[Elasticsearch], Logstash und link:Grafana.adoc[Grafana]
 
 toc::[]
 

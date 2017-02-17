@@ -11,54 +11,6 @@ endif::[]
 
 toc::[]
 
-.Typen
-ifeval::["{{gitbook.version}}" != "3.2.2"]
-ifndef::env-github[]
-[ditaa, target="diagram/ntpstats_types", png]
-----
-+--------------+
-| clockstats   |
-+--------------+
-| cryptostats  |
-+--------------+
-| loopstats    |
-+--------------+
-| peerstats    |
-+--------------+
-| protostats   |
-+--------------+
-| rawstats     |
-+--------------+
-| sysstats     |
-+--------------+
-| timingstats  |   /-------+----------+--------\
-|{d}           +-->|       |          |        |
-+--------------+   |       |          |        |
-                   |       |          |        |
-+--------------+   |       |          |        |
-| log          |   |       |          |        |
-|{d}           +-->|       |          |        |   +---------------+   /---------\
-+--------------+   |       |          |        |   |               |   |         |
-                   | input | Logstash | output +-->* Elasticsearch *-->| Grafana |
-+--------------+   |       |          |        |   |{s}            |   |         |
-| mbgmonstats  |   |       |          |        |   +---------------+   \---------/
-|{d}           +-->|       |          |        |
-+--------------+   |       |          |        |
-                   |       |          |        |
-+--------------+   |       |          |        |
-| ntppoolstats |   |       |          |        |
-|{d}           +-->|       |          |        |
-+--------------+   \-------+----------+--------/
-----
-endif::env-github[]
-ifdef::env-github[]
-image::diagram/ntpstats_types.png[]
-endif::env-github[]
-endif::[]
-ifeval::["{{gitbook.version}}" == "3.2.2"]
-image::diagram/ntpstats_types.png[]
-endif::[]
-
 == Unterstützte Typen
 
 [options="header"]
