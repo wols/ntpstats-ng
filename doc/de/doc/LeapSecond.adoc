@@ -11,10 +11,6 @@ Hier folgt in link:https://github.com/wols/ntpstats-ng/milestone/2[Version 0.2.0
 
 '''
 
-TIP: Wird fortgesetzt...
-
-'''
-
 link:README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
 
 // End of ntpstats-ng/doc/de/doc/LeapSecond.adoc

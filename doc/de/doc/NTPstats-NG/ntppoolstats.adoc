@@ -179,7 +179,7 @@ filter {
 
 ==== [[logstash-filter-mutate]]mutate
 
-Nur Server mit einer Bewertung über "10" werden in den Pool aufgenommen.
+Nur Server mit einer Bewertung über "`10`" werden in den Pool aufgenommen.
 
 [source%nowrap]
 ----

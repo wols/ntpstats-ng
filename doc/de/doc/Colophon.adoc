@@ -10,11 +10,6 @@ ntpstats-ng - Das "`GitBook`"
 
 == AsciiDoctor, GitHub und GitBook
 
-=== Video
-
-.powered by Gource
-video::video/ntpstats-ng.mp4[]
-
 '''
 
 TIP: Wird fortgesetzt...

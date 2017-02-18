@@ -4,13 +4,16 @@
 :toc:           macro
 :toc-title:     Inhalt
 
+[glossary]
 == Abkürzungen
 
-[glossary]
+CSV:: Comma-separated values (seltener Character-separated values)
 ELG:: Elasticsearch, Logstash, Grafana
 ELK:: Elasticsearch, Logstash, Kibana
+GNU:: "`**G**NU’s **n**ot **U**nix`"
 JSON:: JavaScript Object Notation
 NTP:: Network Time Protocol
+UTC:: Universal Time Coordinated
 
 '''
 
