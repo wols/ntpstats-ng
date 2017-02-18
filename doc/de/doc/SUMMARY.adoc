@@ -28,6 +28,7 @@
 
 //^
 
+* link:Glossary.adoc[Glossar]
 * link:Colophon.adoc[Kolophon]
 
 '''

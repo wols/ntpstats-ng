@@ -4,8 +4,13 @@
 :toc:           macro
 :toc-title:     Inhalt
 
+== Abkürzungen
+
 [glossary]
+ELG:: Elasticsearch, Logstash, Grafana
+ELK:: Elasticsearch, Logstash, Kibana
 JSON:: JavaScript Object Notation
+NTP:: Network Time Protocol
 
 '''
 
