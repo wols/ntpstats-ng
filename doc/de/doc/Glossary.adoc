@@ -1,5 +1,7 @@
 = Glossar
 :icons:         font
+:imagesdir:     ../../images
+:imagesoutdir:  ../../images
 :linkattrs:
 :toc:           macro
 :toc-title:     Inhalt
@@ -7,12 +9,14 @@
 [glossary]
 == Abkürzungen
 
+ASCII:: American Standard Code for Information Interchange
 CSV:: Comma-separated values (seltener Character-separated values)
 ELG:: Elasticsearch, Logstash, Grafana
 ELK:: Elasticsearch, Logstash, Kibana
 GNU:: "`**G**NU’s **n**ot **U**nix`"
 JSON:: JavaScript Object Notation
 NTP:: Network Time Protocol
+ntpstats-ng:: NTP statistics - Next Generation
 UTC:: Universal Time Coordinated
 
 '''

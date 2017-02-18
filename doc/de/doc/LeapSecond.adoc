@@ -1,13 +1,14 @@
 = Leap Second - Schaltsekunde
 :icons:         font
+:imagesdir:     ../../images
+:imagesoutdir:  ../../images
 :linkattrs:
 :toc:           macro
 :toc-title:     Inhalt
-ifdef::env-github[]
-:tip-caption:   :bulb:
-endif::[]
 
 Hier folgt in link:https://github.com/wols/ntpstats-ng/milestone/2[Version 0.2.0, window="_blank"] ein Kapitel zum Thema "`Schaltsekunde`".
+
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
 
 '''
 

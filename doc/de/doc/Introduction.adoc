@@ -1,19 +1,20 @@
 = Einleitung
 :icons:         font
+:imagesdir:     ../../images
+:imagesoutdir:  ../../images
 :linkattrs:
-ifdef::env-github[]
-:tip-caption:   :bulb:
-endif::[]
+:toc:           macro
+:toc-title:     Inhalt
 
 Zuerst hat man wohl zur Sonne geschaut, später zum Kirchturm und heute meist aufs Smartphone.
+Warum?
+Oft um zu erfahren wie spät es ist.
 
-Warum? Oft um zu erfahren wie spät es ist.
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
 
 == Zeitquellen
 
-'''
-
-TIP: Wird fortgesetzt...
+TODO
 
 '''
 

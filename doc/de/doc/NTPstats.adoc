@@ -5,9 +5,8 @@
 :linkattrs:
 :toc:           macro
 :toc-title:     Inhalt
-ifdef::env-github[]
-:tip-caption:   :bulb:
-endif::[]
+
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
 
 toc::[]
 
@@ -44,10 +43,6 @@ toc::[]
 
 |`ntplog`       |`0.1.0`
 |===
-
-'''
-
-TIP: Wird fortgesetzt...
 
 '''
 

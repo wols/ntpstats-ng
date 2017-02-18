@@ -1,13 +1,14 @@
 = Logstash
 :icons:         font
+:imagesdir:     ../../../images
+:imagesoutdir:  ../../../images
 :linkattrs:
 :toc:           macro
 :toc-title:     Inhalt
-ifdef::env-github[]
-:tip-caption:   :bulb:
-endif::[]
 
 link:../ELG.adoc[ELG Stack] = link:Elasticsearch.adoc[Elasticsearch], *Logstash* und link:Grafana.adoc[Grafana]
+
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
 
 toc::[]
 
@@ -200,11 +201,7 @@ systemctl start logstash.service
 
 ==== grok
 
-
-
-'''
-
-TIP: Wird fortgesetzt...
+TODO
 
 '''
 

@@ -8,24 +8,31 @@
 
 Übertragung von NTP Statistken mit Hilfe von syslog-ng - cool!
 
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
+
 toc::[]
 
 == Datenfluss
+
+Zur Übertragung von NTP Statistiken kann ein Syslog Daemon - hier `syslog-ng` - benutzt werden.
+Der Syslog-_Client_ sendet die Daten via Netzwerk an den Syslog-_Server_.
+
+Logstash kann mit `logstash-input-tcp` sehr einfach als Syslog-Server fungieren.
 
 .syslog-ntp Datenfluss
 ifeval::["{{gitbook.version}}" != "3.2.2"]
 ifndef::env-github[]
 [ditaa, target="diagram/syslog-ntp_dataflow", png]
 ----
-+-----------+      /-----------\   /-------+----------+--------\   +---------------+   /---------\
-| loopstats +----->|           |   |       |          |        |   |               |   |         |
-+-----------+      | syslog-ng +-->* input | Logstash | output +-->* Elasticsearch *-->| Grafana |
-| peerstats |  +-->|           |   |       |          |        |   |{s}            |   |         |
-|{d}        +--+   \-----------/   \---+---+----------+--------/   +---------------+   \---------/
-+-----------+                          |                  ^
-                                       |   +----------+   |
-                                       +---+  filter  +---+
-                                           +----------+
++-----------+      /-----------\     /-------+----------+--------\   +---------------+   /---------\
+| loopstats +----->|           |     |       |          |        |   |               |   |         |
++-----------+      | syslog-ng *--=->* input | Logstash | output +-->* Elasticsearch *-->| Grafana |
+| peerstats |  +-->|           |     |       |          |        |   |{s}            |   |         |
+|{d}        +--+   \-----------/     \---+---+----------+--------/   +---------------+   \---------/
++-----------+                            |                  ^
+                                         |   +----------+   |
+                                         +---+  filter  +---+
+                                             +----------+
 ----
 endif::env-github[]
 ifdef::env-github[]
@@ -79,11 +86,12 @@ destination syslog-ntp {
         "localhost"
         port(5123)
         transport("tcp")
-        template("${TAGS} ${MSG}\n")
+        template("${TAGS} ${MSG}\n") # <1>
         template-escape(no)
     );
 };
 ----
+<1> `"TAGS" = ".source.loopstats"` bzw. `"TAGS" = ".source.peerstats"`
 
 === log
 
@@ -116,11 +124,11 @@ output {
     elasticsearch { ... } # <5>
 }
 ----
-<1> xref:syslog-ntp.adoc#_tcp[tcp]
-<2> xref:syslog-ntp.adoc#_grok[grok]
-<3> xref:syslog-ntp.adoc#_mutate[mutate]
-<4> xref:syslog-ntp.adoc#_file[file]
-<5> xref:syslog-ntp.adoc#_elasticsearch[elasticsearch]
+<1> xref:syslog-ntp.adoc#logstash-input-tcp[tcp]
+<2> xref:syslog-ntp.adoc#logstash-filter-grok[grok]
+<3> xref:syslog-ntp.adoc#logstash-filter-mutate[mutate]
+<4> xref:syslog-ntp.adoc#logstash-output-file[file]
+<5> xref:syslog-ntp.adoc#logstash-output-elasticsearch[elasticsearch]
 
 '''
 
@@ -130,7 +138,7 @@ NOTE: Die komplette Datei findet sich hier: link:https://github.com/wols/ntpstat
 
 === input
 
-==== tcp
+==== [[logstash-input-tcp]]tcp
 
 [source%nowrap]
 ----
@@ -153,7 +161,7 @@ filter {
     if [type] == "syslog-ntp" {
 ----
 
-==== grok
+==== [[logstash-filter-grok]]grok
 
 [source%nowrap]
 ----
@@ -164,18 +172,19 @@ filter {
         }
 ----
 
-==== mutate
+==== [[logstash-filter-mutate]]mutate
 
 [source%nowrap]
 ----
         if [syslog_tags] =~ "stats" {
             mutate {
-                replace      => { "type" => "%{syslog_tags}" }
+                replace      => { "type" => "%{syslog_tags}" } # <1>
                 add_field    => { "path" => "%{host}.%{type}" }
                 remove_field => [ "syslog_tags" ]
             }
         }
 ----
+<1> `type` = [line-through]#`"syslog-ng"`# = `"loopstats|peerstats"`
 
 [source%nowrap]
 ----
@@ -192,7 +201,7 @@ output {
     or [type] == "peerstats" {
 ----
 
-==== file
+==== [[logstash-output-file]]file
 
 [source%nowrap]
 ----
@@ -202,7 +211,7 @@ output {
         }
 ----
 
-==== elasticsearch
+==== [[logstash-output-elasticsearch]]elasticsearch
 
 [source%nowrap]
 ----
@@ -220,9 +229,44 @@ output {
 }
 ----
 
-'''
+== Variante 2
 
-TIP: Wird fortgesetzt...
+Eine vielleicht bereits bestehende Syslog-Verbindung durch `syslog-ng` kann zur Übertragung erweitert werden.
+
+.syslog-ntp Datenfluss Variante 2
+ifeval::["{{gitbook.version}}" != "3.2.2"]
+ifndef::env-github[]
+[ditaa, target="diagram/syslog-ntp_dataflow_2", png]
+----
++-----------+      /-----------\
+| loopstats +----->| syslog-ng |
++-----------+      |           *--+
+| peerstats |  +-->|  client   |  |
+|{d}        +--+   \-----------/  |
++-----------+                     |
+                                  |
++------------------------------=--+
+|
+|  /-----------\   +-----------+     /-------+----------+--------\   +---------------+   /---------\
+|  | syslog-ng |   | loopstats +---->|       |          |        |   |               |   |         |
++->*           +-->+-----------+     | input | Logstash | output +-->* Elasticsearch *-->| Grafana |
+   |  server   |   | peerstats |  +->|       |          |        |   |{s}            |   |         |
+   \-----------/   |{d}        +--+  \---+---+----------+--------/   +---------------+   \---------/
+                   +-----------+         |                  ^
+                                         |   +----------+   |
+                                         +---+  filter  +---+
+                                             +----------+
+----
+endif::env-github[]
+ifdef::env-github[]
+image::diagram/syslog-ntp_dataflow_2.png[]
+endif::env-github[]
+endif::[]
+ifeval::["{{gitbook.version}}" == "3.2.2"]
+image::diagram/syslog-ntp_dataflow_2.png[]
+endif::[]
+
+[line-through]#Die Verarbeitung auf dem Server erfolgt wie bereits für xref:loopstats.adoc#logstash-input-file[loopstats] und xref:peerstats.adoc#logstash-input-file[peerstats] beschrieben.#
 
 '''
 

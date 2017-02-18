@@ -6,6 +6,8 @@
 :toc:           macro
 :toc-title:     Inhalt
 
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
+
 toc::[]
 
 == Datenfluss
@@ -104,10 +106,6 @@ output {
     }
 }
 ----
-
-'''
-
-TIP: Wird fortgesetzt...
 
 '''
 

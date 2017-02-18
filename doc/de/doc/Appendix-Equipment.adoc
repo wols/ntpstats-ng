@@ -1,8 +1,12 @@
 = Anhang B: Equipment
 :icons:         font
+:imagesdir:     ../../images
+:imagesoutdir:  ../../images
 :linkattrs:
 :toc:           macro
 :toc-title:     Inhalt
+
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
 
 == Überblick
 

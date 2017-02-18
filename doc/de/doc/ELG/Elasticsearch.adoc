@@ -1,21 +1,20 @@
 = Elasticsearch
 :icons:         font
+:imagesdir:     ../../../images
+:imagesoutdir:  ../../../images
 :linkattrs:
 :toc:           macro
 :toc-title:     Inhalt
-ifdef::env-github[]
-:tip-caption:   :bulb:
-endif::[]
 
 link:../ELG.adoc[ELG Stack] = *Elasticsearch*, link:Logstash.adoc[Logstash] und link:Grafana.adoc[Grafana]
+
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
 
 toc::[]
 
 == Erste Schritte
 
-'''
-
-TIP: Wird fortgesetzt...
+TODO
 
 '''
 

@@ -1,4 +1,5 @@
 = INHALT
+:icons:         font
 :linkattrs:
 
 * link:SUMMARY.adoc[INHALT]

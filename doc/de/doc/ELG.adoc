@@ -5,13 +5,13 @@
 :linkattrs:
 :toc:           macro
 :toc-title:     Inhalt
-ifdef::env-github[]
-:tip-caption:   :bulb:
-endif::[]
 
 Das Trio Elasticsearch, Logstash und Kibana wurde schnell als "`ELK Stack`" - neu "`Elastic Stack`" - berühmt.
-
 Durch die Verwendung von Grafana anstatt Kibana kommen wir zum "`EL**G** Stack`".
+
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
+
+toc::[]
 
 == Überblick
 
@@ -71,10 +71,6 @@ endif::[]
 . link:ELG/Logstash.adoc[Logstash]
 . link:ELG/Elasticsearch.adoc[Elasticsearch]
 . link:ELG/Grafana.adoc[Grafana]
-
-'''
-
-TIP: Wird fortgesetzt...
 
 '''
 
