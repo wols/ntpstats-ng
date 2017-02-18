@@ -7,7 +7,7 @@
 
 . link:README.adoc[NTP statistics - What?]
 
----
+'''
 
 link:README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
 

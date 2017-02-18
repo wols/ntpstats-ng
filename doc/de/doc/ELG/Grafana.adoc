@@ -7,14 +7,18 @@ ifdef::env-github[]
 :tip-caption:   :bulb:
 endif::[]
 
-link:../ELG.adoc[ELG Stack] = link:Elasticsearch.adoc[Elasticsearch], link:Logstash.adoc[Logstash] und Grafana
+link:../ELG.adoc[ELG Stack] = link:Elasticsearch.adoc[Elasticsearch], link:Logstash.adoc[Logstash] und *Grafana*
 
----
+toc::[]
+
+== Erste Schritte
+
+'''
 
 TIP: Wird fortgesetzt...
 
----
+'''
 
 link:../README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
 
-// End of ntpstats-ng/doc/de/doc/Grafana.adoc
+// End of ntpstats-ng/doc/de/doc/ELG/Grafana.adoc

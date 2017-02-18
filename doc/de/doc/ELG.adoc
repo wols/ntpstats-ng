@@ -66,15 +66,17 @@ ifeval::["{{gitbook.version}}" == "3.2.2"]
 image::diagram/elg_stack.png[]
 endif::[]
 
-* link:ELG/Elasticsearch.adoc[Elasticsearch]
-* link:ELG/Logstash.adoc[Logstash]
-* link:ELG/Grafana.adoc[Grafana]
+== Datenfluss
 
----
+. link:ELG/Logstash.adoc[Logstash]
+. link:ELG/Elasticsearch.adoc[Elasticsearch]
+. link:ELG/Grafana.adoc[Grafana]
+
+'''
 
 TIP: Wird fortgesetzt...
 
----
+'''
 
 link:README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
 

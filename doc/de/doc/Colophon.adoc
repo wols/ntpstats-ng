@@ -15,11 +15,11 @@ ntpstats-ng - Das "`GitBook`"
 .powered by Gource
 video::video/ntpstats-ng.mp4[]
 
----
+'''
 
 TIP: Wird fortgesetzt...
 
----
+'''
 
 link:README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
 

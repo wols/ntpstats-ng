@@ -69,11 +69,11 @@ output {
 <6> xref:ntppoolstats.adoc#logstash-output-file[file]
 <7> xref:ntppoolstats.adoc#logstash-output-elasticsearch[elasticsearch]
 
----
+'''
 
 NOTE: Die komplette Datei findet sich hier: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/ntpstats-ng.conf.ntppoolstats[ntpstats-ng.conf.ntppoolstats, window="_blank"]
 
----
+'''
 
 === input
 
@@ -238,11 +238,11 @@ output {
 }
 ----
 
----
+'''
 
 TIP: Wird fortgesetzt...
 
----
+'''
 
 link:../README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
 

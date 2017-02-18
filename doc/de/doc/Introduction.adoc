@@ -11,11 +11,11 @@ Warum? Oft um zu erfahren wie spät es ist.
 
 == Zeitquellen
 
----
+'''
 
 TIP: Wird fortgesetzt...
 
----
+'''
 
 link:README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
 

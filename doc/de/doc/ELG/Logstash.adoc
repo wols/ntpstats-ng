@@ -7,13 +7,13 @@ ifdef::env-github[]
 :tip-caption:   :bulb:
 endif::[]
 
-link:../ELG.adoc[ELG Stack] = link:Elasticsearch.adoc[Elasticsearch], Logstash und link:Grafana.adoc[Grafana]
+link:../ELG.adoc[ELG Stack] = link:Elasticsearch.adoc[Elasticsearch], *Logstash* und link:Grafana.adoc[Grafana]
 
 toc::[]
 
 == Erste Schritte
 
-Um die Verwendung von Logstash zu verstehen, soll als erstes Beispiel die Log-Datei `/var/log/ntp/ntp.log` überwacht und als Datei im JSON-Format abgespeichert werden.
+Um die Verwendung von Logstash zu verstehen, soll als erstes Beispiel die Log-Datei `/var/log/ntp/ntp.log` überwacht und als neue Datei im JSON-Format abgespeichert werden.
 
 === Konfiguration
 
@@ -125,7 +125,7 @@ TIP: Hier hilft uns der JSON-Kommandozeilenprozessor xref:Appendix-Bookmarks.ado
 }
 ----
 
-== Vergleiche!
+== Vergleiche
 
 Die Felder `path` und `type` aus unserer xref:_logstash[Konfiguration] finden wir sofort wieder.
 In `message` ist der komplette Inhalt der Log-Zeile gelandet.
@@ -202,12 +202,12 @@ systemctl start logstash.service
 
 
 
----
+'''
 
 TIP: Wird fortgesetzt...
 
----
+'''
 
 link:../README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
 
-// End of ntpstats-ng/doc/de/doc/Logstash.adoc
+// End of ntpstats-ng/doc/de/doc/ELG/Logstash.adoc

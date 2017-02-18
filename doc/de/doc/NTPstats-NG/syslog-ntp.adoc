@@ -122,11 +122,11 @@ output {
 <4> xref:syslog-ntp.adoc#_file[file]
 <5> xref:syslog-ntp.adoc#_elasticsearch[elasticsearch]
 
----
+'''
 
 NOTE: Die komplette Datei findet sich hier: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/ntpstats-ng.conf.syslog-ntp[ntpstats-ng.conf.syslog-ntp, window="_blank"]
 
----
+'''
 
 === input
 
@@ -220,11 +220,11 @@ output {
 }
 ----
 
----
+'''
 
 TIP: Wird fortgesetzt...
 
----
+'''
 
 link:../README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
 

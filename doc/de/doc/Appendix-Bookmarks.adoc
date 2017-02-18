@@ -35,9 +35,14 @@ link:http://www.pool.ntp.org/[, window="_blank"] (2017-02-12).
 
 * ELG Stack
 
-** Elasticsearch
+** [[bookmark_elasticsearch]]Elasticsearch. +
+link:https://www.elastic.co/products/elasticsearch[, window="_blank"] (2017-02-18).
 
-** Logstash
+** [[bookmark_logstash]]Logstash. +
+link:https://www.elastic.co/products/logstash[, window="_blank"] (2017-02-18).
+
+** [[bookmark_grafana]]Grafana. +
+link:http://grafana.org/[, window="_blank"] (2017-02-18).
 
 *** [[bookmark_logstash_ssh_forward]]Biler, Darwin: Forwarding log files to Logstash server via SSH. +
 link:http://www.darwinbiler.com/forwarding-log-files-to-logstash-server-via-ssh/[, window="_blank"] (2017-01-30).
@@ -72,7 +77,7 @@ link:https://de.wikipedia.org/wiki/Zitieren_von_Internetquellen[, window="_blank
 // [[bookmark_]]name, given: titel. +
 // link:[, window="_blank"] (2017-00-00).
 
----
+'''
 
 link:README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
 
