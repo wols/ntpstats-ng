@@ -18,7 +18,7 @@ toc::[]
 Die xref:../ELG/Logstash.adoc#_erste_schritte[ersten Schritte mit Logstash] haben die Grundlagen der Verarbeitung einer lokalen Log-Datei gezeigt.
 
 Mit Hilfe eines Daemon aus der Syslog-Familie (`rsyslog`, `syslog-ng` u. a.) können natürlich auch Logs an einen oder mehrere Syslog-Server "`remote`" übertragen werden.
-Als Ziel- bzw. Destination-Port kommt meist `514`footnote:[link:http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml?search=514[IANA Port Search 514, window="_blank"]] zur Anwendung.
+Als Ziel- bzw. Destination-Port kommt meist `514` zur Anwendung.footnote:[link:http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml?search=514[IANA Port Search 514, window="_blank"]]
 
 .Syslog remote
 ifeval::["{{gitbook.version}}" != "3.2.2"]
@@ -65,7 +65,7 @@ TIP: Warum also nicht auch NTP Statistiken auf dem Syslog-Weg übertragen?
 Ich habe nach einer Möglichkeit gesucht, die NTP Statistiken "`parallel`" auf bereits benutzten Pfaden zu übertragen.
 Ein zusätzlicher Port gestattet es, einen zentralen NTP-Statistik-Server zusammen mit einem System-Log-Server oder unabhängig von ihm zu betreiben.
 
-TIP: Als Port-Nummer habe ich willkürlich `51123`footnote:[link:http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml?search=55123[IANA Port Search 51123, window="_blank"]] festgelegt.
+TIP: Als Port-Nummer habe ich willkürlich `51123` festgelegt.footnote:[link:http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml?search=55123[IANA Port Search 51123, window="_blank"]]
 
 .System- und NTP-Statistik-Logging-Varianten
 ifeval::["{{gitbook.version}}" != "3.2.2"]
