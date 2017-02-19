@@ -1,10 +1,11 @@
-= Übertragung
-:icons:         font
-:imagesdir:     ../../../images
-:imagesoutdir:  ../../../images
+= ntpstats-ng - syslog-ntp
+:icons:                 font
+:imagesdir:             ../../../images
+:imagesoutdir:          ../../../images
 :linkattrs:
-:toc:           macro
-:toc-title:     Inhalt
+:source-highlighter:    coderay
+:toc:                   macro
+:toc-title:             Inhalt
 
 Übertragung von NTP Statistken mit Hilfe von syslog-ng - cool!
 
@@ -12,51 +13,134 @@ IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
 
 toc::[]
 
-== Datenfluss
+== Syslog
 
-Zur Übertragung von NTP Statistiken kann ein Syslog Daemon - hier `syslog-ng` - benutzt werden.
-Der Syslog-_Client_ sendet die Daten via Netzwerk an den Syslog-_Server_.
+Die xref:../ELG/Logstash.adoc#_erste_schritte[ersten Schritte mit Logstash] haben die Grundlagen der Verarbeitung einer lokalen Log-Datei gezeigt.
 
-Logstash kann mit `logstash-input-tcp` sehr einfach als Syslog-Server fungieren.
+Mit Hilfe eines Daemon aus der Syslog-Familie (`rsyslog`, `syslog-ng` u. a.) können natürlich auch Logs an einen oder mehrere Syslog-Server "`remote`" übertragen werden.
+Als Ziel- bzw. Destination-Port kommt meist `514`footnote:[link:http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml?search=514[IANA Port Search 514, window="_blank"]] zur Anwendung.
 
-.syslog-ntp Datenfluss
+.Syslog remote
 ifeval::["{{gitbook.version}}" != "3.2.2"]
 ifndef::env-github[]
-[ditaa, target="diagram/syslog-ntp_dataflow", png]
+[ditaa, target="diagram/syslog-ntp_syslog", png]
 ----
-+-----------+      /-----------\     /-------+----------+--------\   +---------------+   /---------\
-| loopstats +----->|           |     |       |          |        |   |               |   |         |
-+-----------+      | syslog-ng *--=->* input | Logstash | output +-->* Elasticsearch *-->| Grafana |
-| peerstats |  +-->|           |     |       |          |        |   |{s}            |   |         |
-|{d}        +--+   \-----------/     \---+---+----------+--------/   +---------------+   \---------/
-+-----------+                            |                  ^
-                                         |   +----------+   |
-                                         +---+  filter  +---+
-                                             +----------+
+/--------\     /--------\
+|        |     |        |
+| syslog +--=->* syslog |
+| client |     | server |
+\--------/     \--------/
 ----
 endif::env-github[]
 ifdef::env-github[]
-image::diagram/syslog-ntp_dataflow.png[]
+image::diagram/syslog-ntp_syslog.png[]
 endif::env-github[]
 endif::[]
 ifeval::["{{gitbook.version}}" == "3.2.2"]
-image::diagram/syslog-ntp_dataflow.png[]
+image::diagram/syslog-ntp_syslog.png[]
 endif::[]
 
-== syslog-ng
+=== NTP Statistken sind Log-Dateien
 
-=== options
+Vergleichen wir wieder die erste Zeile aus unseren xref:../ELG/Logstash.aoc#[Beispiel] mit der aus `peerstats`.
+
+.`head -n 1 /var/log/ntp/ntp.log`
+[source%nowrap]
+----
+29 Jan 22:15:59 ntpd[19633]: ntpd 4.2.8p9@1.3265-o Thu Nov 24 08:57:19 UTC 2016 (1): Starting
+----
+
+.`head -n 1 /var/log/ntp/stats/HOSTNAME.peerstats`
+[source%nowrap]
+----
+57782 12.556 192.168.1.7 963a 0.006794870 0.000430754 0.015162412 0.006043270
+----
+
+Beide Dateien enthalten zeilenweise Informationen.
+
+TIP: Warum also nicht auch NTP Statistiken auf dem Syslog-Weg übertragen?
+
+==== System- und NTP-Statistik-Logging
+
+Ich habe nach einer Möglichkeit gesucht, die NTP Statistiken "`parallel`" auf bereits benutzten Pfaden zu übertragen.
+Ein zusätzlicher Port gestattet es, einen zentralen NTP-Statistik-Server zusammen mit einem System-Log-Server oder unabhängig von ihm zu betreiben.
+
+TIP: Als Port-Nummer habe ich willkürlich `51123`footnote:[link:http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml?search=55123[IANA Port Search 51123, window="_blank"]] festgelegt.
+
+.System- und NTP-Statistik-Logging-Varianten
+ifeval::["{{gitbook.version}}" != "3.2.2"]
+ifndef::env-github[]
+[ditaa, target="diagram/syslog-ntp", png]
+----
+               syslog client       syslog servers
+
++----------+   /-----------\       /-----------\
+| system   |   |           |       | server A  |
+| messages |   |           |       | syslog-ng |   +----------+
+|{d}       +-->|           *-+--=->* 514       +-->| messages |
++----------+   |           | |     |           |   |{d}       |
+               |           | |     \-----------/   +----------+
+               |           | |
+               |           | |     /-----------\
+               | syslog-ng | |     | server B  |
+               |           | |     | syslog-ng |   +----------+
+               |           | +--=->* 514       |-->| messages |
+               |           |       |           |   +----------+
+               |           | +--=->* 51123     |-->| ntpstats |
+               |           | |     |           |   |{d} c000  |
+               |           | |     \-----------/   +----------+
+               |           | |
+               |           | |     /-----------\
++----------+   |           | |     | server C  |
+| ntpstats |   |           | |     | syslog-ng |   +----------+
+|{d} c000  +-->|           *-+--=->* 51123     +-->| ntpstats |
++----------+   \-----------/       |           |   |{d} c000  |
+                                   \-----------/   +----------+
+----
+endif::env-github[]
+ifdef::env-github[]
+image::diagram/syslog-ntp.png[]
+endif::env-github[]
+endif::[]
+ifeval::["{{gitbook.version}}" == "3.2.2"]
+image::diagram/syslog-ntp.png[]
+endif::[]
+
+=== syslog-ng Client
 
 .syslog-ng-3.7.3
 [source%nowrap]
 ----
+# /etc/syslog-ng/syslog-ng.conf.syslog-ntp.client
+
+options { ... } # <1>
+
+source loopstats { ... } # <2>
+source peerstats { ... } # <3>
+
+destination syslog-ntp { ... } # <4>
+
+log { ... } # <5>
+----
+<1> xref:syslog-ntp.adoc#syslog-client-options[options]
+<2> xref:syslog-ntp.adoc#syslog-client-source-loopstats[source loopstats]
+<3> xref:syslog-ntp.adoc#syslog-client-source-peerstats[source peerstats]
+<4> xref:syslog-ntp.adoc#syslog-client-destination[destination syslog-ntp]
+<5> xref:syslog-ntp.adoc#syslog-client-log[log]
+
+NOTE: Die komplette Datei findet sich hier: link:https://github.com/wols/ntpstats-ng/blob/master/etc/syslog-ng/syslog-ng.conf.syslog-ntp.client[syslog-ng.conf.syslog-ntp.client, window="_blank"]
+
+==== [[syslog-client-options]]options
+
+[source%nowrap]
+----
 options {
     # ...
-    ts_format(iso);
+    ts-format(iso);
 };
 ----
 
-=== source
+==== [[syslog-client-source-loopstats]]source loopstats
 
 [source%nowrap]
 ----
@@ -67,7 +151,12 @@ source loopstats {
         flags(no-parse)
     );
 };
+----
 
+==== [[syslog-client-source-peerstats]]source peerstats
+
+[source%nowrap]
+----
 source peerstats {
     file(
         "/var/log/ntp/stats/HOSTNAME.peerstats"
@@ -77,7 +166,7 @@ source peerstats {
 };
 ----
 
-=== destination
+==== [[syslog-client-destination]]destination
 
 [source%nowrap]
 ----
@@ -93,7 +182,7 @@ destination syslog-ntp {
 ----
 <1> `"TAGS" = ".source.loopstats"` bzw. `"TAGS" = ".source.peerstats"`
 
-=== log
+==== [[syslog-client-log]]log
 
 [source%nowrap]
 ----
@@ -103,6 +192,153 @@ log {
     destination(syslog-ntp);
 };
 ----
+
+=== syslog-ng Server
+
+.syslog-ng-3.7.3
+[source%nowrap]
+----
+# /etc/syslog-ng/syslog-ng.conf.syslog-ntp.server
+
+options { ... } # <1>
+
+source syslog-ntp { ... } # <2>
+
+destination ntpstats { ... } # <3>
+
+log { ... } # <4>
+----
+<1> xref:syslog-ntp.adoc#syslog-server-options[options]
+<2> xref:syslog-ntp.adoc#syslog-server-source[source syslog-ntp]
+<3> xref:syslog-ntp.adoc#syslog-server-destination[destination ntpstats]
+<4> xref:syslog-ntp.adoc#syslog-server-log[log]
+
+NOTE: Die komplette Datei findet sich hier: link:https://github.com/wols/ntpstats-ng/blob/master/etc/syslog-ng/syslog-ng.conf.syslog-ntp.server[syslog-ng.conf.syslog-ntp.server, window="_blank"]
+
+==== [[syslog-server-options]]options
+
+[source%nowrap]
+----
+options {
+    # ...
+    ts-format(iso);
+};
+----
+
+==== [[syslog-server-source]]source syslog-ntp
+
+[source%nowrap]
+----
+source syslog-ntp {
+    network(
+        port(51123)
+        transport("tcp")
+        flags(no-parse)
+    );
+};
+----
+
+==== [[syslog-server-destination]]destination ntpstats
+
+[source%nowrap]
+----
+destination ntpstats {
+    file(
+        "/tmp/ntpstats-ng-syslog.log"
+    );
+};
+----
+
+==== [[syslog-server-log]]log
+
+[source%nowrap]
+----
+log {
+    source(syslog-ntp);
+    destination(ntpstats);
+};
+----
+
+=== Es funktioniert!
+
+.syslog-ng Datenfluss
+ifeval::["{{gitbook.version}}" != "3.2.2"]
+ifndef::env-github[]
+[ditaa, target="diagram/syslog-ntp_logflow", png]
+----
+                                        client       server
+
++-----------+   /------+-----------+---------\       /---------+-----------+------\   +-----------+
+| loopstats +-->| file |           | network |       | network |           |      |   | loopstats |
+|           |   +------+ syslog-ng |         *----=->* 51123   | syslog-ng | file +-->| peerstats |
+| peerstats +-->| file |           |cFF0     |       |cFF0     |           |      |   |{d} c000   |
+|{d} c000   |   \------+-----------+---------/       \---------+-----------+------/   +-----------+
++-----------+
+----
+endif::env-github[]
+ifdef::env-github[]
+image::diagram/syslog-ntp_logflow.png[]
+endif::env-github[]
+endif::[]
+ifeval::["{{gitbook.version}}" == "3.2.2"]
+image::diagram/syslog-ntp_logflow.png[]
+endif::[]
+
+Schauen wir uns zwei Zeilen auf dem Server an.
+
+TIP: `syslog-ng` hat für uns *drei neue Felder* vor die NTP-Statistik-Zeilen eingefügt.
+
+.`SERVER:/tmp/ntpstats-ng-syslog.log`
+[source,plain,linenums%nowrap]
+----
+2017-02-19T17:49:02+00:00 ntpmon .source.loopstats 57803 64140.505 -0.000000242 -17.058 0.000001620 0.001482 4
+2017-02-19T17:49:17+00:00 ntpmon .source.peerstats 57803 64154.505 127.127.20.0 966a -0.000880746 0.000000000 0.000395621 0.001026945
+----
+
+TIP: `syslog-ng` hat für uns *drei neue Felder* (a, b, c) vor die NTP-Statistik-Zeilen eingefügt.
+
+. `loopstats`
+.. `"timestamp" = "2017-02-19T17:49:02+00:00"`
+.. `"host"      = "ntpmon"`
+.. `"source"    = ".source.loopstats"`
+.. `"message"   = "57803 64140.505 -0.000000242 -17.058 0.000001620 0.001482 4"`
+. `peerstats`
+.. `"timestamp" = "2017-02-19T17:49:17+00:00"`
+.. `"host"      = "ntpmon"`
+.. `"source"    = ".source.peerstats"`
+.. `"message"   = "57803 64154.505 127.127.20.0 966a -0.000880746 0.000000000 0.000395621 0.001026945"`
+
+[line-through]#Die Verarbeitung auf dem Server erfolgt wie bereits für xref:loopstats.adoc#logstash-input-file[loopstats] und xref:peerstats.adoc#logstash-input-file[peerstats] beschrieben.#
+
+== Datenfluss
+
+Logstash kann mit `logstash-input-tcp` sehr einfach selbst als Syslog-Server fungieren.
+
+.syslog-ntp Datenfluss
+ifeval::["{{gitbook.version}}" != "3.2.2"]
+ifndef::env-github[]
+[ditaa, target="diagram/syslog-ntp_dataflow", png]
+----
+                                        client      server
+
++-----------+   /------+-----------+---------\      /-------+-------+----------+--------\   +---------------+   /---------\
+| loopstats +-->| file |           | network |      | tcp   |       |          |        |   |               |   |         |
+|           |   +------+ syslog-ng |         *---=->* 51123 | input | Logstash | output +-->* Elasticsearch *-->| Grafana |
+| peerstats +-->| file |           |c0F0     |      |c0F0   |       |          |        |   |{s}            |   |         |
+|{d} c000   |   \------+-----------+---------/      \-------+---+---+----------+--------/   +---------------+   \---------/
++-----------+                                                   |                  ^
+                                                                |   +----------+   |
+                                                                +---+  filter  +---+
+                                                                    +----------+
+----
+endif::env-github[]
+ifdef::env-github[]
+image::diagram/syslog-ntp_dataflow.png[]
+endif::env-github[]
+endif::[]
+ifeval::["{{gitbook.version}}" == "3.2.2"]
+image::diagram/syslog-ntp_dataflow.png[]
+endif::[]
 
 == Logstash
 
@@ -130,11 +366,7 @@ output {
 <4> xref:syslog-ntp.adoc#logstash-output-file[file]
 <5> xref:syslog-ntp.adoc#logstash-output-elasticsearch[elasticsearch]
 
-'''
-
 NOTE: Die komplette Datei findet sich hier: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/ntpstats-ng.conf.syslog-ntp[ntpstats-ng.conf.syslog-ntp, window="_blank"]
-
-'''
 
 === input
 
@@ -228,45 +460,6 @@ output {
     }
 }
 ----
-
-== Variante 2
-
-Eine vielleicht bereits bestehende Syslog-Verbindung durch `syslog-ng` kann zur Übertragung erweitert werden.
-
-.syslog-ntp Datenfluss Variante 2
-ifeval::["{{gitbook.version}}" != "3.2.2"]
-ifndef::env-github[]
-[ditaa, target="diagram/syslog-ntp_dataflow_2", png]
-----
-+-----------+      /-----------\
-| loopstats +----->| syslog-ng |
-+-----------+      |           *--+
-| peerstats |  +-->|  client   |  |
-|{d}        +--+   \-----------/  |
-+-----------+                     |
-                                  |
-+------------------------------=--+
-|
-|  /-----------\   +-----------+     /-------+----------+--------\   +---------------+   /---------\
-|  | syslog-ng |   | loopstats +---->|       |          |        |   |               |   |         |
-+->*           +-->+-----------+     | input | Logstash | output +-->* Elasticsearch *-->| Grafana |
-   |  server   |   | peerstats |  +->|       |          |        |   |{s}            |   |         |
-   \-----------/   |{d}        +--+  \---+---+----------+--------/   +---------------+   \---------/
-                   +-----------+         |                  ^
-                                         |   +----------+   |
-                                         +---+  filter  +---+
-                                             +----------+
-----
-endif::env-github[]
-ifdef::env-github[]
-image::diagram/syslog-ntp_dataflow_2.png[]
-endif::env-github[]
-endif::[]
-ifeval::["{{gitbook.version}}" == "3.2.2"]
-image::diagram/syslog-ntp_dataflow_2.png[]
-endif::[]
-
-[line-through]#Die Verarbeitung auf dem Server erfolgt wie bereits für xref:loopstats.adoc#logstash-input-file[loopstats] und xref:peerstats.adoc#logstash-input-file[peerstats] beschrieben.#
 
 '''
 

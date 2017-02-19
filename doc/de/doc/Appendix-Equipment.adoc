@@ -10,15 +10,17 @@ IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
 
 == Überblick
 
-TODO.
+TODO
 
 == Raspberry Pi
 
-TODO.
+TODO
 
 == Lenovo X61s
 
-TODO.
+TODO
+
+'''
 
 link:README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
 

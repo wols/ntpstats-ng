@@ -56,11 +56,7 @@ output {
 <1> xref:loopstats.adoc#logstash-input-file[file]
 <2> xref:loopstats.adoc#logstash-output-file[file]
 
-'''
-
 NOTE: Die komplette Datei findet sich hier: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/ntpstats-ng.conf.loopstats[ntpstats-ng.conf.loopstats, window="_blank"]
-
-'''
 
 === input
 

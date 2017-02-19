@@ -56,11 +56,7 @@ output {
 <1> xref:peerstats.adoc#logstash-input-file[file]
 <2> xref:peerstats.adoc#logstash-output-file[file]
 
-'''
-
 NOTE: Die komplette Datei findet sich hier: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/ntpstats-ng.conf.peerstats[ntpstats-ng.conf.peerstats, window="_blank"]
-
-'''
 
 === input
 

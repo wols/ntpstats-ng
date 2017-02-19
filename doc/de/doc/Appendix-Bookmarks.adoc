@@ -32,6 +32,9 @@ link:https://tools.ietf.org/html/draft-ietf-ntp-bcp-02[, window="_blank"] (2017-
 ** [[bookmark_ntps]]NTPsec. +
 link:https://www.ntpsec.org/[, window="_blank"] (2017-01-30).
 
+*** [[bookmark_ntps_ntpviz]]Raymond, Eric S.;Miller, Gary E.;Drown, Daniel: ntpviz - make data visualizations from statistics files. +
+link:https://docs.ntpsec.org/latest/ntpviz.html[, window="_blank"] (2017-02-20).
+
 *** [[bookmark_ntps_leap_smearing]]Burnicki, Martin; Stenn, Harlan: Leap Second Smearing with NTP. +
 link:https://docs.ntpsec.org/latest/leapsmear.html[, window="_blank"] (2017-01-30).
 

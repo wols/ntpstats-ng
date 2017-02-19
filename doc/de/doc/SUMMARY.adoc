@@ -19,7 +19,7 @@
 .. link:NTPstats-NG/ntppoolstats.adoc[ntppoolstats]
 .. link:https://github.com/wols/ntpstats-ng/issues/14[mbgmonstats, window="_blank"]
 .. link:https://github.com/wols/ntpstats-ng/issues/16[ntplog, window="_blank"]
-.. link:NTPstats-NG/syslog-ntp.adoc[Übertragung]
+.. link:NTPstats-NG/syslog-ntp.adoc[syslog-ntp]
 . link:LeapSecond.adoc[Leap Second - Schaltsekunde]
 .. link:LeapSecond/Leap201612.adoc[Schaltsekunde 2016-12-31]
 
