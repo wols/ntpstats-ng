@@ -3,7 +3,6 @@
 :imagesdir:             ../../../images
 :imagesoutdir:          ../../../images
 :linkattrs:
-:source-highlighter:    coderay
 :toc:                   macro
 :toc-title:             Inhalt
 
@@ -177,6 +176,7 @@ destination syslog-ntp {
         transport("tcp")
         template("${TAGS} ${MSG}\n") # <1>
         template-escape(no)
+        # TLS settings ...
     );
 };
 ----
@@ -286,27 +286,27 @@ endif::[]
 
 Schauen wir uns zwei Zeilen auf dem Server an.
 
-TIP: `syslog-ng` hat für uns *drei neue Felder* vor die NTP-Statistik-Zeilen eingefügt.
-
 .`SERVER:/tmp/ntpstats-ng-syslog.log`
-[source,plain,linenums%nowrap]
+[source%nowrap]
 ----
 2017-02-19T17:49:02+00:00 ntpmon .source.loopstats 57803 64140.505 -0.000000242 -17.058 0.000001620 0.001482 4
 2017-02-19T17:49:17+00:00 ntpmon .source.peerstats 57803 64154.505 127.127.20.0 966a -0.000880746 0.000000000 0.000395621 0.001026945
 ----
 
-TIP: `syslog-ng` hat für uns *drei neue Felder* (a, b, c) vor die NTP-Statistik-Zeilen eingefügt.
+TIP: `syslog-ng` hat für uns *drei neue Felder* vor den Inhalt der NTP-Statistik-Zeile eingefügt.
 
 . `loopstats`
+[loweralpha]
 .. `"timestamp" = "2017-02-19T17:49:02+00:00"`
-.. `"host"      = "ntpmon"`
-.. `"source"    = ".source.loopstats"`
-.. `"message"   = "57803 64140.505 -0.000000242 -17.058 0.000001620 0.001482 4"`
+.. `"host" = "ntpmon"`
+.. `"tag" = ".source.loopstats"`
+.. `"message" = "57803 64140.505 -0.000000242 -17.058 0.000001620 0.001482 4"`
 . `peerstats`
+[loweralpha]
 .. `"timestamp" = "2017-02-19T17:49:17+00:00"`
-.. `"host"      = "ntpmon"`
-.. `"source"    = ".source.peerstats"`
-.. `"message"   = "57803 64154.505 127.127.20.0 966a -0.000880746 0.000000000 0.000395621 0.001026945"`
+.. `"host" = "ntpmon"`
+.. `"tag" = ".source.peerstats"`
+.. `"message" = "57803 64154.505 127.127.20.0 966a -0.000880746 0.000000000 0.000395621 0.001026945"`
 
 [line-through]#Die Verarbeitung auf dem Server erfolgt wie bereits für xref:loopstats.adoc#logstash-input-file[loopstats] und xref:peerstats.adoc#logstash-input-file[peerstats] beschrieben.#
 
@@ -379,6 +379,7 @@ input {
         port => 5123
         mode => "server"
         type => "syslog-ntp"
+        # TLS settings ...
     }
 }
 ----
