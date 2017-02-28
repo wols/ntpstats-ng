@@ -6,30 +6,36 @@
 :toc:           macro
 :toc-title:     Inhalt
 
-CSV-Daten vom xref:../A-Bookmarks.adoc#bookmark_ntppool[pool.ntp.org Projekt] als Quelle für 'ntppoolstats'.
+CSV-Daten vom xref:../Appendix-Bookmarks.adoc#bookmark_ntppool[pool.ntp.org Projekt] als Quelle für 'ntppoolstats'.
+
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
 
 toc::[]
 
 == Datenfluss
 
-.Datenfluss
+.ntppoolstats Datenfluss
 ifeval::["{{gitbook.version}}" != "3.2.2"]
 ifndef::env-github[]
-[ditaa, target="diagram/dataflow_ntppoolstats", png]
+[ditaa, target="diagram/ntppoolstats_dataflow", png]
 ----
-/--------------\     +-------+   +--------+   +--------+     /---------------\     /---------\
-|              |     |       |   |        |   |        |     |               |     |         |
-| pool.ntp.org *---->| input +-->| filter +-->| output +---->* Elasticsearch *---->| Grafana |
-|              |     |       |   |        |   |        |     |               |     |         |
-\--------------/     +-------+   +--------+   +--------+     \---------------/     \---------/
+/------------------\ +-------------+   /-------+----------+--------\   +---------------+   /---------\
+|                  | | scores/IP/  |   |       |          |        |   |               |   |         |
+| www.pool.ntp.org +-+ log?limit=1 *-->| input | Logstash | output +-->* Elasticsearch *-->| Grafana |
+|                  | |{d} c000     |   |       |          |        |   |{s}            |   |         |
+\------------------/ +-------------+   \---+---+----------+--------/   +---------------+   \---------/
+                                             |                  ^
+                                             |   +----------+   |
+                                             +---+  filter  +---+
+                                                 +----------+
 ----
 endif::env-github[]
 ifdef::env-github[]
-image::diagram/dataflow_ntppoolstats.png[]
+image::diagram/ntppoolstats_dataflow.png[]
 endif::env-github[]
 endif::[]
 ifeval::["{{gitbook.version}}" == "3.2.2"]
-image::diagram/dataflow_ntppoolstats.png[]
+image::diagram/ntppoolstats_dataflow.png[]
 endif::[]
 
 == Logstash
@@ -57,23 +63,19 @@ output {
     elasticsearch { ... } # <7>
 }
 ----
-<1> xref:ntppoolstats.adoc#_http_poller[http_poller]
-<2> xref:ntppoolstats.adoc#_grok[grok]
-<3> xref:ntppoolstats.adoc#_date[date]
-<4> xref:ntppoolstats.adoc#_ruby[ruby]
-<5> xref:ntppoolstats.adoc#_mutate[mutate]
-<6> xref:ntppoolstats.adoc#_file[file]
-<7> xref:ntppoolstats.adoc#_elasticsearch[elasticsearch]
-
----
+<1> xref:ntppoolstats.adoc#logstash-input-http_poller[http_poller]
+<2> xref:ntppoolstats.adoc#logstash-filter-grok[grok]
+<3> xref:ntppoolstats.adoc#logstash-filter-date[date]
+<4> xref:ntppoolstats.adoc#logstash-filter-ruby[ruby]
+<5> xref:ntppoolstats.adoc#logstash-filter-mutate[mutate]
+<6> xref:ntppoolstats.adoc#logstash-output-file[file]
+<7> xref:ntppoolstats.adoc#logstash-output-elasticsearch[elasticsearch]
 
 NOTE: Die komplette Datei findet sich hier: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/ntpstats-ng.conf.ntppoolstats[ntpstats-ng.conf.ntppoolstats, window="_blank"]
 
----
-
 === input
 
-==== http_poller
+==== [[logstash-input-http_poller]]http_poller
 
 Zum zyklischen Abholen der aktuellen CSV-Daten nutzen wir `logstash-input-http_poller`.
 
@@ -126,7 +128,7 @@ Als Vorgriff auf den xref:ntppoolstats.adoc#_file[Output] (im JSON-Format):
 
 === filter
 
-Die folgenden Filter werden wieder nur auf die typisierten Events angewandt.
+Die folgenden Filter werden nur auf die Events vom Typ `ntppoolstats` angewandt.
 
 [source%nowrap]
 ----
@@ -134,7 +136,7 @@ filter {
     if [type] == "ntppoolstats" {
 ----
 
-==== grok
+==== [[logstash-filter-grok]]grok
 
 [source%nowrap]
 ----
@@ -146,7 +148,7 @@ filter {
         }
 ----
 
-==== date
+==== [[logstash-filter-date]]date
 
 [source%nowrap]
 ----
@@ -157,7 +159,7 @@ filter {
         }
 ----
 
-==== ruby
+==== [[logstash-filter-ruby]]ruby
 
 [source%nowrap, ruby]
 ----
@@ -173,9 +175,9 @@ filter {
         }
 ----
 
-==== mutate
+==== [[logstash-filter-mutate]]mutate
 
-Nur Server mit einer Bewertung über "10" werden in den Pool aufgenommen.
+Nur Server mit einer Bewertung über "`10`" werden in den Pool aufgenommen.
 
 [source%nowrap]
 ----
@@ -188,6 +190,10 @@ Nur Server mit einer Bewertung über "10" werden in den Pool aufgenommen.
                 replace => { "message" => "score:%{score} WARNING" }
             }
         }
+----
+
+[source%nowrap]
+----
     }
 }
 ----
@@ -200,7 +206,7 @@ output {
     if [type] == "ntppoolstats" {
 ----
 
-==== file
+==== [[logstash-output-file]]file
 
 [source%nowrap]
 ----
@@ -210,7 +216,7 @@ output {
         }
 ----
 
-==== elasticsearch
+==== [[logstash-output-elasticsearch]]elasticsearch
 
 [source%nowrap]
 ----
@@ -230,20 +236,8 @@ output {
 }
 ----
 
-== Elasticsearch
+'''
 
-
-
-== Grafana
-
-
-
----
-
-TIP: Wird fortgesetzt...
-
----
-
-link:../README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
+link:../README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
 
 // End of ntpstats-ng/doc/de/doc/NTPstats-NG/ntppoolstats.adoc

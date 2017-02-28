@@ -1,0 +1,88 @@
+= Kolophon
+:icons:         font
+:imagesdir:     ../../images
+:imagesoutdir:  ../../images
+:linkattrs:
+:toc:           macro
+:toc-title:     Inhalt
+
+ntpstats-ng - Vom ASCII-Text zum "`GitBook`"
+
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
+
+toc::[]
+
+== AsciiDoctor
+
+Quelle ist der xref:Appendix-Bookmarks.adoc#bookmark_asciidoc_writers_guide[AsciiDoc Writer’s Guide].
+
+=== Formatierungen
+
+==== Headers
+
+[source%nowrap, asciidoc]
+----
+= Document Title (Level 0)
+== Level 1
+=== Level 2
+==== Level 3
+===== Level 4
+----
+
+==== Paragraphs and hard line break
+
+[source%nowrap, asciidoc]
+----
+Das ist der erste Satz vom ersten Absatz.
+Das ist der zweite Satz vom ersten Absatz.
+
+Das ist der erste Satz vom zweiten Absatz. +
+Das ist der zweite Satz vom zweite Absatz.
+Das ist der dritte Satz vom zweiten Absatz.
+
+Das ist der erste Satz vom dritten Absatz.
+----
+
+Das ist der erste Satz vom ersten Absatz.
+Das ist der zweite Satz vom ersten Absatz.
+
+Das ist der erste Satz vom zweiten Absatz. +
+Das ist der zweite Satz vom zweite Absatz.
+Das ist der dritte Satz vom zweiten Absatz.
+
+Das ist der erste Satz von dritten Absatz.
+
+==== Admonitions
+
+[source%nowrap, asciidoc]
+----
+NOTE: NOTE
+TIP: TIP
+IMPORTANT: IMPORTANT
+CAUTION: CAUTION
+WARNING: WARNING
+----
+
+NOTE: NOTE
+
+TIP: TIP
+
+IMPORTANT: IMPORTANT
+
+CAUTION: CAUTION
+
+WARNING: WARNING
+
+== GitHub
+
+TODO
+
+== GitBook
+
+TODO
+
+'''
+
+link:README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
+
+// End of ntpstats-ng/doc/de/doc/Colophon.adoc

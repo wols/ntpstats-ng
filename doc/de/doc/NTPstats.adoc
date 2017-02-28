@@ -1,37 +1,37 @@
-= NTP Statistiken
+= Statistik-Typen
 :icons:         font
+:imagesdir:     ../../images
+:imagesoutdir:  ../../images
 :linkattrs:
 :toc:           macro
 :toc-title:     Inhalt
 
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
+
 toc::[]
 
-== NTP
+== Unterstützte Typen
 
 [options="header"]
 |===
 |Type|ntpstats-ng Version
 
-|`clockstats`  |
+|`clockstats`  |link:https://github.com/wols/ntpstats-ng/labels/clockstats[Issues: clockstats, window="_blank"]
 
-|`cryptostats` |
+|`cryptostats` |link:https://github.com/wols/ntpstats-ng/labels/cryptostats[Issues: cryptostats, window="_blank"]
 
 |`loopstats`   |`0.1.0`
 
 |`peerstats`   |`0.1.0`
 
-|`protostats`  |
+|`protostats`  |link:https://github.com/wols/ntpstats-ng/labels/protostats[Issues: protostats, window="_blank"]
 
-|`rawstats`    |
+|`rawstats`    |link:https://github.com/wols/ntpstats-ng/labels/rawstats[Issues: rawstats, window="_blank"]
 
-|`sysstats`    |
+|`sysstats`    |link:https://github.com/wols/ntpstats-ng/labels/sysstats[Issues: sysstats, window="_blank"]
 
-|`timingstats` |
+|`timingstats` |link:https://github.com/wols/ntpstats-ng/labels/timingstats[Issues: timingstats, window="_blank"]
 |===
-
-Quelle: xref:A-Bookmarks.adoc#bookmark_ntp_monopt[NTP - Monitoring Commands and Options]
-
-== Andere
 
 [options="header"]
 |===
@@ -44,12 +44,8 @@ Quelle: xref:A-Bookmarks.adoc#bookmark_ntp_monopt[NTP - Monitoring Commands and 
 |`ntplog`       |`0.1.0`
 |===
 
----
+'''
 
-TIP: Wird fortgesetzt...
-
----
-
-link:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
+link:README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
 
 // End of ntpstats-ng/doc/de/doc/NTPstats.adoc

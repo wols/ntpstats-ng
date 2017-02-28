@@ -5,17 +5,21 @@
 
 NTP statistics - Next Generation
 
-Deutsche Version
+Deutsche link:https://github.com/wols/ntpstats-ng/milestone/1[Version 0.1.0, window="_blank"]
 
-== NTP-Statistiken - Was?
+== NTP statistics - Was?
 
-Ja, *Next Generation*...
+Ja, **N**etwork **T**ime **P**rotocol Statistiken - *Nächste Generation*.
+
+_ntpstats-ng_ ist keine Software und keine __App__likation.
+
+_ntpstats-ng_ ist eine Systemdokumentation - kommentiert und ergänzt mit Beispielen und Hintergrundinformationen - versioniert auf GitHub und veröffentlicht mit GitBook.
 
 image::screenshot_ntpstats-live+peerstats.png[Screenshot ntpstats-live und -peerstats]
 
 == Lizenz
 
-ntpstats-ng (C) 2015-2017 WOLfgang Schricker
+ntpstats-ng (C) MMXV-MMXVII WOLfgang Schricker
 
 Es wird die Erlaubnis gegeben dieses Dokument zu kopieren, verteilen und/oder zu verändern unter den Bedingungen der *GNU Free Documentation License, Version 1.3* oder einer späteren, von der Free Software Foundation veröffentlichten Version;
 mit keinen unveränderlichen Abschnitten, mit keinen Vorderseitentexten und keinen Rückseitentexten.

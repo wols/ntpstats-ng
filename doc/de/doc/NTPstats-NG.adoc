@@ -1,0 +1,28 @@
+= NTP statistics - Next Generation
+:icons:         font
+:imagesdir:     ../../images
+:imagesoutdir:  ../../images
+:linkattrs:
+:toc:           macro
+:toc-title:     Inhalt
+
+Es gibt etliche gute Hilfsmittel um NTP-Statistiken darzustellen und zu analysieren.
+
+Die "Originale" liegen der NTP Referenz bei: xref:Appendix-Bookmarks.adoc#bookmark_ntp_project_scripts_stats[NTP project - Statistics processing scripts (README)].
+Ein weiteres sehr gutes Beispiel ist xref:Appendix-Bookmarks.adoc#bookmark_ntps_ntpviz[ntpviz].
+
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
+
+== Klassiker
+
+Gnuplot & Co.
+
+== Next Generation
+
+In Zeiten von "`Big Data`" und "`IoT - Internet of Things`" gibt es vielfältige Hilfsmittel zur Erfassung, Verarbeitung und Darstellung von Daten.
+
+'''
+
+link:README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
+
+// End of ntpstats-ng/doc/de/doc/NTPstats-NG.adoc

@@ -1,31 +1,39 @@
 = INHALT
+:icons:         font
 :linkattrs:
 
 * link:SUMMARY.adoc[INHALT]
 
 //^
 
-. link:README.adoc[NTP-Statistiken - Was?]
-. link:NTPstats.adoc[NTP Statistiken]
-. link:NTPstats-NG/README.adoc[NTP statistics - Next Generation]
-.. link:https://github.com/wols/ntpstats-ng/issues/13[loopstats, window="_blank"]
+. link:README.adoc[NTP Statistiken - Was?]
+. link:Introduction.adoc[Einleitung]
+. link:NTPstats.adoc[Statistik-Typen]
+. link:ELG.adoc[ELG Stack]
+.. link:ELG/Logstash.adoc[Logstash]
+.. link:ELG/Elasticsearch.adoc[Elasticsearch]
+.. link:ELG/Grafana.adoc[Grafana]
+. link:NTPstats-NG.adoc[NTP statistics - Next Generation]
+.. link:NTPstats-NG/loopstats.adoc[loopstats]
 .. link:NTPstats-NG/peerstats.adoc[peerstats]
 .. link:NTPstats-NG/ntppoolstats.adoc[ntppoolstats]
 .. link:https://github.com/wols/ntpstats-ng/issues/14[mbgmonstats, window="_blank"]
 .. link:https://github.com/wols/ntpstats-ng/issues/16[ntplog, window="_blank"]
-. link:Logstash.adoc[ELG - Logstash]
-. link:Elasticsearch.adoc[ELG - Elasticsearch]
-. link:Grafana.adoc[ELG - Grafana]
-. link:Leap201612.adoc[Schaltsekunde 2016-12-31]
-
-== Anhang
+.. link:NTPstats-NG/syslog-ntp.adoc[syslog-ntp]
+. link:LeapSecond.adoc[Leap Second - Schaltsekunde]
+.. link:LeapSecond/Leap201612.adoc[Schaltsekunde 2016-12-31]
 
 [upperalpha]
-. link:A-Bookmarks.adoc[Lesezeichen]
-. link:B-Equipment.adoc[Equipment]
+. link:Appendix-Bookmarks.adoc[Lesezeichen]
+. link:Appendix-Equipment.adoc[Equipment]
 
----
+//^
 
-link:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
+* link:Glossary.adoc[Glossar]
+* link:Colophon.adoc[Kolophon]
+
+'''
+
+link:README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
 
 // End of ntpstats-ng/doc/de/doc/SUMMARY.adoc

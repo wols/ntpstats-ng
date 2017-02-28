@@ -1,0 +1,18 @@
+= Schaltsekunde 2016-12-31 23:59:60
+:icons:         font
+:imagesdir:     ../../../images
+:imagesoutdir:  ../../../images
+:linkattrs:
+:toc:           macro
+:toc-title:     Inhalt
+
+Die erste Neujahrsstunde 2017 in Deutschland hätte man feiern oder diverse Shows und Wiederholungen im Fernsehen schauen können. +
+Man konnte aber auch mal beobachten wie die Schaltsekunde via NTP "`rüber kommt`".
+
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
+
+'''
+
+link:../README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
+
+// End of ntpstats-ng/doc/de/doc/LeapSecond/Leap201612.adoc

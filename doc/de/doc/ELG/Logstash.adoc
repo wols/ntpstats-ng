@@ -1,20 +1,24 @@
 = Logstash
 :icons:         font
+:imagesdir:     ../../../images
+:imagesoutdir:  ../../../images
 :linkattrs:
 :toc:           macro
 :toc-title:     Inhalt
 
-ELG Stack = link:Elasticsearch.adoc[Elasticsearch], Logstash und link:Grafana.adoc[Grafana]
+link:../ELG.adoc[ELG Stack] = link:Elasticsearch.adoc[Elasticsearch], *Logstash* und link:Grafana.adoc[Grafana]
+
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
 
 toc::[]
 
 == Erste Schritte
 
-Um die Verwendung von Logstash zu verstehen, soll als erstes Beispiel die Log-Datei `/var/log/ntp/ntp.log` überwacht und als Datei im JSON-Format abgespeichert werden.
+Um die Verwendung von Logstash zu verstehen, soll als erstes Beispiel die Log-Datei `/var/log/ntp/ntp.log` überwacht und als neue Datei im JSON-Format abgespeichert werden.
 
-== Konfiguration
+=== Konfiguration
 
-=== ntpd
+==== ntpd
 
 [source%nowrap, sh]
 ----
@@ -40,13 +44,13 @@ NTPD_OPTS="-u ntp:ntp -l /var/log/ntp/ntp.log"
 OPTIONS="-g -l /var/log/ntp/ntp.log"
 ----
 
-=== logstash
+==== logstash
 
 Die Logstash-Konfiguration teilt sich in die Abschnitte `input`, `filter` und `output`.
 
 Als `input`-Typ wird von uns `syslog-ntp` festgelegt.
 
-Der Zeitstempel-Anteil des `output`-Dateinamens wird im xref:A-Bookmarks.adoc#bookmark_joda_time[Joda-Time-Format] angegeben.
+Der Zeitstempel-Anteil des `output`-Dateinamens wird im xref:Appendix-Bookmarks.adoc#bookmark_joda_time[Joda-Time-Format] angegeben.
 
 .logstash-5.1.2
 [source%nowrap]
@@ -71,7 +75,7 @@ output {
 }
 ----
 
-== Es funktioniert!
+=== Es funktioniert!
 
 Die Dienste `ntpd` und `logstash` werden mit der oben beschriebene Konfiguration gestartet.
 
@@ -89,7 +93,9 @@ systemctl start logstash.service
 systemctl start ntpd.service
 ----
 
-NOTE: Kurz nach Start der Dienste werden die beiden Dateien `/var/log/ntp/ntp.log` und `/tmp/ntpstats-ng-2017-01-29.json` angelegt.
+NOTE: Kurz nach Start der Dienste werden zwei Dateien angelegt: +
+`/var/log/ntp/ntp.log` +
+`/tmp/ntpstats-ng-2017-01-29.json`
 
 Vergleichen wir die jeweils *erste Zeile* der beiden Dateien.
 
@@ -105,7 +111,7 @@ Vergleichen wir die jeweils *erste Zeile* der beiden Dateien.
 {"path":"/var/log/ntp/ntp.log","@timestamp":"2017-01-29T22:16:14.805Z","@version":"1","host":"localhost","message":"29 Jan 22:15:59 ntpd[19633]: ntpd 4.2.8p9@1.3265-o Thu Nov 24 08:57:19 UTC 2016 (1): Starting","type":"syslog-ntp"}
 ----
 
-TIP: Hier hilft uns der JSON-Kommandozeilenprozessor xref:A-Bookmarks.adoc#bookmark_jq[`jq`].
+TIP: Hier hilft uns der JSON-Kommandozeilenprozessor xref:Appendix-Bookmarks.adoc#bookmark_jq[`jq`].
 
 .`head -n 1 /tmp/ntpstats-ng-2017-01-29.json | jq`
 [source%nowrap, json]
@@ -137,9 +143,9 @@ Die Verarbeitung durch Logstash erfolgte am "29. Januar 2017, 22:16:14.805, UTC"
 
 Das Format von `@timestamp` entspricht dem für die Weiterleitung an link:Elasticsearch.adoc[Elasticsearch] benötigtem.
 Wir wollen aber die Ereignisse in der exakten *Log-Reihenfolge* erhalten und später analysieren können.
-Wenden wir dazu die Logstash-Filter auf unseren Typ `syslog-ntp` an.
+Wenden wir dazu Logstash-Filter auf unseren Typ `syslog-ntp` an.
 
-== Filter
+=== Filter
 
 .logstash-5.1.2
 [source%nowrap]
@@ -167,21 +173,38 @@ output {
 .Gentoo, openrc
 [source%nowrap, sh]
 ----
-/etc/init.d/logstash restart
+/etc/init.d/logstash stop
 ----
 
 .CentOS 7, syslogd
 [source%nowrap, sh]
 ----
-systemctl restart logstash.service
+systemctl stop logstash.service
 ----
 
----
+[source%nowrap, sh]
+----
+rm /tmp/ntpstats-ng-2017-01-29.json
+----
 
-TIP: Wird fortgesetzt...
+.Gentoo, openrc
+[source%nowrap, sh]
+----
+/etc/init.d/logstash start
+----
 
----
+.CentOS 7, syslogd
+[source%nowrap, sh]
+----
+systemctl start logstash.service
+----
 
-link:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
+==== grok
 
-// End of ntpstats-ng/doc/de/doc/Logstash.adoc
+TODO
+
+'''
+
+link:../README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
+
+// End of ntpstats-ng/doc/de/doc/ELG/Logstash.adoc

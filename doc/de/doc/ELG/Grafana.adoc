@@ -1,0 +1,23 @@
+= Grafana
+:icons:         font
+:imagesdir:     ../../../images
+:imagesoutdir:  ../../../images
+:linkattrs:
+:toc:           macro
+:toc-title:     Inhalt
+
+link:../ELG.adoc[ELG Stack] = link:Elasticsearch.adoc[Elasticsearch], link:Logstash.adoc[Logstash] und *Grafana*
+
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
+
+toc::[]
+
+== Erste Schritte
+
+TODO
+
+'''
+
+link:../README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
+
+// End of ntpstats-ng/doc/de/doc/ELG/Grafana.adoc

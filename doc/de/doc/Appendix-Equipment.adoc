@@ -1,0 +1,27 @@
+= Anhang B: Equipment
+:icons:         font
+:imagesdir:     ../../images
+:imagesoutdir:  ../../images
+:linkattrs:
+:toc:           macro
+:toc-title:     Inhalt
+
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
+
+== Überblick
+
+TODO
+
+== Raspberry Pi
+
+TODO
+
+== Lenovo X61s
+
+TODO
+
+'''
+
+link:README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
+
+// End of ntpstats-ng/doc/de/doc/Appendix-Equipment.adoc

@@ -1,4 +1,5 @@
 = TABLE OF CONTENTS
+:linkattrs:
 
 * link:SUMMARY.adoc[TOC]
 
@@ -6,13 +7,8 @@
 
 . link:README.adoc[NTP statistics - What?]
 
-== Appendix
+'''
 
-[upperalpha]
-
-
----
-
-link:README.adoc[ntpstats-ng] (C) 2015-2017 WOLfgang Schricker
+link:README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
 
 // End of ntpstats-ng/doc/en/doc/SUMMARY.adoc
