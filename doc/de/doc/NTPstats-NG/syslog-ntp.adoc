@@ -19,16 +19,17 @@ Die xref:../ELG/Logstash.adoc#_erste_schritte[ersten Schritte mit Logstash] habe
 Mit Hilfe eines Daemon aus der Syslog-Familie (`rsyslog`, `syslog-ng` u. a.) können natürlich auch Logs an einen oder mehrere Syslog-Server "`remote`" übertragen werden.
 Als Ziel- bzw. Destination-Port kommt meist `514` zur Anwendung.footnote:[link:http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml?search=514[IANA Port Search 514, window="_blank"]]
 
-.Syslog remote
+.Syslog Client und Server
 ifeval::["{{gitbook.version}}" != "3.2.2"]
 ifndef::env-github[]
 [ditaa, target="diagram/syslog-ntp_syslog", png]
 ----
-/--------\     /--------\
-|        |     |        |
-| syslog +--=->* syslog |
-| client |     | server |
-\--------/     \--------/
+/--------\       /--------\
+| syslog |       | syslog |
+| client |       | server |
+|        +----=->* 514    |
+|        |       |        |
+\--------/       \--------/
 ----
 endif::env-github[]
 ifdef::env-github[]
@@ -41,7 +42,7 @@ endif::[]
 
 === NTP Statistken sind Log-Dateien
 
-Vergleichen wir wieder die erste Zeile aus unseren xref:../ELG/Logstash.aoc#[Beispiel] mit der aus `peerstats`.
+Vergleichen wir nun die erste Zeile aus unserem xref:../ELG/Logstash.aoc#[Logstash-Beispiel] mit der aus `peerstats`.
 
 .`head -n 1 /var/log/ntp/ntp.log`
 [source%nowrap]
@@ -55,9 +56,8 @@ Vergleichen wir wieder die erste Zeile aus unseren xref:../ELG/Logstash.aoc#[Bei
 57782 12.556 192.168.1.7 963a 0.006794870 0.000430754 0.015162412 0.006043270
 ----
 
-Beide Dateien enthalten zeilenweise Informationen.
-
-TIP: Warum also nicht auch NTP Statistiken auf dem Syslog-Weg übertragen?
+TIP: Beide Dateien enthalten zeilenweise Informationen. +
+Warum also nicht auch NTP Statistiken auf dem Syslog-Weg übertragen?
 
 ==== System- und NTP-Statistik-Logging
 
@@ -172,7 +172,7 @@ source peerstats {
 destination syslog-ntp {
     network(
         "localhost"
-        port(5123)
+        port(51123)
         transport("tcp")
         template("${TAGS} ${MSG}\n") # <1>
         template-escape(no)
@@ -293,7 +293,7 @@ Schauen wir uns zwei Zeilen auf dem Server an.
 2017-02-19T17:49:17+00:00 ntpmon .source.peerstats 57803 64154.505 127.127.20.0 966a -0.000880746 0.000000000 0.000395621 0.001026945
 ----
 
-TIP: `syslog-ng` hat für uns *drei neue Felder* vor den Inhalt der NTP-Statistik-Zeile eingefügt.
+TIP: `syslog-ng` hat für uns *drei neue Felder* vor den Inhalt jeder NTP-Statistik-Zeile eingefügt.
 
 . `loopstats`
 [loweralpha]
@@ -307,8 +307,6 @@ TIP: `syslog-ng` hat für uns *drei neue Felder* vor den Inhalt der NTP-Statisti
 .. `"host" = "ntpmon"`
 .. `"tag" = ".source.peerstats"`
 .. `"message" = "57803 64154.505 127.127.20.0 966a -0.000880746 0.000000000 0.000395621 0.001026945"`
-
-[line-through]#Die Verarbeitung auf dem Server erfolgt wie bereits für xref:loopstats.adoc#logstash-input-file[loopstats] und xref:peerstats.adoc#logstash-input-file[peerstats] beschrieben.#
 
 == Datenfluss
 
@@ -376,7 +374,7 @@ NOTE: Die komplette Datei findet sich hier: link:https://github.com/wols/ntpstat
 ----
 input {
     tcp {
-        port => 5123
+        port => 51123
         mode => "server"
         type => "syslog-ntp"
         # TLS settings ...
@@ -411,13 +409,12 @@ filter {
 ----
         if [syslog_tags] =~ "stats" {
             mutate {
-                replace      => { "type" => "%{syslog_tags}" } # <1>
+                replace      => { "type" => "%{syslog_tags}" }
                 add_field    => { "path" => "%{host}.%{type}" }
                 remove_field => [ "syslog_tags" ]
             }
         }
 ----
-<1> `type` = [line-through]#`"syslog-ng"`# = `"loopstats|peerstats"`
 
 [source%nowrap]
 ----
