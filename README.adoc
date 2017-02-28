@@ -5,6 +5,9 @@
 
 NTP statistics - Next Generation
 
+image:https://img.shields.io/badge/license-FDL%20v1.3-blue.svg[license, link="LICENSE"]
+image:https://img.shields.io/github/release/wols/ntpstats-ng.svg[Release]
+
 Read the upcoming documentation published with GitBook:
 
 * link:https://www.gitbook.com/book/wols/ntpstats-ng/details/de/[Documentation (German)]
