@@ -9,11 +9,11 @@ Deutsche link:https://github.com/wols/ntpstats-ng/milestone/1[Version 0.1.0, win
 
 == NTP statistics - Was?
 
-Ja, **N**etwork **T**ime **P**rotocol Statistiken - *Nächste Generation*.
+Ja, **N**etwork **T**ime **P**rotocol **Stat**i**s**tiken - **N**ächste **G**eneration.
 
 _ntpstats-ng_ ist keine Software und keine __App__likation.
 
-_ntpstats-ng_ ist eine Systemdokumentation - kommentiert und ergänzt mit Beispielen und Hintergrundinformationen - versioniert auf GitHub und veröffentlicht mit GitBook.
+_ntpstats-ng_ ist eine Systemdokumentation - kommentiert und ergänzt mit Beispielen und Hintergrundinformationen - versioniert auf link:https://github.com/wols/ntpstats-ng[GitHub, window="_blank"] und veröffentlicht mit link:https://www.gitbook.com/book/wols/ntpstats-ng/[GitBook, window="_blank"].
 
 image::screenshot_ntpstats-live+peerstats.png[Screenshot ntpstats-live und -peerstats]
 
