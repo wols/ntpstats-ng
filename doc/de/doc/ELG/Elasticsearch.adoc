@@ -39,7 +39,7 @@ image::diagram/elasticsearch-ntpstats-ng.png[]
 endif::env-github[]
 endif::[]
 ifeval::["{{gitbook.version}}" == "3.2.2"]
-image::diagram/elasticsearch-ntpstats-ng.png[link="diagram/elasticsearch-ntpstats-ng.png"]
+image::diagram/elasticsearch-ntpstats-ng.png[elasticsearch-ntpstats-ng, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/diagram/elasticsearch-ntpstats-ng.png"]
 endif::[]
 
 '''
