@@ -1,6 +1,6 @@
-# ntpstats-ng.conf.ntplog
+# /etc/logstash/conf.d/ntpstats-ng.conf.ntplog
 #
-# 2017-02-02
+# 2017-03-01
 # WOLfgang Schricker <time@wols.org>
 # GPL-3
 
@@ -16,7 +16,7 @@ filter {}
 output {
     if [type] == "syslog-ntp" {
         file {
-            path => "/tmp/ntpstats-ng-%{+YYYYMMdd}.json"
+            path => "/tmp/ntpstats-ng-%{+YYYY-MM-dd}.json"
         }
     }
 }

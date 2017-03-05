@@ -55,7 +55,7 @@ Der Zeitstempel-Anteil des `output`-Dateinamens wird im xref:Appendix-Bookmarks.
 .logstash-5.1.2
 [source%nowrap]
 ----
-# /etc/logstash/conf.d/ntpstats-ng.conf
+# /etc/logstash/conf.d/ntpstats-ng.conf.ntplog
 
 input {
     file {
@@ -74,6 +74,8 @@ output {
     }
 }
 ----
+
+NOTE: Die komplette Datei findet sich hier: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/ntpstats-ng.conf.ntplog[ntpstats-ng.conf.ntplog, window="_blank"]
 
 === Es funktioniert!
 

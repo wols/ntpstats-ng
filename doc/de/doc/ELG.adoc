@@ -59,11 +59,11 @@ Statistics        |  ELG Stack
 ----
 endif::env-github[]
 ifdef::env-github[]
-image::diagram/elg_stack.png[]
+image::diagram/elg_stack.png[elg_stack]
 endif::env-github[]
 endif::[]
 ifeval::["{{gitbook.version}}" == "3.2.2"]
-image::diagram/elg_stack.png[]
+image::diagram/elg_stack.png[elg_stack, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/diagram/elg_stack.png"]
 endif::[]
 
 == Datenfluss

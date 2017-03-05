@@ -33,11 +33,11 @@ ifndef::env-github[]
 ----
 endif::env-github[]
 ifdef::env-github[]
-image::diagram/syslog-ntp_syslog.png[]
+image::diagram/syslog-ntp_syslog.png[syslog-ntp_syslog]
 endif::env-github[]
 endif::[]
 ifeval::["{{gitbook.version}}" == "3.2.2"]
-image::diagram/syslog-ntp_syslog.png[]
+image::diagram/syslog-ntp_syslog.png[syslog-ntp_syslog, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/diagram/syslog-ntp_syslog.png"]
 endif::[]
 
 === NTP Statistken sind Log-Dateien
@@ -98,11 +98,11 @@ ifndef::env-github[]
 ----
 endif::env-github[]
 ifdef::env-github[]
-image::diagram/syslog-ntp.png[]
+image::diagram/syslog-ntp.png[syslog-ntp]
 endif::env-github[]
 endif::[]
 ifeval::["{{gitbook.version}}" == "3.2.2"]
-image::diagram/syslog-ntp.png[]
+image::diagram/syslog-ntp.png[syslog-ntp, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/diagram/syslog-ntp.png"]
 endif::[]
 
 === syslog-ng Client
@@ -277,11 +277,11 @@ ifndef::env-github[]
 ----
 endif::env-github[]
 ifdef::env-github[]
-image::diagram/syslog-ntp_logflow.png[]
+image::diagram/syslog-ntp_logflow.png[syslog-ntp_logflow]
 endif::env-github[]
 endif::[]
 ifeval::["{{gitbook.version}}" == "3.2.2"]
-image::diagram/syslog-ntp_logflow.png[]
+image::diagram/syslog-ntp_logflow.png[syslog-ntp_logflow, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/diagram/syslog-ntp_logflow.png"]
 endif::[]
 
 Schauen wir uns zwei Zeilen auf dem Server an.
@@ -331,11 +331,11 @@ ifndef::env-github[]
 ----
 endif::env-github[]
 ifdef::env-github[]
-image::diagram/syslog-ntp_dataflow.png[]
+image::diagram/syslog-ntp_dataflow.png[syslog-ntp_dataflow]
 endif::env-github[]
 endif::[]
 ifeval::["{{gitbook.version}}" == "3.2.2"]
-image::diagram/syslog-ntp_dataflow.png[]
+image::diagram/syslog-ntp_dataflow.png[syslog-ntp_dataflow, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/diagram/syslog-ntp_dataflow.png"]
 endif::[]
 
 == Logstash

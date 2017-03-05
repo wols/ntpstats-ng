@@ -29,11 +29,11 @@ ifndef::env-github[]
 ----
 endif::env-github[]
 ifdef::env-github[]
-image::diagram/loopstats_dataflow.png[]
+image::diagram/loopstats_dataflow.png[loopstats_dataflow]
 endif::env-github[]
 endif::[]
 ifeval::["{{gitbook.version}}" == "3.2.2"]
-image::diagram/loopstats_dataflow.png[]
+image::diagram/loopstats_dataflow.png[loopstats_dataflow, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/diagram/loopstats_dataflow.png"]
 endif::[]
 
 == Logstash
