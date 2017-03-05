@@ -14,24 +14,49 @@ toc::[]
 
 == Cluster
 
+Ein Elasticsearch-Cluster besteht aus der "`nötigen Anzahl`" Nodes.footnote:[link:http://cpratt.co/how-many-nodes-should-an-elasticsearch-cluster-have/[How many nodes should an Elasticsearch cluster have?, window="_blank"]]
+
 .Elasticsearch Cluster ntpstats-ng
 ifeval::["{{gitbook.version}}" != "3.2.2"]
 ifndef::env-github[]
 [ditaa, target="diagram/es_cluster-ntpstats-ng", png]
 ----
-/-------------------------------------------------------------------------------------------------------------------------------\
-| cluster: ntpstats-ng                                                                                                          |
-| +-----------------------------+-----------------------------+-:-+-----------------------------+                               |
-| | ntpstats-archive-2016-12-31 | ntpstats-archive-2017-01-01 |   | ntpstats-archive-2017-03-04 |                               |
-| |{d}                          |{d}                          |   |{d}                          |                               |
-| +-----------------------------+-----------------------------+-:-+-----------------------------+                               |
-|                                                                                                                               |
-|                                                                 +-----------------------------+-----------------------------+ |
-|                                                                 |    ntpstats-live-2017-03-04 |    ntpstats-live-2017-03-05 | |
-|                                                                 |{d}                          |{d}                          | |
-|                                                                 +-----------------------------+-----------------------------+ |
-|                                                                                                                               |
-\-------------------------------------------------------------------------------------------------------------------------------/
+/-----------------------------------------------------------------------------------------------------------------------------------\
+| cluster ntpstats-ng                                                                                                               |
+| /-------------------------------------------------------------------------------------------------------------------------------\ |
+| | node 1                                                                                                                        | |
+| | +-----------------------------+-----------------------------+-:-+-----------------------------+                               | |
+| | | ntpstats-archive-2016-12-31 | ntpstats-archive-2017-01-01 |   | ntpstats-archive-2017-03-04 |                               | |
+| | |{d}                          |{d}                          |   |{d}                          |                               | |
+| | +-----------------------------+-----------------------------+-:-+-----------------------------+                               | |
+| |                                                                                                                               | |
+| |                                                                 +-----------------------------+-----------------------------+ | |
+| |                                                                 |    ntpstats-live-2017-03-04 |    ntpstats-live-2017-03-05 | | |
+| |                                                                 |{d}                          |{d}                          | | |
+| |                                                                 +-----------------------------+-----------------------------+ | |
+| |                                                                                                                               | |
+| \-------------------------------------------------------------------------------------------------------------------------------/ |
+|                                                                                                                                   |
+| /-------------------------------------------------------------------------------------------------------------------------------\ |
+| | node 2                                                                                                                        | |
+|                                                                                                                                   |
+| /-------------------------------------------------------------------------------------------------------------------------------\ |
+| | node 3                                                                                                                        | |
+|                                                                                                                                   |
+| /-------------------------------------------------------------------------------------------------------------------------------\ |
+| | node N                                                                                                                        | |
+| | +-----------------------------+-----------------------------+-:-+-----------------------------+                               | |
+| | | ntpstats-archive-2016-12-31 | ntpstats-archive-2017-01-01 |   | ntpstats-archive-2017-03-04 |                               | |
+| | |{d}                          |{d}                          |   |{d}                          |                               | |
+| | +-----------------------------+-----------------------------+-:-+-----------------------------+                               | |
+| |                                                                                                                               | |
+| |                                                                 +-----------------------------+-----------------------------+ | |
+| |                                                                 |    ntpstats-live-2017-03-04 |    ntpstats-live-2017-03-05 | | |
+| |                                                                 |{d}                          |{d}                          | | |
+| |                                                                 +-----------------------------+-----------------------------+ | |
+: |                                                                                                                               | |
+| \-------------------------------------------------------------------------------------------------------------------------------/ |
+\-----------------------------------------------------------------------------------------------------------------------------------/
 ----
 endif::env-github[]
 ifdef::env-github[]
@@ -41,6 +66,38 @@ endif::[]
 ifeval::["{{gitbook.version}}" == "3.2.2"]
 image::diagram/es_cluster-ntpstats-ng.png[es_cluster-ntpstats-ng, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/diagram/es_cluster-ntpstats-ng.png"]
 endif::[]
+
+== Indizes
+
+Die Indizes werden in zwei Gruppen aufgeteilt - `live` und `archive`.
+
+=== Live
+
+Die von xref:Logstash.adoc[Logstash] in Echtzeit verarbeiteten Statistiken werden in Indizes mit dem Namensmuster `ntpstats-live-YYYY-MM-dd` - z. B. `ntpstats-live-{docdate}` - abgelegt.
+
+Nach einer noch festzulegenden Dauer werden die Live-Indizes durch Reindexierungfootnote:[link:https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html[Elasticsearch - Reindex API, window="_blank"]] ins Archiv umgruppiert. +
+Aus dem Beispiel wird dann `ntpstats-archive-{docdate}`.
+
+=== Archive
+
+Zusätzlich zu den umgruppierten Live-Indizes können historische oder nicht in Echtzeit übertragbare Statistiken gespeichert werden.
+
+== Typen
+
+Die bereits mit xref:Logstash.adoc[Logstash] erfolgte Typisierung wird innerhalb des Index beibehalten.footnote:[link:https://www.elastic.co/blog/index-vs-type[Elasticsearch - Index vs. Type, window="_blank"]]
+
+[options="header"]
+|===
+|Index                         |Type
+>|`ntpstats-archive-{docdate}` |`loopstats`
+>|`ntpstats-archive-{docdate}` |`ntplog`
+>|`ntpstats-archive-{docdate}` |`ntppoolstats`
+>|`ntpstats-archive-{docdate}` |`peerstats`
+>|`ntpstats-live-{docdate}`    |`loopstats`
+>|`ntpstats-live-{docdate}`    |`ntplog`
+>|`ntpstats-live-{docdate}`    |`ntppoolstats`
+>|`ntpstats-live-{docdate}`    |`peerstats`
+|===
 
 '''
 

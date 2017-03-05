@@ -236,6 +236,8 @@ output {
 }
 ----
 
+Die Details der Datenhaltung sind im Kapitel link:../ELG/Elasticsearch.adoc[Elasicsearch] beschrieben.
+
 '''
 
 link:../README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker

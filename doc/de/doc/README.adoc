@@ -1,6 +1,6 @@
 = ntpstats-ng
 :image-captions:
-:imagesdir:      ../../images
+:imagesdir:     ../../images
 :linkattrs:
 
 NTP statistics - Next Generation
