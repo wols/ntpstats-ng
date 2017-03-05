@@ -12,15 +12,15 @@ IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
 
 toc::[]
 
-== Indizes
+== Cluster
 
-.Elasticsearch Indizes
+.Elasticsearch Cluster ntpstats-ng
 ifeval::["{{gitbook.version}}" != "3.2.2"]
 ifndef::env-github[]
-[ditaa, target="diagram/elasticsearch-ntpstats-ng", png]
+[ditaa, target="diagram/es_cluster-ntpstats-ng", png]
 ----
 /-------------------------------------------------------------------------------------------------------------------------------\
-| Elasticsearch                                                                                                                 |
+| cluster: ntpstats-ng                                                                                                          |
 | +-----------------------------+-----------------------------+-:-+-----------------------------+                               |
 | | ntpstats-archive-2016-12-31 | ntpstats-archive-2017-01-01 |   | ntpstats-archive-2017-03-04 |                               |
 | |{d}                          |{d}                          |   |{d}                          |                               |
@@ -35,11 +35,11 @@ ifndef::env-github[]
 ----
 endif::env-github[]
 ifdef::env-github[]
-image::diagram/elasticsearch-ntpstats-ng.png[]
+image::diagram/es_cluster-ntpstats-ng.png[es_cluster-ntpstats-ng]
 endif::env-github[]
 endif::[]
 ifeval::["{{gitbook.version}}" == "3.2.2"]
-image::diagram/elasticsearch-ntpstats-ng.png[elasticsearch-ntpstats-ng, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/diagram/elasticsearch-ntpstats-ng.png"]
+image::diagram/es_cluster-ntpstats-ng.png[es_cluster-ntpstats-ng, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/diagram/es_cluster-ntpstats-ng.png"]
 endif::[]
 
 '''
