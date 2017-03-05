@@ -73,7 +73,7 @@ Die Indizes werden in zwei Gruppen aufgeteilt - `live` und `archive`.
 
 === Live
 
-Die von xref:Logstash.adoc[Logstash] in Echtzeit verarbeiteten Statistiken werden in Indizes mit dem Namensmuster `ntpstats-live-YYYY-MM-dd` - z. B. `ntpstats-live-{docdate}` - abgelegt.
+Die von link:Logstash.adoc[Logstash] in Echtzeit verarbeiteten Statistiken werden in Indizes mit dem Namensmuster `ntpstats-live-YYYY-MM-dd` - z. B. `ntpstats-live-{docdate}` - abgelegt.
 
 Nach einer noch festzulegenden Dauer werden die Live-Indizes durch Reindexierungfootnote:[link:https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html[Elasticsearch - Reindex API, window="_blank"]] ins Archiv umgruppiert. +
 Aus dem Beispiel wird dann `ntpstats-archive-{docdate}`.
@@ -84,7 +84,7 @@ Zusätzlich zu den umgruppierten Live-Indizes können historische oder nicht in 
 
 == Typen
 
-Die bereits mit xref:Logstash.adoc[Logstash] erfolgte Typisierung wird innerhalb des Index beibehalten.footnote:[link:https://www.elastic.co/blog/index-vs-type[Elasticsearch - Index vs. Type, window="_blank"]]
+Die bereits mit link:Logstash.adoc[Logstash] erfolgte Typisierung wird innerhalb des Index beibehalten.footnote:[link:https://www.elastic.co/blog/index-vs-type[Elasticsearch - Index vs. Type, window="_blank"]]
 
 [options="header"]
 |===
