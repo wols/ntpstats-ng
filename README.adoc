@@ -15,7 +15,7 @@ Read the upcoming documentation published with GitBook:
 * link:https://www.gitbook.com/book/wols/ntpstats-ng/details/de/[Documentation (German)]
 * Documentation (English)
 
-image::screenshot_ntpstats-live+peerstats.png[Screenshot ntpstats-live und -peerstats]
+image::screenshot_ntpstats-live+peerstats.png[Screenshot ntpstats-live und -peerstats, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/screenshot_ntpstats-live+peerstats.png"]
 
 == License
 
