@@ -1,0 +1,5 @@
+# ntpstats-ng[gh-pages]/.gitignore
+
+/src/
+
+# EOF
