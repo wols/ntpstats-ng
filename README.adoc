@@ -8,7 +8,7 @@ NTP statistics - Next Generation
 image:https://img.shields.io/badge/license-FDL%20v1.3-blue.svg[license, link="LICENSE"]
 image:https://img.shields.io/github/tag/wols/ntpstats-ng.svg[tag, link="https://github.com/wols/ntpstats-ng/tags"]
 image:https://img.shields.io/github/issues/wols/ntpstats-ng.svg[issues, link="https://github.com/wols/ntpstats-ng/issues"]
-image:https://img.shields.io/github/stars/wols/ntpstats-ng.svg?style=social&label=Star[stars, link="https://github.com/wols/ntpstats-ng"]
+image:https://img.shields.io/github/stars/wols/ntpstats-ng.svg?style=social&label=Star[star, link="https://github.com/wols/ntpstats-ng/stargazers"]
 
 Read the upcoming documentation published with GitBook:
 
