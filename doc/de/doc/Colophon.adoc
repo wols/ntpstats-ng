@@ -112,6 +112,15 @@ CAUTION: CAUTION
 WARNING: WARNING
 ====
 
+== Lokal
+
+.asciidoctor-1.5.5
+[source%nowrap, sh]
+----
+asciidoctor -r asciidoctor-diagram -D doc/de/html doc/de/doc/*.adoc
+asciidoctor -r asciidoctor-diagram -D doc/de/html/html doc/de/doc/*/*.adoc
+----
+
 == GitHub
 
 TODO

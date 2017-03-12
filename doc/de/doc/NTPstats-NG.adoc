@@ -21,6 +21,11 @@ Gnuplot & Co.
 
 In Zeiten von "`Big Data`" und "`IoT - Internet of Things`" gibt es vielfältige Hilfsmittel zur Erfassung, Verarbeitung und Darstellung von Daten.
 
+== Datenfluss
+
+.ntpstats-ng-0.1.0 Datenfluss
+image::ntpstats-ng_dataflow.png[ntpstats-ng Datenfluss, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/ntpstats-ng_dataflow.png"]
+
 '''
 
 link:README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
