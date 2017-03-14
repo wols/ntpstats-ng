@@ -14,12 +14,13 @@ toc::[]
 
 == AsciiDoctor
 
-Quelle ist der xref:Appendix-Bookmarks.adoc#bookmark_asciidoc_writers_guide[AsciiDoc Writer’s Guide].
+Quellen sind xref:Appendix-Bookmarks.adoc#bookmark_asciidoc_writers_guide[AsciiDoc Writer’s Guide] und xref:Appendix-Bookmarks.adoc#bookmark_asciidoctor_user_manual[Asciidoctor User Manual].
 
 === Formatierungen
 
-==== Headers
+==== Überschriften
 
+.Syntax
 [source%nowrap, asciidoc]
 ----
 = Document Title (Level 0)
@@ -29,8 +30,9 @@ Quelle ist der xref:Appendix-Bookmarks.adoc#bookmark_asciidoc_writers_guide[Asci
 ===== Level 4
 ----
 
-==== Paragraphs and hard line break
+==== Absätze und Zeilenumbruch
 
+.Syntax
 [source%nowrap, asciidoc]
 ----
 Das ist der erste Satz vom ersten Absatz.
@@ -43,6 +45,7 @@ Das ist der dritte Satz vom zweiten Absatz.
 Das ist der erste Satz vom dritten Absatz.
 ----
 
+====
 Das ist der erste Satz vom ersten Absatz.
 Das ist der zweite Satz vom ersten Absatz.
 
@@ -51,18 +54,53 @@ Das ist der zweite Satz vom zweite Absatz.
 Das ist der dritte Satz vom zweiten Absatz.
 
 Das ist der erste Satz von dritten Absatz.
+====
+
+==== Anführungszeichen
+
+.Syntax
+[source%nowrap, asciidoc]
+----
+Text in '`einfachen Anführungszeichen`'.
+
+Text in "`doppelten Anführungszeichen`".
+----
+
+====
+Text in '`einfachen Anführungszeichen`'.
+
+Text in "`doppelten Anführungszeichen`".
+====
+
+==== Fußnote
+
+.Syntax
+[source%nowrap, asciidoc]
+----
+Ein Satz mit Link in der Fußnote.footnote:[link:Colophon.adoc#_fußnote[Colophon - Fußnote]]
+----
+
+====
+Ein Satz mit Link in der Fußnote.footnote:[link:Colophon.adoc#_fußnote[Colophon - Fußnote]]
+====
 
 ==== Admonitions
 
+.Syntax
 [source%nowrap, asciidoc]
 ----
 NOTE: NOTE
+
 TIP: TIP
+
 IMPORTANT: IMPORTANT
+
 CAUTION: CAUTION
+
 WARNING: WARNING
 ----
 
+====
 NOTE: NOTE
 
 TIP: TIP
@@ -72,6 +110,16 @@ IMPORTANT: IMPORTANT
 CAUTION: CAUTION
 
 WARNING: WARNING
+====
+
+== Lokal
+
+.asciidoctor-1.5.5
+[source%nowrap, sh]
+----
+asciidoctor -r asciidoctor-diagram -D doc/de/html doc/de/doc/*.adoc
+asciidoctor -r asciidoctor-diagram -D doc/de/html/html doc/de/doc/*/*.adoc
+----
 
 == GitHub
 

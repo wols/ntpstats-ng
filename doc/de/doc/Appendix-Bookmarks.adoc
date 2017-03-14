@@ -90,6 +90,9 @@ link:https://de.wikipedia.org/wiki/Zitieren_von_Internetquellen[, window="_blank
 *** [[bookmark_asciidoc_writers_guide]]AsciiDoc Writer’s Guide. +
 link:http://asciidoctor.org/docs/asciidoc-writers-guide/[, window="_blank"] (2017-02-18).
 
+*** [[bookmark_asciidoctor_user_manual]]White, Sarah; Allen, Dan: Asciidoctor User Manual. +
+link:http://asciidoctor.org/docs/user-manual/[, window="_blank"] (2017-03-05).
+
 '''
 
 link:README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker

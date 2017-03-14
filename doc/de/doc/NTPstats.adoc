@@ -14,33 +14,22 @@ toc::[]
 
 [options="header"]
 |===
-|Type|ntpstats-ng Version
-
+|Type          |ntpstats-ng Version
 |`clockstats`  |link:https://github.com/wols/ntpstats-ng/labels/clockstats[Issues: clockstats, window="_blank"]
-
 |`cryptostats` |link:https://github.com/wols/ntpstats-ng/labels/cryptostats[Issues: cryptostats, window="_blank"]
-
 |`loopstats`   |`0.1.0`
-
 |`peerstats`   |`0.1.0`
-
 |`protostats`  |link:https://github.com/wols/ntpstats-ng/labels/protostats[Issues: protostats, window="_blank"]
-
 |`rawstats`    |link:https://github.com/wols/ntpstats-ng/labels/rawstats[Issues: rawstats, window="_blank"]
-
 |`sysstats`    |link:https://github.com/wols/ntpstats-ng/labels/sysstats[Issues: sysstats, window="_blank"]
-
 |`timingstats` |link:https://github.com/wols/ntpstats-ng/labels/timingstats[Issues: timingstats, window="_blank"]
 |===
 
 [options="header"]
 |===
-|Type|ntpstats-ng Version
-
+|Type           |ntpstats-ng Version
 |`mbgmonstats`  |`0.1.0`
-
 |`ntppoolstats` |`0.1.0`
-
 |`ntplog`       |`0.1.0`
 |===
 
