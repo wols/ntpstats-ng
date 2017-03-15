@@ -1,0 +1,330 @@
+#!/usr/bin/env perl
+
+use 5.016003;
+
+BEGIN {
+    eval {
+        require Data::Dumper;
+        require DateTime;
+        require Getopt::Long;
+        require Search::Elasticsearch;
+    };
+
+    do { say 'Required module(s) missing:', "\n", $@; exit; } if $@;
+}
+
+=head1 NAME
+
+ntpstats-ng-curator - Minimal Elasticsearch curator and helper
+
+B<This is I<alpha> software - use at your own risks!>
+
+=head1 VERSION
+
+Version 0.0.1
+
+=cut
+
+our $VERSION = "0.0.1";
+$VERSION     = eval { $VERSION };
+
+=head2 WARNING
+
+This software is under the heavy development and considered ALPHA quality till
+the version hits >=1.0.0. Things might be broken, not all features have been
+implemented, and APIs will be likely to change. YOU HAVE BEEN WARNED.
+
+=head1 SYNOPSIS
+
+ntpstats-ng-curator [--help|--version]
+
+=over
+
+=item --help
+
+Print this help
+
+=item --version
+
+Print version info
+
+=item --config
+
+Path to config file (defaults to C<ntpstats-ng-curator.conf>)
+
+=item --cluster
+
+Elasticsearch cluster name (defaults to C<ntpstats-ng>)
+
+=item --archive
+
+Archive from C<live> into C<archive> and delete older ones
+
+=back
+
+=cut
+
+use Getopt::Long 'HelpMessage';
+
+GetOptions(
+    'version'   => sub { VersionMessage(0) },
+    'help'      => sub { HelpMessage(0) },
+
+    'config=s'  => \(my $file_conf    = 'ntpstats-ng-curator.conf'),
+    'cluster=s' => \(my $cluster_name = 'ntpstats-ng'),
+
+    'archive'   => sub { App::NTP::StatsNG::Curator->new()->archive },
+) or HelpMessage(1);
+
+# main::
+
+sub config {
+    my $self = shift;
+
+    return {
+        cluster => {
+            nodes => [
+                'ntpstats-ng:9200',
+            ],
+            cxn_pool => 'Sniff',
+        },
+        index => {
+            archive => {
+                days => 5,
+            },
+            live => {
+                days => 3,
+            },
+        },
+        pattern => {
+            index_day     => '(\d{4})-(\d\d)-(\d\d)$',
+            index_archive => '^ntpstats-archive-',
+            index_live    => '^ntpstats-live-',
+        },
+    };
+}
+
+sub VersionMessage {
+    say 'ntpstats-ng-curator', ' version ', $main::VERSION;
+
+    exit;
+}
+
+# End of ntpstats-ng-curator::main
+
+package App::NTP::StatsNG::Model::Elasticsearch;
+
+use Search::Elasticsearch;
+
+__PACKAGE__->main(@ARGV) unless caller;
+
+sub new {
+    my $class = shift;
+    return bless [@_], $class;
+}
+
+sub main {
+    my $class = shift;
+    my $obj   = $class->new(@ARGV);
+}
+
+=head1 METHODS
+
+=head2 VersionMessage
+
+Print script version
+
+=cut
+
+
+=head2 indices
+
+FIXME
+
+=cut
+
+sub indices {
+    my $self = shift;
+
+    {
+        all     => { map { $_ => undef } keys $self->_cluster->{indices} },
+        archive => {},
+        live    => {},
+    }
+}
+
+
+=head1 PRIVATE METHODS
+
+=head2 _cluster
+
+FIXME
+
+=cut
+
+sub _cluster {
+    my $self = shift;
+
+    return {
+        indices => $self->_es->cluster->state(metric => 'routing_table')->{routing_table}->{indices},
+    };
+}
+
+=head2 _es
+
+FIXME
+
+=cut
+
+sub _es {
+    my $self = shift;
+
+    # TODO
+
+    Search::Elasticsearch->new(
+        $self->_config->{cluster},
+        # trace_to => 'Stderr',
+    );
+}
+
+sub _config {
+    my $self = shift;
+
+    main::config;
+}
+
+1;
+
+# End of App::NTP::StatsNG::Model::Elasticsearch
+
+package App::NTP::StatsNG::Curator;
+
+use Data::Dumper;
+use DateTime;
+
+__PACKAGE__->main(@ARGV) unless caller;
+
+sub new {
+    my $class = shift;
+    return bless [ @_ ], $class;
+}
+
+sub main {
+    my $class = shift;
+    my $obj   = $class->new(@ARGV);
+}
+
+sub archive {
+    my $self   = shift;
+    my $config = $self->_config;
+    my $model  = App::NTP::StatsNG::Model::Elasticsearch->new(
+        # TODO
+    ) or die $!, "\n";
+
+    my $indices  = $model->indices or die $!, "\n";
+    my $dt_today = DateTime->today(time_zone => 'UTC');
+
+    my $pattern_archive = $config->{pattern}->{index_archive}. $config->{pattern}->{index_day};
+    my $pattern_live    = $config->{pattern}->{index_live}. $config->{pattern}->{index_day};
+
+    foreach ( keys %{$indices->{all}} ) {
+        if ( $_ =~ qr/$pattern_archive/ ) {
+            # move archive name
+            $indices->{archive}->{$_} = undef;
+            delete $indices->{all}->{$_};
+        } elsif ( $_ =~ qr/$pattern_live/ ) {
+            # move live name
+            $indices->{live}->{$_} = undef;
+            delete $indices->{all}->{$_};
+        }
+    }
+
+    # say Dumper($indices);
+
+    foreach my $area ( 'live', 'archive' ) {
+
+        foreach ( keys %{$indices->{$area}} ) {
+
+            if ( $_ =~ /$config->{pattern}->{index_day}/ ) {
+
+                my $index_mjd = DateTime->new(
+                    year      => $1,
+                    month     => $2,
+                    day       => $3,
+                    time_zone => 'UTC',
+                )->mjd;
+
+                $indices->{$area}->{$_} =
+                    ( $index_mjd <= ( $dt_today->mjd - $config->{index}->{$area}->{days} ) ) ?
+                    'delete' :
+                    $index_mjd;
+            }
+        }
+    }
+
+    # say Dumper($indices);
+
+    foreach my $area ( 'live', 'archive' ) {
+
+        foreach ( keys %{$indices->{$area}} ) {
+
+            delete $indices->{$area}->{$_} if $indices->{$area}->{$_} eq 'delete';
+        }
+    }
+
+    say Dumper($indices);
+
+    main::VersionMessage;
+}
+
+sub _config {
+    my $self = shift;
+
+    main::config;
+}
+
+1;
+
+# End of App::NTP::StatsNG::Curator
+
+=head1 BUGS
+
+Please report any bugs or feature requests to C<wols at cpan dot org>.
+I will be notified.
+
+=head1 SUPPORT
+
+You can find documentation for this script with the perldoc command.
+
+    perldoc -F /path/to/ntpstats-ng-curator
+
+=head1 REPOSITORY
+
+L<https://github.com/wols/ntpstats-ng>
+
+Please note that this script is "unofficial". It is not (yet) uploaded to
+L<CPAN|http://cpan.perl.org/>.
+
+=head1 AUTHOR
+
+WOLfgang Schricker, C<wols at cpan dot org>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2017 WOLfgang Schricker
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; version 3 dated June, 2007 or at your option any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+A copy of the GNU General Public License is available in the source tree;
+if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+=cut
+
+# End of ntpstats-ng-curator
