@@ -44,11 +44,7 @@ ntpstats-ng-curator [--help|--version]
 
 Print this help
 
-=item --version
-
-Print version info
-
-=item --config
+=item --config /path/to/ntpstats-ng-curator.conf
 
 Path to config file (defaults to C<ntpstats-ng-curator.conf>)
 
@@ -56,15 +52,28 @@ Path to config file (defaults to C<ntpstats-ng-curator.conf>)
 
 Elasticsearch cluster name (defaults to C<ntpstats-ng>)
 
-=item --archive
+=item --groups
 
-Archive from C<live> into C<archive> and delete older ones
+List the Elasticsearch index groups (pattern: ntpstats-GROUP-YYYY-mm-dd)
+
+=item --indices [GROUP]
+
+List the Elasticsearch indices (default all)
+
+=item --version
+
+Print version info
 
 =back
 
 =cut
 
-use Getopt::Long 'HelpMessage';
+# main::
+
+use Data::Dumper;
+use Getopt::Long qw(GetOptions HelpMessage);
+
+my $group;
 
 GetOptions(
     'version'   => sub { VersionMessage(0) },
@@ -73,10 +82,38 @@ GetOptions(
     'config=s'  => \(my $file_conf    = 'ntpstats-ng-curator.conf'),
     'cluster=s' => \(my $cluster_name = 'ntpstats-ng'),
 
-    'archive'   => sub { App::NTP::StatsNG::Curator->new()->archive },
+    'curate'    => sub { curate() },
+    'groups'    => sub { groups() },
+    'indices:s' => \$group,
 ) or HelpMessage(1);
 
-# main::
+#
+
+do {
+    if ( $group ) {
+        indices($group);
+    } else {
+        indices();
+    }
+} if ( defined $group );
+
+=head1 SUBROUTINES
+
+=head2 VersionMessage
+
+Print script version
+
+=cut
+
+sub VersionMessage {
+    say join(' ', 'ntpstats-ng-curator', 'version', $main::VERSION);
+}
+
+=head2 config
+
+TODO --config /path/to/ntpstats-ng-curator.conf
+
+=cut
 
 sub config {
     my $self = shift;
@@ -90,52 +127,270 @@ sub config {
         },
         index => {
             archive => {
-                days => 5,
+                action => 'delete',
+                days   => 5,
             },
             live => {
-                days => 3,
+                action => 'archive',
+                days   => 3,
             },
         },
         pattern => {
-            index_day     => '(\d{4})-(\d\d)-(\d\d)$',
-            index_archive => '^ntpstats-archive-',
-            index_live    => '^ntpstats-live-',
+            index_day   => '(\d{4})-(\d\d)-(\d\d)$',
+            index_group => '^ntpstats-(\w+)-',
         },
     };
 }
 
-sub VersionMessage {
-    say 'ntpstats-ng-curator', ' version ', $main::VERSION;
+=head2 curate
 
-    exit;
+FIXME
+
+=cut
+
+sub curate {
+    my $self = shift;
+
+    App::NTP::StatsNG::Curator->new()->curate;
 }
+
+=head2 groups
+
+FIXME
+
+=cut
+
+sub groups {
+    my $self   = shift;
+    my $result = App::NTP::StatsNG::Curator->new()->groups;
+
+    say join("\n", @{$result}) if $result;
+}
+
+=head2 indices
+
+FIXME
+
+=cut
+
+sub indices {
+    my $result = App::NTP::StatsNG::Curator->new(
+        { group => shift }
+    )->indices;
+
+    say join("\n", @{$result}) if defined $result;
+}
+
+exit;
 
 # End of ntpstats-ng-curator::main
 
-package App::NTP::StatsNG::Model::Elasticsearch;
+package App::NTP::StatsNG::Curator;
 
-use Search::Elasticsearch;
+use Data::Dumper;
+use DateTime;
 
 __PACKAGE__->main(@ARGV) unless caller;
 
-sub new {
-    my $class = shift;
-    return bless [@_], $class;
+=head2 curate
+
+FIXME
+
+=cut
+
+sub curate {
+    my $self    = shift;
+    my $mjd     = DateTime->today(time_zone => 'UTC')->mjd;
+    my $indices = $self->_index_groups;
+
+    foreach my $group ( keys $indices ) {
+        # say join(' ', 'TRACE', __PACKAGE__. '::curate group:', Dumper($indices->{$group}));
+
+        my $pattern = $self->_config->{pattern}->{index_day};
+        # say join(' ', 'TRACE', __PACKAGE__. '::curate pattern:', $pattern);
+
+        foreach ( keys $indices->{$group} ) {
+            if ( $_ =~ /$pattern/
+                and $self->_config->{index}->{$group}->{action}
+                and $self->_config->{index}->{$group}->{days}
+            ) {
+                my $index_mjd = DateTime->new(
+                    year      => $1,
+                    month     => $2,
+                    day       => $3,
+                    time_zone => 'UTC',
+                )->mjd;
+
+                # say join(' ', 'TRACE', __PACKAGE__. '::curate', $_, $index_mjd);
+
+                $indices->{$group}->{$_} =
+                    ( $index_mjd <= ( $mjd - $self->_config->{index}->{$group}->{days} ) ) ?
+                    $self->_config->{index}->{$group}->{action} :
+                    $index_mjd;
+            }
+        }
+    }
+
+    say join(' ', 'DEBUG', __PACKAGE__. '::curate', Dumper($indices));
+
+    $self->_archive;
+    $self->_delete;
 }
+
+=head2 groups
+
+FIXME
+
+=cut
+
+sub groups {
+    my $self = shift;
+
+    [ sort keys $self->_index_groups ] if $self->_index_groups;
+}
+
+=head2 indices
+
+FIXME
+
+=cut
+
+sub indices {
+    my $self = shift;
+    my $opts = ${$self}[0];
+
+    # say join(' ', 'DEBUG', __PACKAGE__. '::indices', Dumper($self));
+    # say join(' ', 'DEBUG', __PACKAGE__. '::indices', $opts->{group});
+
+    if ( defined $opts->{group} ) {
+        defined $self->_index_groups->{$opts->{group}} ?
+            return [ sort keys $self->_index_groups->{$opts->{group}} ] :
+            return undef;
+    }
+
+    return [ sort keys $self->_indices ];
+}
+
+=head2 main
+
+FIXME
+
+=cut
 
 sub main {
     my $class = shift;
     my $obj   = $class->new(@ARGV);
 }
 
-=head1 METHODS
+=head2 new
 
-=head2 VersionMessage
-
-Print script version
+FIXME
 
 =cut
 
+sub new {
+    my $class = shift;
+    return bless [ @_ ], $class;
+}
+
+=head1 PRIVATE METHODS
+
+=head1 METHODS
+
+=head2 _archive
+
+FIXME
+
+=cut
+
+sub _archive {
+    my $self = shift;
+
+    say join(' ', 'DEBUG', __PACKAGE__. '::_archive', 'TODO model::reindex');
+
+    $self->_delete;
+}
+
+=head2 _config
+
+FIXME
+
+=cut
+
+sub _config {
+    my $self = shift;
+
+    main::config;
+}
+
+=head2 _delete
+
+FIXME
+
+=cut
+
+sub _delete {
+    my $self = shift;
+
+    say join(' ', 'DEBUG', __PACKAGE__. '::_delete', 'TODO model::delete');
+}
+
+=head2 _index_groups
+
+FIXME
+
+=cut
+
+sub _index_groups {
+    my $self    = shift;
+    my $pattern = $self->_config->{pattern}->{index_group};
+    my $indices = {};
+
+    foreach ( keys $self->_indices ) {
+        $indices->{$1}->{$_} = undef if ( $_ =~ qr/$pattern/ );
+    }
+
+    # say join(' ', 'DEBUG', __PACKAGE__. '::_index_groups', Dumper($indices));
+
+    keys %{$indices} ? $indices : undef;
+}
+
+=head2 _indices
+
+FIXME
+
+=cut
+
+sub _indices {
+    my $self = shift;
+
+    $self->_model->indices;
+}
+
+=head2 _model
+
+FIXME
+
+=cut
+
+sub _model {
+    my $self = shift;
+
+    App::NTP::StatsNG::Model::Elasticsearch->new();
+}
+
+1;
+
+# End of App::NTP::StatsNG::Curator
+
+package App::NTP::StatsNG::Model::Elasticsearch;
+
+use Data::Dumper;
+use Search::Elasticsearch;
+
+__PACKAGE__->main(@ARGV) unless caller;
+
+=head1 METHODS
 
 =head2 indices
 
@@ -146,13 +401,30 @@ FIXME
 sub indices {
     my $self = shift;
 
-    {
-        all     => { map { $_ => undef } keys $self->_cluster->{indices} },
-        archive => {},
-        live    => {},
-    }
+    return { map { $_ => undef } keys $self->_cluster->{indices} };
 }
 
+=head2 main
+
+FIXME
+
+=cut
+
+sub main {
+    my $class = shift;
+    my $obj   = $class->new(@ARGV);
+}
+
+=head2 new
+
+FIXME
+
+=cut
+
+sub new {
+    my $class = shift;
+    return bless [ @_ ], $class;
+}
 
 =head1 PRIVATE METHODS
 
@@ -163,11 +435,28 @@ FIXME
 =cut
 
 sub _cluster {
+    my $self    = shift;
+    my $indices = {
+        indices => $self->_es->cluster->state(
+            metric => 'routing_table'
+        )->{routing_table}->{indices}
+    };
+
+    # say join(' ', 'DEBUG', __PACKAGE__. '::_cluster', Dumper($indices));
+
+    return $indices;
+}
+
+=head2 _config
+
+FIXME
+
+=cut
+
+sub _config {
     my $self = shift;
 
-    return {
-        indices => $self->_es->cluster->state(metric => 'routing_table')->{routing_table}->{indices},
-    };
+    main::config;
 }
 
 =head2 _es
@@ -179,113 +468,14 @@ FIXME
 sub _es {
     my $self = shift;
 
-    # TODO
-
     Search::Elasticsearch->new(
         $self->_config->{cluster},
-        # trace_to => 'Stderr',
     );
-}
-
-sub _config {
-    my $self = shift;
-
-    main::config;
 }
 
 1;
 
 # End of App::NTP::StatsNG::Model::Elasticsearch
-
-package App::NTP::StatsNG::Curator;
-
-use Data::Dumper;
-use DateTime;
-
-__PACKAGE__->main(@ARGV) unless caller;
-
-sub new {
-    my $class = shift;
-    return bless [ @_ ], $class;
-}
-
-sub main {
-    my $class = shift;
-    my $obj   = $class->new(@ARGV);
-}
-
-sub archive {
-    my $self   = shift;
-    my $config = $self->_config;
-    my $model  = App::NTP::StatsNG::Model::Elasticsearch->new(
-        # TODO
-    ) or die $!, "\n";
-
-    my $indices  = $model->indices or die $!, "\n";
-    my $dt_today = DateTime->today(time_zone => 'UTC');
-
-    my $pattern_archive = $config->{pattern}->{index_archive}. $config->{pattern}->{index_day};
-    my $pattern_live    = $config->{pattern}->{index_live}. $config->{pattern}->{index_day};
-
-    foreach ( keys %{$indices->{all}} ) {
-        if ( $_ =~ qr/$pattern_archive/ ) {
-            # move archive name
-            $indices->{archive}->{$_} = undef;
-            delete $indices->{all}->{$_};
-        } elsif ( $_ =~ qr/$pattern_live/ ) {
-            # move live name
-            $indices->{live}->{$_} = undef;
-            delete $indices->{all}->{$_};
-        }
-    }
-
-    # say Dumper($indices);
-
-    foreach my $area ( 'live', 'archive' ) {
-
-        foreach ( keys %{$indices->{$area}} ) {
-
-            if ( $_ =~ /$config->{pattern}->{index_day}/ ) {
-
-                my $index_mjd = DateTime->new(
-                    year      => $1,
-                    month     => $2,
-                    day       => $3,
-                    time_zone => 'UTC',
-                )->mjd;
-
-                $indices->{$area}->{$_} =
-                    ( $index_mjd <= ( $dt_today->mjd - $config->{index}->{$area}->{days} ) ) ?
-                    'delete' :
-                    $index_mjd;
-            }
-        }
-    }
-
-    # say Dumper($indices);
-
-    foreach my $area ( 'live', 'archive' ) {
-
-        foreach ( keys %{$indices->{$area}} ) {
-
-            delete $indices->{$area}->{$_} if $indices->{$area}->{$_} eq 'delete';
-        }
-    }
-
-    say Dumper($indices);
-
-    main::VersionMessage;
-}
-
-sub _config {
-    my $self = shift;
-
-    main::config;
-}
-
-1;
-
-# End of App::NTP::StatsNG::Curator
 
 =head1 BUGS
 
@@ -307,7 +497,7 @@ L<CPAN|http://cpan.perl.org/>.
 
 =head1 AUTHOR
 
-WOLfgang Schricker, C<wols at cpan dot org>
+WOLfgang Schricker, C<wols@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
