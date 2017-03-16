@@ -52,6 +52,10 @@ Path to config file (defaults to C<ntpstats-ng-curator.conf>)
 
 Elasticsearch cluster name (defaults to C<ntpstats-ng>)
 
+=item --curate
+
+Archive (reindex) and delete indices
+
 =item --groups
 
 List the Elasticsearch index groups (pattern: ntpstats-GROUP-YYYY-mm-dd)
@@ -306,7 +310,9 @@ FIXME
 sub _archive {
     my $self = shift;
 
-    say join(' ', 'DEBUG', __PACKAGE__. '::_archive', 'TODO model::reindex');
+    say join(' ', 'DEBUG', __PACKAGE__. '::_archive', 'TODO');
+
+    App::NTP::StatsNG::Model::Elasticsearch->new()->reindex;
 
     $self->_delete;
 }
@@ -332,7 +338,9 @@ FIXME
 sub _delete {
     my $self = shift;
 
-    say join(' ', 'DEBUG', __PACKAGE__. '::_delete', 'TODO model::delete');
+    say join(' ', 'DEBUG', __PACKAGE__. '::_delete', 'TODO');
+
+    App::NTP::StatsNG::Model::Elasticsearch->new()->delete;
 }
 
 =head2 _index_groups
@@ -392,6 +400,23 @@ __PACKAGE__->main(@ARGV) unless caller;
 
 =head1 METHODS
 
+=head2 delete
+
+L<https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-delete-index.html>
+
+L<http://search.cpan.org/dist/Search-Elasticsearch/lib/Search/Elasticsearch/Client/5_0/Direct/Indices.pm#delete()>
+
+=cut
+
+sub delete {
+    my $self = shift;
+
+    say join(' ', 'DEBUG', __PACKAGE__. '::delete', 'TODO');
+
+    return undef;
+}
+
+
 =head2 indices
 
 FIXME
@@ -425,6 +450,23 @@ sub new {
     my $class = shift;
     return bless [ @_ ], $class;
 }
+
+=head2 reindex
+
+L<https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html>
+
+L<http://search.cpan.org/dist/Search-Elasticsearch/lib/Search/Elasticsearch/Client/5_0/Direct.pm#reindex()>
+
+=cut
+
+sub reindex {
+    my $self = shift;
+
+    say join(' ', 'DEBUG', __PACKAGE__. '::reindex', 'TODO');
+
+    return undef;
+}
+
 
 =head1 PRIVATE METHODS
 
