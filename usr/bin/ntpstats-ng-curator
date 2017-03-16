@@ -203,13 +203,13 @@ sub curate {
     my $mjd     = DateTime->today(time_zone => 'UTC')->mjd;
     my $indices = $self->_index_groups;
 
-    foreach my $group ( keys $indices ) {
+    foreach my $group ( keys %{$indices} ) {
         # say join(' ', 'TRACE', __PACKAGE__. '::curate group:', Dumper($indices->{$group}));
 
         my $pattern = $self->_config->{pattern}->{index_day};
         # say join(' ', 'TRACE', __PACKAGE__. '::curate pattern:', $pattern);
 
-        foreach ( keys $indices->{$group} ) {
+        foreach ( keys %{$indices->{$group}} ) {
             if ( $_ =~ /$pattern/
                 and $self->_config->{index}->{$group}->{action}
                 and $self->_config->{index}->{$group}->{days}
@@ -246,7 +246,7 @@ FIXME
 sub groups {
     my $self = shift;
 
-    [ sort keys $self->_index_groups ] if $self->_index_groups;
+    [ sort keys %{$self->_index_groups} ] if $self->_index_groups;
 }
 
 =head2 indices
@@ -264,11 +264,11 @@ sub indices {
 
     if ( defined $opts->{group} ) {
         defined $self->_index_groups->{$opts->{group}} ?
-            return [ sort keys $self->_index_groups->{$opts->{group}} ] :
+            return [ sort keys %{$self->_index_groups->{$opts->{group}}} ] :
             return undef;
     }
 
-    return [ sort keys $self->_indices ];
+    return [ sort keys %{$self->_indices} ];
 }
 
 =head2 main
@@ -346,7 +346,7 @@ sub _index_groups {
     my $pattern = $self->_config->{pattern}->{index_group};
     my $indices = {};
 
-    foreach ( keys $self->_indices ) {
+    foreach ( keys %{$self->_indices} ) {
         $indices->{$1}->{$_} = undef if ( $_ =~ qr/$pattern/ );
     }
 
@@ -401,7 +401,7 @@ FIXME
 sub indices {
     my $self = shift;
 
-    return { map { $_ => undef } keys $self->_cluster->{indices} };
+    return { map { $_ => undef } keys %{$self->_cluster->{indices}} };
 }
 
 =head2 main
