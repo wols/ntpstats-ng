@@ -10,6 +10,14 @@ IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
 
 toc::[]
 
+.ntpstats-live peerstats
+ifeval::["{{gitbook.version}}" != "3.2.2"]
+image::screenshot_ntpstats-live_peerstats.png[screenshot_ntpstats-live_peerstats]
+endif::[]
+ifeval::["{{gitbook.version}}" == "3.2.2"]
+image::screenshot_ntpstats-live_peerstats.png[screenshot_ntpstats-live_peerstats, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/screenshot_ntpstats-live_peerstats.png"]
+endif::[]
+
 == Datenfluss
 
 .peerstats Datenfluss

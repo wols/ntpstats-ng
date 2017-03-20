@@ -12,6 +12,14 @@ IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
 
 toc::[]
 
+.ntpstats-live ntppoolstats
+ifeval::["{{gitbook.version}}" != "3.2.2"]
+image::screenshot_ntpstats-live_ntppoolstats.png[screenshot_ntpstats-live_ntppoolstats]
+endif::[]
+ifeval::["{{gitbook.version}}" == "3.2.2"]
+image::screenshot_ntpstats-live_ntppoolstats.png[screenshot_ntpstats-live_ntppoolstats, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/screenshot_ntpstats-live_ntppoolstats.png"]
+endif::[]
+
 == Datenfluss
 
 .ntppoolstats Datenfluss
