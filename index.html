@@ -49,7 +49,7 @@ body {
               <!-- wrapper for slides -->
               <div class="carousel-inner">
                 <div class="item active">
-                  <img src="http://placehold.it/1282x721" alt="...">
+                  <img src="http://placehold.it/1280x720" alt="...">
                   <div class="carousel-caption">
                     <h3>ntpstats-ng GitBook</h3>
                   </div>
@@ -64,7 +64,7 @@ body {
                 </div>
                 <div class="item">
                   <a href="#feature_2">
-                    <img src="http://placehold.it/1282x721" alt="...">
+                    <img src="http://placehold.it/1280x720" alt="...">
                     <div class="carousel-caption">
                       <h3>Feature 2</h3>
                     </div>
@@ -72,7 +72,7 @@ body {
                 </div>
                 <div class="item">
                   <a href="#feature_3">
-                    <img src="http://placehold.it/1282x721" alt="...">
+                    <img src="http://placehold.it/1280x720" alt="...">
                     <div class="carousel-caption">
                       <h3>Feature 3</h3>
                     </div>
@@ -80,7 +80,7 @@ body {
                 </div>
                 <div class="item">
                   <a href="#feature_4">
-                    <img src="http://placehold.it/1282x721" alt="...">
+                    <img src="http://placehold.it/1280x720" alt="...">
                     <div class="carousel-caption">
                       <h3>Feature 4</h3>
                     </div>
@@ -105,16 +105,11 @@ body {
     <div class="container">
       <div class="row">
         <div class="col-md-3">
-          <h2>ntplog</h2>
+          <h2>ntppoolstats</h2>
           <p><img src="http://placehold.it/253x158" alt="placeholder" class="img-thumbnail"></p>
           <p>Short description...</p>
-          <p><a href="#ntplog" class="btn btn-default" role="button">Type ntplog &raquo;</a></p>
-        </div>
-        <div class="col-md-3">
-          <h2>loopstats</h2>
-          <p><img src="http://placehold.it/253x158" alt="placeholder" class="img-thumbnail"></p>
-          <p>Short description...</p>
-          <p><a href="#loopstats" class="btn btn-default" role="button">Type loopstats &raquo;</a></p>
+          <p><a href="#ntppoolstats" class="btn btn-default" role="button">Type ntppoolstats &raquo;</a></p>
+          <p class="text-right"><a class="back-to-top glyphicon glyphicon-arrow-up" href="#top" title="Top"></a></p>
         </div>
         <div class="col-md-3">
           <h2>peerstats</h2>
@@ -123,13 +118,19 @@ body {
           <p><a href="#peerstats" class="btn btn-default" role="button">Type peerstats &raquo;</a></p>
         </div>
         <div class="col-md-3">
-          <h2>ntppoolstats</h2>
+          <h2>loopstats</h2>
           <p><img src="http://placehold.it/253x158" alt="placeholder" class="img-thumbnail"></p>
           <p>Short description...</p>
-          <p><a href="#ntppoolstats" class="btn btn-default" role="button">Type ntppoolstats &raquo;</a></p>
-          <p class="text-right"><a class="back-to-top glyphicon glyphicon-arrow-up" href="#top" title="Top"></a></p>
+          <p><a href="#loopstats" class="btn btn-default" role="button">Type loopstats &raquo;</a></p>
+        </div>
+        <div class="col-md-3">
+          <h2>ntplog</h2>
+          <p><img src="http://placehold.it/253x158" alt="placeholder" class="img-thumbnail"></p>
+          <p>Short description...</p>
+          <p><a href="#ntplog" class="btn btn-default" role="button">Type ntplog &raquo;</a></p>
         </div>
       </div>
+
       <hr />
     </div>
 
@@ -150,6 +151,7 @@ body {
           <p class="text-right"><a class="back-to-top glyphicon glyphicon-arrow-up" href="#top" title="Top"></a></p>
         </div>
       </div>
+
       <hr />
     </div>
 
@@ -162,20 +164,10 @@ body {
       </div>
 
       <div class="row">
-        <div class="col-md-12" id="ntplog">
-          <h3>ntplog</h3>
-          <p><img src="http://placehold.it/1282x721" alt="placeholder" class="img-responsive"></p>
-          <p class="lead">Description...</p>
-          <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-          <p class="text-right"><a class="back-to-top glyphicon glyphicon-arrow-up" href="#top" title="Top"></a></p>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-12" id="loopstats">
-          <h3>loopstats</h3>
-          <p><img src="http://placehold.it/1282x721" alt="placeholder" class="img-responsive"></p>
-          <p class="lead">Description...</p>
+        <div class="col-md-12" id="ntppoolstats">
+          <h3>ntppoolstats</h3>
+          <p><img src="doc/images/dashboard_ntpstats-live_ntppoolstats.png" alt="ntpstats-live ntppoolstats" class="img-responsive"></p>
+          <p class="lead">ntpstats-live ntppoolstats</p>
           <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
           <p class="text-right"><a class="back-to-top glyphicon glyphicon-arrow-up" href="#top" title="Top"></a></p>
         </div>
@@ -184,22 +176,33 @@ body {
       <div class="row">
         <div class="col-md-12" id="peerstats">
           <h3>peerstats</h3>
-          <p><img src="http://placehold.it/1282x721" alt="placeholder" class="img-responsive"></p>
-          <p class="lead">Description...</p>
+          <p><img src="doc/images/dashboard_ntpstats-live_peerstats.png" alt="ntpstats-live peerstats" class="img-responsive"></p>
+          <p class="lead">ntpstats-live peerstats</p>
           <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
           <p class="text-right"><a class="back-to-top glyphicon glyphicon-arrow-up" href="#top" title="Top"></a></p>
        </div>
       </div>
 
       <div class="row">
-        <div class="col-md-12" id="ntppoolstats">
-          <h3>ntppoolstats</h3>
-          <p><img src="http://placehold.it/1282x721" alt="placeholder" class="img-responsive"></p>
+        <div class="col-md-12" id="loopstats">
+          <h3>loopstats</h3>
+          <p><img src="doc/images/dashboard_ntpstats-live_loopstats.png" alt="ntpstats-live loopstats" class="img-responsive"></p>
+          <p class="lead">ntpstats-live loopstats</p>
+          <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+          <p class="text-right"><a class="back-to-top glyphicon glyphicon-arrow-up" href="#top" title="Top"></a></p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12" id="ntplog">
+          <h3>ntplog</h3>
+          <p><img src="http://placehold.it/1280x720" alt="placeholder" class="img-responsive"></p>
           <p class="lead">Description...</p>
           <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
           <p class="text-right"><a class="back-to-top glyphicon glyphicon-arrow-up" href="#top" title="Top"></a></p>
         </div>
       </div>
+
       <hr />
     </div>
 
