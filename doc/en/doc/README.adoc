@@ -15,7 +15,7 @@ _ntpstats-ng_ is not a software and not a __App__lication.
 
 _ntpstats-ng_ is a system documentation - commented and supplemented with examples and background informations - versioned on GitHub and published with GitBook.
 
-image::ntpstats-live+peerstats.png[Screenshot ntpstats-live und -peerstats, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/ntpstats-live+peerstats.png"]
+image::ntpstats-ng_cover.png[Screenshot ntpstats-ng, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/ntpstats-ng_cover.png"]
 
 == License
 
