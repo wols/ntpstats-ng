@@ -12,10 +12,10 @@ toc::[]
 
 .ntpstats-live loopstats
 ifeval::["{{gitbook.version}}" != "3.2.2"]
-image::screenshot_ntpstats-live_loopstats.png[screenshot_ntpstats-live_loopstats]
+image::ntpstats-live_loopstats.png[ntpstats-live_loopstats]
 endif::[]
 ifeval::["{{gitbook.version}}" == "3.2.2"]
-image::screenshot_ntpstats-live_loopstats.png[screenshot_ntpstats-live_loopstats, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/screenshot_ntpstats-live_loopstats.png"]
+image::ntpstats-live_loopstats.png[ntpstats-live_loopstats, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/ntpstats-live_loopstats.png"]
 endif::[]
 
 == Datenfluss
