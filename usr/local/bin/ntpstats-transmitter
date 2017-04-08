@@ -1,0 +1,140 @@
+#!/bin/bash
+#
+# NAME
+# ntpstats-transmitter
+#
+# VERSION
+# 0.0.1
+#
+# WARNING
+# This software is under the heavy development and considered ALPHA quality
+# till the version hits >=1.0.0. Things might be broken, not all features have
+# been implemented, and APIs will be likely to change. YOU HAVE BEEN WARNED.
+#
+# COPYRIGHT AND LICENSE
+# Copyright (C) 2017 WOLfgang Schricker <time@wols.org>
+# GPL-3
+
+# CONFIG
+
+INTERVAL=30
+ACTION="copy"
+#
+PATTERN="\/[[:alnum:]_-]+\.(loop|peer)stats\.[[:digit:]]{8}$"
+RUN_DRY=0
+VERBOSE=0
+
+# FUNCTIONS
+
+function _log {
+    if [[ $VERBOSE -eq 1 ]]; then
+        echo "$@"
+    fi
+}
+
+function _usage {
+    echo "Usage: $0 -s <DIR_SOURCE> -d <DIR_DESTINATION> [-a <copy|move>] [-i <INTERVAL>] [-n] [-v]" 1>&2;
+    exit 1;
+}
+
+# main
+
+while getopts ":a:d:i:ns:v" o; do
+    case "${o}" in
+        a)
+            ACTION=${OPTARG}
+
+            if [[ ! ${ACTION} =~ ^(copy|move)$ ]]; then
+                echo "Option -${OPTARG} accepts 'copy' or 'move' only." >&2
+                _usage
+            fi
+            ;;
+        d)
+            DIR_SPOOL=${OPTARG}
+
+            if [[ ! -d ${DIR_SPOOL} ]]; then
+                echo "${DIR_SPOOL} is not a directory." >&2
+                _usage
+            fi
+            ;;
+        i)
+            INTERVAL=${OPTARG}
+
+            if [[ ! ${INTERVAL} =~ ^[[:digit:]]+$ ]]; then
+                echo "${INTERVAL} must be a integer." >&2
+                _usage
+            fi
+            ;;
+        n)
+            RUN_DRY=1
+            ;;
+        s)
+            DIR_STATS=${OPTARG}
+
+            if [[ ! -d ${DIR_STATS} ]]; then
+                echo "${DIR_STATS} is not a directory." >&2
+                _usage
+            fi
+            ;;
+        v)
+            VERBOSE=1
+            ;;
+        :)
+            # option with required argument missing.
+            if [[ ${OPTARG} == "a" ]] || [[ ${OPTARG} == "i" ]]; then
+                # we already have a default values, so ignore this error
+                :
+            else
+                echo "Option -${OPTARG} requires an argument." >&2
+                _usage
+            fi
+            ;;
+        \?)
+            echo "Invalid option: -${OPTARG}" >&2
+            _usage
+            ;;
+        *)
+            _usage
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+#
+
+if [[ -z "${DIR_STATS}" ]] || [[ -z "${DIR_SPOOL}" ]]; then
+    _usage
+elif [[ "${DIR_STATS}" == "${DIR_SPOOL}" ]]; then
+    echo "Source directory and destination directory are the same."
+    _usage
+fi
+
+#
+
+if [[ "${ACTION}" == "copy" ]]; then
+    CMD_ACT="cp"
+elif [[ "${ACTION}" == "move" ]]; then
+    CMD_ACT="mv"
+fi
+
+#
+
+if [[ ${VERBOSE} -eq 1 ]]; then
+    echo "DIR_STATS = ${DIR_STATS} ; DIR_SPOOL = ${DIR_SPOOL} ; ACTION = ${ACTION} ; INTERVAL = ${INTERVAL}"
+fi
+
+#
+
+for FILE in $(find $DIR_STATS -maxdepth 1 -type f); do
+    if [[ -r "${FILE}" ]] && [[ "${FILE}" =~ ${PATTERN} ]]; then
+        CMD="${CMD_ACT} ${FILE} ${DIR_SPOOL}/"
+
+        _log ${CMD}
+
+        [[ ${RUN_DRY} -eq 0 ]] && eval $CMD
+
+        sleep $INTERVAL
+    fi
+done
+
+# End of ntpstats-transmitter
