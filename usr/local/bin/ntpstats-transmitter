@@ -127,6 +127,9 @@ fi
 
 for FILE in $(find $DIR_STATS -maxdepth 1 -type f); do
     if [[ -r "${FILE}" ]] && [[ "${FILE}" =~ ${PATTERN} ]]; then
+
+        _NOW=$(TZ=UTC0 printf '%(%s)T\n' '-1')
+
         CMD="${CMD_ACT} ${FILE} ${DIR_SPOOL}/"
 
         _log ${CMD}
@@ -134,6 +137,10 @@ for FILE in $(find $DIR_STATS -maxdepth 1 -type f); do
         [[ ${RUN_DRY} -eq 0 ]] && eval $CMD
 
         sleep $INTERVAL
+
+        ELAPSED=$(( $(TZ=UTC0 printf '%(%s)T\n' '-1') - $_NOW ))
+
+        _log "elapsed: ${ELAPSED} seconds"
     fi
 done
 
