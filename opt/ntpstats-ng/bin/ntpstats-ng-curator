@@ -1,0 +1,580 @@
+#!/usr/bin/env perl
+
+use 5.016003;
+
+BEGIN {
+    eval {
+        require Data::Dumper;
+        require DateTime;
+        require Getopt::Long;
+        require Search::Elasticsearch;
+    };
+
+    do { say 'Required module(s) missing:', "\n", $@; exit; } if $@;
+}
+
+=head1 NAME
+
+ntpstats-ng-curator - Minimal Elasticsearch curator and helper
+
+B<This is I<alpha> software - use at your own risks!>
+
+=head1 VERSION
+
+Version 0.0.1
+
+=cut
+
+our $VERSION = "0.0.1";
+$VERSION     = eval { $VERSION };
+
+=head2 WARNING
+
+This software is under the heavy development and considered ALPHA quality till
+the version hits >=1.0.0. Things might be broken, not all features have been
+implemented, and APIs will be likely to change. YOU HAVE BEEN WARNED.
+
+=head1 SYNOPSIS
+
+ntpstats-ng-curator [--help|--version]
+
+=over
+
+=item --help
+
+Print this help
+
+=item --config /path/to/ntpstats-ng-curator.conf
+
+Path to config file (defaults to C<ntpstats-ng-curator.conf>)
+
+=item --cluster
+
+Elasticsearch cluster name (defaults to C<ntpstats-ng>)
+
+=item --curate
+
+Archive (reindex) and delete indices
+
+=item --groups
+
+List the Elasticsearch index groups (pattern: ntpstats-GROUP-YYYY-mm-dd)
+
+=item --indices [GROUP]
+
+List the Elasticsearch indices (default all)
+
+=item --version
+
+Print version info
+
+=back
+
+=cut
+
+# main::
+
+use Data::Dumper;
+use Getopt::Long qw(GetOptions HelpMessage);
+
+my $group;
+
+GetOptions(
+    'version'   => sub { VersionMessage(0) },
+    'help'      => sub { HelpMessage(0) },
+
+    'config=s'  => \(my $file_conf    = 'ntpstats-ng-curator.conf'),
+    'cluster=s' => \(my $cluster_name = 'ntpstats-ng'),
+
+    'curate'    => sub { curate() },
+    'groups'    => sub { groups() },
+    'indices:s' => \$group,
+) or HelpMessage(1);
+
+#
+
+do {
+    if ( $group ) {
+        indices($group);
+    } else {
+        indices();
+    }
+} if ( defined $group );
+
+=head1 SUBROUTINES
+
+=head2 VersionMessage
+
+Print script version
+
+=cut
+
+sub VersionMessage {
+    say join(' ', 'ntpstats-ng-curator', 'version', $main::VERSION);
+}
+
+=head2 config
+
+TODO --config /path/to/ntpstats-ng-curator.conf
+
+=cut
+
+sub config {
+    my $self = shift;
+
+    return {
+        cluster => {
+            nodes => [
+                'ntpstats-ng:9200',
+            ],
+            cxn_pool => 'Sniff',
+        },
+        index => {
+            archive => {
+                action => 'delete',
+                days   => 1,
+            },
+            live => {
+                action => 'archive',
+                days   => 37,
+            },
+            test => {
+                action => 'delete',
+                days   => 1,
+            },
+        },
+        pattern => {
+            index_day   => '(\d{4})-(\d\d)-(\d\d)$',
+            index_group => '^ntpstats-(\w+)-',
+        },
+    };
+}
+
+=head2 curate
+
+FIXME
+
+=cut
+
+sub curate {
+    my $self = shift;
+
+    App::NTP::StatsNG::Curator->new()->curate;
+}
+
+=head2 groups
+
+FIXME
+
+=cut
+
+sub groups {
+    my $self   = shift;
+    my $result = App::NTP::StatsNG::Curator->new()->groups;
+
+    say join("\n", @{$result}) if $result;
+}
+
+=head2 indices
+
+FIXME
+
+=cut
+
+sub indices {
+    my $result = App::NTP::StatsNG::Curator->new(
+        { group => shift }
+    )->indices;
+
+    say join("\n", @{$result}) if defined $result;
+}
+
+exit;
+
+# End of ntpstats-ng-curator::main
+
+package App::NTP::StatsNG::Curator;
+
+use Data::Dumper;
+use DateTime;
+
+__PACKAGE__->main(@ARGV) unless caller;
+
+=head2 curate
+
+FIXME
+
+=cut
+
+sub curate {
+    my $self    = shift;
+    my $mjd     = DateTime->today(time_zone => 'UTC')->mjd;
+    my $indices = $self->_index_groups;
+
+    foreach my $group ( keys %{$indices} ) {
+        # say join(' ', 'TRACE', __PACKAGE__. '::curate group:', Dumper($indices->{$group}));
+
+        my $pattern = $self->_config->{pattern}->{index_day};
+        # say join(' ', 'TRACE', __PACKAGE__. '::curate pattern:', $pattern);
+
+        foreach ( keys %{$indices->{$group}} ) {
+            if ( $_ =~ /$pattern/
+                and $self->_config->{index}->{$group}->{action}
+                and $self->_config->{index}->{$group}->{days}
+            ) {
+                my $index_mjd = DateTime->new(
+                    year      => $1,
+                    month     => $2,
+                    day       => $3,
+                    time_zone => 'UTC',
+                )->mjd;
+
+                # say join(' ', 'TRACE', __PACKAGE__. '::curate', $_, $index_mjd);
+
+                $indices->{$group}->{$_} =
+                    ( $index_mjd <= ( $mjd - $self->_config->{index}->{$group}->{days} ) ) ?
+                    $self->_config->{index}->{$group}->{action} :
+                    $index_mjd;
+            }
+        }
+    }
+
+    # say join(' ', 'DEBUG', __PACKAGE__. '::curate', Dumper($indices));
+
+    # archive
+                # $self->_archive;
+
+    # delete
+    foreach my $group ( keys %{$indices} ) {
+        foreach ( keys %{$indices->{$group}} ) {
+            do {
+                say join(' ', 'TRACE', __PACKAGE__. '::curate', $_, '=>', $indices->{$group}->{$_});
+
+                $self->_delete($_);
+            } if ( $indices->{$group}->{$_} eq 'delete' );
+        }
+    }
+}
+
+=head2 groups
+
+FIXME
+
+=cut
+
+sub groups {
+    my $self = shift;
+
+    [ sort keys %{$self->_index_groups} ] if $self->_index_groups;
+}
+
+=head2 indices
+
+FIXME
+
+=cut
+
+sub indices {
+    my $self = shift;
+    my $opts = ${$self}[0];
+
+    # say join(' ', 'DEBUG', __PACKAGE__. '::indices', Dumper($self));
+    # say join(' ', 'DEBUG', __PACKAGE__. '::indices', $opts->{group});
+
+    if ( defined $opts->{group} ) {
+        defined $self->_index_groups->{$opts->{group}} ?
+            return [ sort keys %{$self->_index_groups->{$opts->{group}}} ] :
+            return undef;
+    }
+
+    return [ sort keys %{$self->_indices} ];
+}
+
+=head2 main
+
+FIXME
+
+=cut
+
+sub main {
+    my $class = shift;
+    my $obj   = $class->new(@ARGV);
+}
+
+=head2 new
+
+FIXME
+
+=cut
+
+sub new {
+    my $class = shift;
+
+    return bless [ @_ ], $class;
+}
+
+=head1 PRIVATE METHODS
+
+=head1 METHODS
+
+=head2 _archive
+
+FIXME
+
+=cut
+
+sub _archive {
+    my $self = shift;
+
+    say join(' ', 'DEBUG', __PACKAGE__. '::_archive', 'TODO');
+
+    App::NTP::StatsNG::Model::Elasticsearch->new()->reindex;
+
+    $self->_delete;
+}
+
+=head2 _config
+
+FIXME
+
+=cut
+
+sub _config {
+    my $self = shift;
+
+    main::config;
+}
+
+=head2 _delete
+
+FIXME
+
+=cut
+
+sub _delete {
+    my ($self, $index) = @_;
+
+    say join(' ', 'DEBUG', __PACKAGE__. '::_delete', $index);
+
+    $self->_model->delete($index);
+}
+
+=head2 _index_groups
+
+FIXME
+
+=cut
+
+sub _index_groups {
+    my $self    = shift;
+    my $pattern = $self->_config->{pattern}->{index_group};
+    my $indices = {};
+
+    foreach ( keys %{$self->_indices} ) {
+        $indices->{$1}->{$_} = undef if ( $_ =~ qr/$pattern/ );
+    }
+
+    # say join(' ', 'DEBUG', __PACKAGE__. '::_index_groups', Dumper($indices));
+
+    keys %{$indices} ? $indices : undef;
+}
+
+=head2 _indices
+
+FIXME
+
+=cut
+
+sub _indices {
+    my $self = shift;
+
+    $self->_model->indices;
+}
+
+=head2 _model
+
+FIXME
+
+=cut
+
+sub _model {
+    my $self = shift;
+
+    App::NTP::StatsNG::Model::Elasticsearch->new();
+}
+
+1;
+
+# End of App::NTP::StatsNG::Curator
+
+package App::NTP::StatsNG::Model::Elasticsearch;
+
+use Data::Dumper;
+use Search::Elasticsearch;
+
+__PACKAGE__->main(@ARGV) unless caller;
+
+=head1 METHODS
+
+=head2 delete
+
+L<https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-delete-index.html>
+
+L<http://search.cpan.org/dist/Search-Elasticsearch/lib/Search/Elasticsearch/Client/5_0/Direct/Indices.pm#delete()>
+
+=cut
+
+sub delete {
+    my ($self, $index) = @_;
+
+    say join(' ', 'DEBUG', __PACKAGE__. '::delete', $index);
+
+    return unless $self->_es->indices->exists(index => $index);
+
+    $self->_es->indices->delete(index => $index)
+        if $self->_es->indices->close(index => $index);
+}
+
+=head2 indices
+
+FIXME
+
+=cut
+
+sub indices {
+    my $self = shift;
+
+    return { map { $_ => undef } keys %{$self->_cluster->{indices}} };
+}
+
+=head2 main
+
+FIXME
+
+=cut
+
+sub main {
+    my $class = shift;
+    my $obj   = $class->new(@ARGV);
+}
+
+=head2 new
+
+FIXME
+
+=cut
+
+sub new {
+    my $class = shift;
+
+    return bless [ @_ ], $class;
+}
+
+=head2 reindex
+
+L<https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html>
+
+L<http://search.cpan.org/dist/Search-Elasticsearch/lib/Search/Elasticsearch/Client/5_0/Direct.pm#reindex()>
+
+=cut
+
+sub reindex {
+    my $self = shift;
+
+    say join(' ', 'DEBUG', __PACKAGE__. '::reindex', 'TODO');
+
+    return undef;
+}
+
+=head1 PRIVATE METHODS
+
+=head2 _cluster
+
+FIXME
+
+=cut
+
+sub _cluster {
+    my $self    = shift;
+    my $indices = {
+        indices => $self->_es->cluster->state(
+            metric => 'routing_table'
+        )->{routing_table}->{indices}
+    };
+
+    # say join(' ', 'DEBUG', __PACKAGE__. '::_cluster', Dumper($indices));
+
+    return $indices;
+}
+
+=head2 _config
+
+FIXME
+
+=cut
+
+sub _config {
+    my $self = shift;
+
+    main::config;
+}
+
+=head2 _es
+
+FIXME
+
+=cut
+
+sub _es {
+    my $self = shift;
+
+    Search::Elasticsearch->new(
+        $self->_config->{cluster},
+    );
+}
+
+1;
+
+# End of App::NTP::StatsNG::Model::Elasticsearch
+
+=head1 BUGS
+
+Please report any bugs or feature requests to C<wols at cpan dot org>.
+I will be notified.
+
+=head1 SUPPORT
+
+You can find documentation for this script with the perldoc command.
+
+    perldoc -F /path/to/ntpstats-ng-curator
+
+=head1 REPOSITORY
+
+L<https://github.com/wols/ntpstats-ng>
+
+Please note that this script is "unofficial". It is not (yet) uploaded to
+L<CPAN|http://cpan.perl.org/>.
+
+=head1 AUTHOR
+
+WOLfgang Schricker, C<wols@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2017 WOLfgang Schricker
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; version 3 dated June, 2007 or at your option any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+A copy of the GNU General Public License is available in the source tree;
+if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
+=cut
+
+# End of ntpstats-ng-curator
