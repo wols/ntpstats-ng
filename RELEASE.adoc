@@ -1,0 +1,22 @@
+= ntpstats-ng
+:image-captions:
+:imagesdir:      doc/images
+:linkattrs:
+
+== link:releases/tag/0.0.1[0.0.1]
+
+This release is not a real release!
+
+=== Added
+
+* This is a placeholder sentence.
+
+=== Changed
+
+* This is a placeholder sentence.
+
+=== Fixed
+
+* This is a placeholder sentence.
+
+// End of ntpstats-ng/RELEASE.adoc
