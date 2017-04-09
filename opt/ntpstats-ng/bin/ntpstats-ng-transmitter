@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # NAME
-# ntpstats-transmitter
+# ntpstats-ng-transmitter
 #
 # VERSION
 # 0.0.1
@@ -11,6 +11,9 @@
 # till the version hits >=1.0.0. Things might be broken, not all features have
 # been implemented, and APIs will be likely to change. YOU HAVE BEEN WARNED.
 #
+# REPOSITORY
+# https://github.com/wols/ntpstats-ng/
+#
 # COPYRIGHT AND LICENSE
 # Copyright (C) 2017 WOLfgang Schricker <time@wols.org>
 # GPL-3
@@ -18,8 +21,9 @@
 # CONFIG
 
 INTERVAL=30
-ACTION="copy"
 #
+DIR_SPOOL="/var/opt/ntpstats-ng/spool"
+ACTION="copy"
 PATTERN="\/[[:alnum:]_-]+\.(loop|peer)stats\.[[:digit:]]{8}$"
 RUN_DRY=0
 VERBOSE=0
@@ -33,7 +37,7 @@ function _log {
 }
 
 function _usage {
-    echo "Usage: $0 -s <DIR_SOURCE> -d <DIR_DESTINATION> [-a <copy|move>] [-i <INTERVAL>] [-n] [-v]" 1>&2;
+    echo "Usage: $0 -s <DIR_SOURCE> [-d <DIR_DESTINATION>] [-a <copy|move>] [-i <INTERVAL>] [-n] [-v]" 1>&2;
     exit 1;
 }
 
@@ -51,11 +55,6 @@ while getopts ":a:d:i:ns:v" o; do
             ;;
         d)
             DIR_SPOOL=${OPTARG}
-
-            if [[ ! -d ${DIR_SPOOL} ]]; then
-                echo "${DIR_SPOOL} is not a directory." >&2
-                _usage
-            fi
             ;;
         i)
             INTERVAL=${OPTARG}
@@ -81,7 +80,7 @@ while getopts ":a:d:i:ns:v" o; do
             ;;
         :)
             # option with required argument missing.
-            if [[ ${OPTARG} == "a" ]] || [[ ${OPTARG} == "i" ]]; then
+            if [[ ${OPTARG} == "a" ]] || [[ ${OPTARG} == "d" ]] || [[ ${OPTARG} == "i" ]]; then
                 # we already have a default values, so ignore this error
                 :
             else
@@ -106,6 +105,11 @@ if [[ -z "${DIR_STATS}" ]] || [[ -z "${DIR_SPOOL}" ]]; then
     _usage
 elif [[ "${DIR_STATS}" == "${DIR_SPOOL}" ]]; then
     echo "Source directory and destination directory are the same."
+    _usage
+fi
+
+if [[ ! -d ${DIR_SPOOL} ]]; then
+    echo "${DIR_SPOOL} is not a directory." >&2
     _usage
 fi
 
@@ -144,4 +148,4 @@ for FILE in $(find $DIR_STATS -maxdepth 1 -type f); do
     fi
 done
 
-# End of ntpstats-transmitter
+# End of ntpstats-ng-transmitter
