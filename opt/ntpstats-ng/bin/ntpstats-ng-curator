@@ -132,11 +132,15 @@ sub config {
         index => {
             archive => {
                 action => 'delete',
-                days   => 5,
+                days   => 1,
             },
             live => {
                 action => 'archive',
-                days   => 3,
+                days   => 37,
+            },
+            test => {
+                action => 'delete',
+                days   => 1,
             },
         },
         pattern => {
@@ -235,10 +239,21 @@ sub curate {
         }
     }
 
-    say join(' ', 'DEBUG', __PACKAGE__. '::curate', Dumper($indices));
+    # say join(' ', 'DEBUG', __PACKAGE__. '::curate', Dumper($indices));
 
-    $self->_archive;
-    $self->_delete;
+    # archive
+                # $self->_archive;
+
+    # delete
+    foreach my $group ( keys %{$indices} ) {
+        foreach ( keys %{$indices->{$group}} ) {
+            do {
+                say join(' ', 'TRACE', __PACKAGE__. '::curate', $_, '=>', $indices->{$group}->{$_});
+
+                $self->_delete($_);
+            } if ( $indices->{$group}->{$_} eq 'delete' );
+        }
+    }
 }
 
 =head2 groups
@@ -294,6 +309,7 @@ FIXME
 
 sub new {
     my $class = shift;
+
     return bless [ @_ ], $class;
 }
 
@@ -336,11 +352,11 @@ FIXME
 =cut
 
 sub _delete {
-    my $self = shift;
+    my ($self, $index) = @_;
 
-    say join(' ', 'DEBUG', __PACKAGE__. '::_delete', 'TODO');
+    say join(' ', 'DEBUG', __PACKAGE__. '::_delete', $index);
 
-    App::NTP::StatsNG::Model::Elasticsearch->new()->delete;
+    $self->_model->delete($index);
 }
 
 =head2 _index_groups
@@ -409,13 +425,15 @@ L<http://search.cpan.org/dist/Search-Elasticsearch/lib/Search/Elasticsearch/Clie
 =cut
 
 sub delete {
-    my $self = shift;
+    my ($self, $index) = @_;
 
-    say join(' ', 'DEBUG', __PACKAGE__. '::delete', 'TODO');
+    say join(' ', 'DEBUG', __PACKAGE__. '::delete', $index);
 
-    return undef;
+    return unless $self->_es->indices->exists(index => $index);
+
+    $self->_es->indices->delete(index => $index)
+        if $self->_es->indices->close(index => $index);
 }
-
 
 =head2 indices
 
@@ -448,6 +466,7 @@ FIXME
 
 sub new {
     my $class = shift;
+
     return bless [ @_ ], $class;
 }
 
@@ -466,7 +485,6 @@ sub reindex {
 
     return undef;
 }
-
 
 =head1 PRIVATE METHODS
 
