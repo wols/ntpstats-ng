@@ -10,6 +10,14 @@ IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
 
 toc::[]
 
+.ntpstats-live loopstats
+ifeval::["{{gitbook.version}}" != "3.2.2"]
+image::ntpstats-live_loopstats.png[ntpstats-live_loopstats]
+endif::[]
+ifeval::["{{gitbook.version}}" == "3.2.2"]
+image::ntpstats-live_loopstats.png[ntpstats-live_loopstats, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/ntpstats-live_loopstats.png"]
+endif::[]
+
 == Datenfluss
 
 .loopstats Datenfluss
