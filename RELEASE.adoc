@@ -3,7 +3,7 @@
 :imagesdir:      doc/images
 :linkattrs:
 
-== link:releases/tag/0.0.1[0.0.1]
+== link:https://github.com/wols/ntpstats-ng/releases/tag/0.0.1[0.0.1]
 
 This release is not a real release!
 
