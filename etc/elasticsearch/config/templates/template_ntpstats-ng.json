@@ -1,0 +1,15 @@
+{
+    "template": "ntpstats-*",
+    "mappings": {
+        "*": {
+            "properties": {
+                "source_address": { "type": "ip" },
+                "source_anonymous": { "type": "ip" },
+                "source_zone": { "type": "keyword" },
+                "stats_host": { "type": "keyword" },
+                "stats_zone": { "type": "keyword" },
+                "type": { "type": "keyword" }
+            }
+        }
+    }
+}

@@ -28,7 +28,7 @@ toc::[]
 [options="header"]
 |===
 |Type           |ntpstats-ng Version
-|`mbgmonstats`  |`0.1.0`
+|`mbgmonstats`  |link:https://github.com/wols/ntpstats-ng/labels/mbgmonstats[Issues: mbgmonstats, window="_blank"]
 |`ntppoolstats` |`0.1.0`
 |`ntplog`       |`0.1.0`
 |===

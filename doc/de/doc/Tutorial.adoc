@@ -1,0 +1,187 @@
+= Tutorial
+:icons:         font
+:imagesdir:     ../../images
+:imagesoutdir:  ../../images
+:linkattrs:
+:toc:           macro
+:toc-title:     Inhalt
+
+Grafische NTP Statistiken in 20 Minuten...
+
+IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
+
+toc::[]
+
+== Vorbereitungen
+
+Sie haben den NTP-Daemon schon in der Vergangenheit zur Erzeugung von Statistiken konfiguriert.
+**Falls nicht**, ersetzen Sie `HOSTNAME` und starten `ntpd` mit einer angepassten Konfiguration erneut.
+
+[source%nowrap]
+----
+mkdir -p /var/log/ntp/stats
+chown ntp:ntp /var/log/ntp/stats
+----
+
+./etc/ntp.conf
+[source%nowrap]
+----
+statsdir    /var/log/ntp/stats/
+filegen     loopstats file HOSTNAME.loopstats
+filegen     peerstats file HOSTNAME.peerstats
+----
+
+Inzwischen installieren Sie alle nötigen Pakete auf einer physischen oder virtuellen Maschine:
+
+* Logstash
+* Elasticsearch
+* Grafana
+
+=== Logstash
+
+Falls in Ihrer Logstash-Version nicht bereits enthalten, müssen Sie zwei zusätzliche Filter `anonymize` und `translate` installieren.footnote:[link:https://www.elastic.co/guide/en/logstash/current/plugins-filters-anonymize.html[Logstash - Filter plugins - anonymize, window="_blank"]]footnote:[link:https://www.elastic.co/guide/en/logstash/current/plugins-filters-translate.html[Logstash - Filter plugins - translate, window="_blank"]]
+
+[source%nowrap]
+----
+logstash-plugin install logstash-filter-anonymize
+logstash-plugin install logstash-filter-translate
+----
+
+.Gentoo, logstash-5.2.2
+[source%nowrap]
+----
+cd /opt/logstash
+
+DEBUG=1 JARS_SKIP='true' bin/logstash-plugin install logstash-filter-anonymize
+DEBUG=1 JARS_SKIP='true' bin/logstash-plugin install logstash-filter-translate
+----
+
+Sie kopieren drei Dateien in das (leere) Verzeichnis `/etc/logstash/conf.d`:
+
+* Input: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/20_ntpstats-ng.conf[20_ntpstats-ng.conf, window="_blank"]
+* Filter: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/40_ntpstats-ng.conf[40_ntpstats-ng.conf, window="_blank"]
+* Output: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/60_ntpstats-ng.conf[60_ntpstats-ng.conf, window="_blank"]
+
+Zwei weitere Dateien in das Verzeichnis `/etc/logstash`:
+
+* link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/dictionary-ntpstats-stats_host.yml[dictionary-ntpstats-stats_host.yml, window="_blank"]
+* link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/dictionary-ntpstats-source_address.yml[dictionary-ntpstats-source_address.yml, window="_blank"]
+
+=== Elasticsearch
+
+Sie passen die Konfiguration an.
+
+./etc/elasticsearch/elasticsearch.yml
+[source%nowrap, yaml]
+----
+cluster.name: ntpstats-ng
+
+# enable cors for standalone plugins
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+----
+
+Sie kopieren zwei Dateien in das Verzeichnis `/etc/elasticsearch/config/templates`.
+
+* link:https://github.com/wols/ntpstats-ng/blob/master/etc/elasticsearch/config/templates/template_node.json[template_node.json, window="_blank"]
+* link:https://github.com/wols/ntpstats-ng/blob/master/etc/elasticsearch/config/templates/template_ntpstats-ng.json[template_ntpstats-ng.json, window="_blank"]
+
+Sie bringen die Vorlagen in die laufende Elasticsearch-node ein.
+
+[source%nowrap]
+----
+cd /etc/elasticsearch/config/templates
+
+curl -XPUT 'http://localhost:9200/_template/template_node/' -d @template_node.json
+curl -XPUT 'http://localhost:9200/_template/template_ntpstats-ng/' -d @template_ntpstats-ng.json
+----
+
+=== Grafana
+
+Sie importieren drei Dashboards.
+
+* link:https://github.com/wols/ntpstats-ng/blob/master/opt/ntpstats-ng/usr/share/grafana/dashboard/ntpstats-archive.json[ntpstats-archive, window="_blank"]
+* link:https://github.com/wols/ntpstats-ng/blob/master/opt/ntpstats-ng/usr/share/grafana/dashboard/ntpstats-archive_loopstats.json[ntpstats-archive_loopstats, window="_blank"]
+* link:https://github.com/wols/ntpstats-ng/blob/master/opt/ntpstats-ng/usr/share/grafana/dashboard/ntpstats-archive_peerstats.json[ntpstats-archive_peerstats, window="_blank"]
+
+image::grafana_import_dashboard.png[Grafana Import Dashboard, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/grafana_import_dashboard.png"]
+
+=== ntpstats-ng
+
+Sie legen Log- und Spool-Verzeichnisse für xref:Tutorial.adoc#_logstash[Logstash] an.
+
+[source%nowrap]
+----
+mkdir -p /var/opt/ntpstats-ng/log
+mkdir -p /var/opt/ntpstats-ng/spool
+----
+
+Sie legen ein weiteres Verzeichnis an und speichern dort ein Bash-Skript.
+
+[source%nowrap]
+----
+mkdir -p /opt/ntpstats-ng/bin
+----
+
+* link:https://github.com/wols/ntpstats-ng/blob/master/opt/ntpstats-ng/bin/ntpstats-ng-transmitter[ntpstats-ng-transmitter, window="_blank"]
+
+== Dienste (neu) starten
+
+In einem Terminal beobachten Sie die System-Meldungen, `logstash` und `elasticsearch`.
+
+[source%nowrap]
+----
+tail -F /var/log/messages /var/log/logstash/logstash-plain.log /var/log/elasticsearch/_default/ntpstats-ng.log
+----
+
+Abhängig von Ihrer Linux-Distribution konfigurieren und starten Sie die drei Dienste `logstash`, `elasticsearch` und `grafana`.
+
+.Gentoo, openrc
+[source%nowrap]
+----
+/etc/init.d/logstash restart
+/etc/init.d/elasticsearch restart
+/etc/init.d/grafana restart
+----
+
+.CentOS 7, syslogd
+[source%nowrap]
+----
+systemctl restart logstash.service
+systemctl restart elasticsearch.service
+systemctl restart grafana-server.service
+----
+
+== Statistiken importieren
+
+.`ntpstats-ng-transmitter`
+`-s <DIR_SOURCE>`:: erforderlich, `/var/log/ntp/stats`
+`-d <DIR_DESTINATION>`:: optional, default `/var/opt/ntpstats-ng/spool`
+`-t <(loop|peer)stats>`:: optional `loopstats` oder `peerstats`, default beide
+`-i <INTERVAL>`:: optional, Interval in Sekunden, default `30`
+`-v:`: optional, Verbose
+`-n`:: optional, Dry-Run - keine Aktionen
+
+[source%nowrap]
+----
+/opt/ntpstats-ng/bin/ntpstats-ng-transmitter -s /var/log/ntp/stats \ # <1>
+-d /var/opt/ntpstats-ng/spool \ # <2>
+-t loopstats \ # <3>
+-i 10 \ # <4>
+-v \ # <5>
+-n # <6>
+----
+<1> Statistik-Verzeichnis aus xref:Tutorial.adoc#_vorbereitungen[ntp.conf]
+<2> Spool-Verzeichnis für xref:Tutorial.adoc#_logstash[Logstash]
+<3> nur `loopstats`
+<4> alle `10` Sekunden eine Datei
+<5> Ausgabe im Terminal
+<6> keine Aktion
+
+TIP: Manueller Import ohne Option `-n` und per `cron` auch ohne `-v`.
+
+'''
+
+link:README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
+
+// End of ntpstats-ng/doc/de/doc/Tutorial.adoc

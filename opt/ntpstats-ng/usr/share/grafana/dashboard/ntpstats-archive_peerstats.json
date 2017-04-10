@@ -1,0 +1,535 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_NTPSTATS-ARCHIVE",
+      "label": "ntpstats-archive",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "elasticsearch",
+      "pluginName": "Elasticsearch"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "datasource",
+      "id": "elasticsearch",
+      "name": "Elasticsearch",
+      "version": "3.0.0"
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "4.1.2"
+    },
+    {
+      "type": "panel",
+      "id": "grafana-clock-panel",
+      "name": "Clock",
+      "version": "0.0.9"
+    },
+    {
+      "type": "panel",
+      "id": "grafana-piechart-panel",
+      "name": "Pie Chart",
+      "version": "1.1.4"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "hideControls": true,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "keepTime": true,
+      "tags": [
+        "ntpstats-ng",
+        "archive"
+      ],
+      "type": "dashboards"
+    }
+  ],
+  "rows": [
+    {
+      "collapse": false,
+      "height": "200",
+      "panels": [
+        {
+          "bgColor": null,
+          "clockType": "custom",
+          "countdownSettings": {
+            "endCountdownTime": "2017-02-28T13:03:00.000Z",
+            "endText": "00:00:00"
+          },
+          "dateSettings": {
+            "dateFormat": "YYYY-MM-DD",
+            "fontSize": "54px",
+            "fontWeight": "normal",
+            "showDate": true
+          },
+          "id": 1,
+          "links": [],
+          "mode": "time",
+          "offsetFromUtc": "0",
+          "offsetFromUtcMinutes": "0",
+          "span": 6,
+          "timeSettings": {
+            "customFormat": "HH:mm:ss.SSSZ",
+            "fontSize": "54px",
+            "fontWeight": "normal"
+          },
+          "title": "",
+          "type": "grafana-clock-panel"
+        },
+        {
+          "aliasColors": {},
+          "cacheTimeout": null,
+          "combine": {
+            "label": "Others",
+            "threshold": 0
+          },
+          "datasource": "${DS_NTPSTATS-ARCHIVE}",
+          "fontSize": "80%",
+          "format": "none",
+          "id": 6,
+          "interval": null,
+          "legend": {
+            "show": true,
+            "values": true
+          },
+          "legendType": "Right side",
+          "links": [
+            {
+              "dashUri": "db/ntpstats-archive",
+              "dashboard": "ntpstats-archive",
+              "title": "ntpstats-archive",
+              "type": "dashboard"
+            }
+          ],
+          "maxDataPoints": 3,
+          "nullPointMode": "connected",
+          "pieType": "donut",
+          "span": 6,
+          "strokeWidth": 1,
+          "targets": [
+            {
+              "alias": "",
+              "bucketAggs": [
+                {
+                  "fake": true,
+                  "field": "stats_zone",
+                  "id": "4",
+                  "settings": {
+                    "order": "asc",
+                    "orderBy": "_term",
+                    "size": "3"
+                  },
+                  "type": "terms"
+                },
+                {
+                  "fake": true,
+                  "field": "source_address",
+                  "id": "5",
+                  "settings": {
+                    "order": "asc",
+                    "orderBy": "_term",
+                    "size": "3"
+                  },
+                  "type": "terms"
+                },
+                {
+                  "field": "stats_stamp",
+                  "id": "2",
+                  "settings": {
+                    "interval": "auto",
+                    "min_doc_count": 0,
+                    "trimEdges": 0
+                  },
+                  "type": "date_histogram"
+                }
+              ],
+              "dsType": "elasticsearch",
+              "metrics": [
+                {
+                  "field": "select field",
+                  "id": "1",
+                  "type": "count"
+                }
+              ],
+              "query": "_type:peerstats AND stats_host:$stats_host AND source_address:$source_address",
+              "refId": "A",
+              "timeField": "stats_stamp"
+            }
+          ],
+          "title": "$stats_host : peerstats : $source_address",
+          "type": "grafana-piechart-panel",
+          "valueName": "total"
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "250",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "${DS_NTPSTATS-ARCHIVE}",
+          "fill": 2,
+          "id": 4,
+          "legend": {
+            "alignAsTable": false,
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 1,
+          "points": true,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "bucketAggs": [
+                {
+                  "fake": true,
+                  "field": "stats_host",
+                  "id": "3",
+                  "settings": {
+                    "order": "asc",
+                    "orderBy": "_term",
+                    "size": "10"
+                  },
+                  "type": "terms"
+                },
+                {
+                  "fake": true,
+                  "field": "source_address",
+                  "id": "4",
+                  "settings": {
+                    "order": "asc",
+                    "orderBy": "_term",
+                    "size": "10"
+                  },
+                  "type": "terms"
+                },
+                {
+                  "field": "stats_stamp",
+                  "id": "2",
+                  "settings": {
+                    "interval": "auto",
+                    "min_doc_count": 0,
+                    "trimEdges": 0
+                  },
+                  "type": "date_histogram"
+                }
+              ],
+              "dsType": "elasticsearch",
+              "metrics": [
+                {
+                  "field": "clock_offset",
+                  "id": "1",
+                  "meta": {},
+                  "settings": {},
+                  "type": "max"
+                }
+              ],
+              "query": "_type:peerstats AND stats_host:$stats_host AND source_address:$source_address",
+              "refId": "A",
+              "timeField": "stats_stamp"
+            }
+          ],
+          "thresholds": [
+            {
+              "colorMode": "ok",
+              "fill": false,
+              "line": true,
+              "op": "lt",
+              "value": -0.025
+            },
+            {
+              "colorMode": "ok",
+              "fill": false,
+              "line": true,
+              "op": "gt",
+              "value": 0.025
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "$stats_host : peerstats : clock_offset : $source_address",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "s",
+              "label": "",
+              "logBase": 1,
+              "max": "0.025",
+              "min": "-0.025",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": true,
+      "title": "Graph",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "250",
+      "panels": [
+        {
+          "columns": [
+            {
+              "text": "type",
+              "value": "type"
+            },
+            {
+              "text": "stats_host",
+              "value": "stats_host"
+            },
+            {
+              "text": "stats_stamp",
+              "value": "stats_stamp"
+            },
+            {
+              "text": "source_address",
+              "value": "source_address"
+            },
+            {
+              "text": "clock_offset",
+              "value": "clock_offset"
+            },
+            {
+              "text": "delay",
+              "value": "delay"
+            },
+            {
+              "text": "source_zone",
+              "value": "source_zone"
+            }
+          ],
+          "datasource": "${DS_NTPSTATS-ARCHIVE}",
+          "fontSize": "100%",
+          "id": 5,
+          "links": [],
+          "pageSize": 4,
+          "scroll": true,
+          "showHeader": true,
+          "sort": {
+            "col": 2,
+            "desc": true
+          },
+          "span": 12,
+          "styles": [
+            {
+              "dateFormat": "YYYY-MM-DD HH:mm:ss.SSSZ",
+              "pattern": "stats_stamp",
+              "type": "date"
+            },
+            {
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 9,
+              "pattern": "clock_offset",
+              "thresholds": [],
+              "type": "number",
+              "unit": "s"
+            },
+            {
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 9,
+              "pattern": "delay",
+              "thresholds": [],
+              "type": "number",
+              "unit": "s"
+            }
+          ],
+          "targets": [
+            {
+              "bucketAggs": [],
+              "dsType": "elasticsearch",
+              "metrics": [
+                {
+                  "field": "select field",
+                  "id": "1",
+                  "meta": {},
+                  "settings": {},
+                  "type": "raw_document"
+                }
+              ],
+              "query": "_type:peerstats AND stats_host:$stats_host AND source_address:$source_address",
+              "refId": "A",
+              "timeField": "stats_stamp"
+            }
+          ],
+          "title": "$stats_host : peerstats : $source_address",
+          "transform": "json",
+          "type": "table"
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": true,
+      "title": "Table",
+      "titleSize": "h6"
+    }
+  ],
+  "schemaVersion": 14,
+  "style": "dark",
+  "tags": [
+    "peerstats",
+    "ntpstats-ng",
+    "archive"
+  ],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_NTPSTATS-ARCHIVE}",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Monitor",
+        "multi": true,
+        "name": "stats_host",
+        "options": [],
+        "query": "{\"find\":\"terms\",\"field\":\"stats_host\",\"query\":\"_type:peerstats\"}",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "{\"find\":\"terms\",\"field\":\"stats_host\",\"query\":\"stats_zone:$tag\"}",
+        "tags": [
+          "vdr"
+        ],
+        "tagsQuery": "{\"find\":\"terms\",\"field\":\"stats_zone\"}",
+        "type": "query",
+        "useTags": true
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_NTPSTATS-ARCHIVE}",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Server",
+        "multi": true,
+        "name": "source_address",
+        "options": [],
+        "query": "{\"find\":\"terms\",\"field\":\"source_address\",\"query\":\"_type:peerstats AND stats_host:$stats_host\"}",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "{\"find\":\"terms\",\"field\":\"source_address\",\"query\":\"source_zone:$tag\"}",
+        "tags": [
+          "home"
+        ],
+        "tagsQuery": "{\"find\":\"terms\",\"field\":\"source_zone\"}",
+        "type": "query",
+        "useTags": true
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6M",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "utc",
+  "title": "ntpstats-archive peerstats",
+  "version": 8
+}
