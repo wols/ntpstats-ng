@@ -8,7 +8,7 @@
 
 ntpstats-ng - Vom ASCII-Text zum "`GitBook`"
 
-IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
+IMPORTANT: Dieses Kapitel wird editiert und ist noch nicht abgeschlossen.
 
 toc::[]
 

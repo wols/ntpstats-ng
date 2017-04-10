@@ -8,7 +8,7 @@
 
 link:../ELG.adoc[ELG Stack] = link:Elasticsearch.adoc[Elasticsearch], link:Logstash.adoc[Logstash] und *Grafana*
 
-IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
+IMPORTANT: Dieses Kapitel wird editiert und ist noch nicht abgeschlossen.
 
 toc::[]
 

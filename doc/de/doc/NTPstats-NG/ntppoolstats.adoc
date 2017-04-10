@@ -8,7 +8,7 @@
 
 CSV-Daten vom xref:../Appendix-Bookmarks.adoc#bookmark_ntppool[pool.ntp.org Projekt] als Quelle für 'ntppoolstats'.
 
-IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
+IMPORTANT: Dieses Kapitel wird editiert und ist noch nicht abgeschlossen.
 
 toc::[]
 

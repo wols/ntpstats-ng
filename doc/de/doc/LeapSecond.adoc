@@ -8,7 +8,7 @@
 
 Hier folgt in link:https://github.com/wols/ntpstats-ng/milestone/2[Version 0.2.0, window="_blank"] ein Kapitel zum Thema "`Schaltsekunde`".
 
-IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
+IMPORTANT: Dieses Kapitel wird editiert und ist noch nicht abgeschlossen.
 
 '''
 
