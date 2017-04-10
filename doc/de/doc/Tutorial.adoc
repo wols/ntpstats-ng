@@ -6,7 +6,7 @@
 :toc:           macro
 :toc-title:     Inhalt
 
-Grafische NTP Statistiken in 20 Minuten...
+Grafische NTP Statistiken in 29 Minuten...
 
 IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
 
@@ -14,8 +14,10 @@ toc::[]
 
 == Vorbereitungen
 
+=== ntpd
+
 Sie haben den NTP-Daemon schon in der Vergangenheit zur Erzeugung von Statistiken konfiguriert.
-**Falls nicht**, ersetzen Sie `HOSTNAME` und starten `ntpd` mit einer angepassten Konfiguration erneut.
+**Falls nicht**, ersetzen Sie `HOSTNAME` in einer angepassten Konfiguration und starten `ntpd` erneut.
 
 [source%nowrap]
 ----
@@ -31,13 +33,31 @@ filegen     loopstats file HOSTNAME.loopstats
 filegen     peerstats file HOSTNAME.peerstats
 ----
 
+=== ELG Stack
+
 Inzwischen installieren Sie alle nötigen Pakete auf einer physischen oder virtuellen Maschine:
 
-* Logstash
-* Elasticsearch
-* Grafana
+* xref:Appendix-Bookmarks.adoc#bookmark_logstash[Logstash] >= 5.2.0
+* xref:Appendix-Bookmarks.adoc#bookmark_elasticsearch[Elasticsearch] >= 5.2.0
+* xref:Appendix-Bookmarks.adoc#bookmark_grafana[Grafana] >= 4.1.0
 
-=== Logstash
+.Gentoo, `emerge -pv elasticsearch grafana-bin jre logstash redis`
+[source%nowrap]
+----
+[ebuild   R   ~] www-apps/grafana-bin-4.1.2::gentoo  0 KiB
+[ebuild   R    ] virtual/jre-1.8.0-r1:1.8::gentoo  0 KiB
+[ebuild   R    ] dev-db/redis-3.2.5::gentoo  USE="jemalloc -luajit -tcmalloc {-test}" 0 KiB
+[ebuild   R   ~] app-misc/elasticsearch-5.2.2::gentoo  0 KiB
+[ebuild   R   ~] app-admin/logstash-bin-5.2.2::gentoo  0 KiB
+----
+
+.CentOS 7, `yum list installed elasticsearch grafana java\*openjdk logstash redis`
+[source%nowrap]
+----
+
+----
+
+==== Logstash
 
 Falls in Ihrer Logstash-Version nicht bereits enthalten, müssen Sie zwei zusätzliche Filter `anonymize` und `translate` installieren.footnote:[link:https://www.elastic.co/guide/en/logstash/current/plugins-filters-anonymize.html[Logstash - Filter plugins - anonymize, window="_blank"]]footnote:[link:https://www.elastic.co/guide/en/logstash/current/plugins-filters-translate.html[Logstash - Filter plugins - translate, window="_blank"]]
 
@@ -67,9 +87,9 @@ Zwei weitere Dateien in das Verzeichnis `/etc/logstash`:
 * link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/dictionary-ntpstats-stats_host.yml[dictionary-ntpstats-stats_host.yml, window="_blank"]
 * link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/dictionary-ntpstats-source_address.yml[dictionary-ntpstats-source_address.yml, window="_blank"]
 
-=== Elasticsearch
+==== Elasticsearch
 
-Sie passen die Konfiguration an.
+Sie passen die Konfiguration an und starten `elasticsearch`.
 
 ./etc/elasticsearch/elasticsearch.yml
 [source%nowrap, yaml]
@@ -81,22 +101,89 @@ http.cors.enabled: true
 http.cors.allow-origin: "*"
 ----
 
-Sie kopieren zwei Dateien in das Verzeichnis `/etc/elasticsearch/config/templates`.
+.Gentoo, openrc, elasticsearch-5.2.2
+[source%nowrap]
+----
+/etc/init.d/elasticsearch start
+ * Starting elasticsearch ...
+ * /run/elasticsearch: correcting mode
+ * /var/lib/elasticsearch/_default: creating directory
+ * /var/lib/elasticsearch/_default: correcting owner
+----
+
+.`tail -F /var/log/elasticsearch/_default/ntpstats-ng.log`
+[source%nowrap]
+----
+[2017-04-10T12:23:17,710][INFO ][o.e.n.Node            ] [] initializing ...
+[2017-04-10T12:23:17,957][INFO ][o.e.e.NodeEnvironment ] [n7G2It1] using [1] data paths, mounts [[/mnt/var (/dev/mapper/vg0-var)]], net usable_space [13.7gb], net total_space [15.9gb], spins? [possibly], types [reiserfs]
+[2017-04-10T12:23:17,958][INFO ][o.e.e.NodeEnvironment ] [n7G2It1] heap size [1.9gb], compressed ordinary object pointers [true]
+[2017-04-10T12:23:17,959][INFO ][o.e.n.Node            ] node name [n7G2It1] derived from node ID [n7G2It1tSx6rh9RkBNWSMQ]; set [node.name] to override
+[2017-04-10T12:23:17,960][INFO ][o.e.n.Node            ] version[5.2.2], pid[31603], build[f9d9b74/2017-02-24T17:26:45.835Z], OS[Linux/4.4.39-gentoo-t440p/amd64], JVM[Oracle Corporation/Java HotSpot(TM) 64-Bit Server VM/1.8.0_121/25.121-b13]
+[2017-04-10T12:23:19,390][INFO ][o.e.p.PluginsService  ] [n7G2It1] loaded module [aggs-matrix-stats]
+[2017-04-10T12:23:19,390][INFO ][o.e.p.PluginsService  ] [n7G2It1] loaded module [ingest-common]
+[2017-04-10T12:23:19,391][INFO ][o.e.p.PluginsService  ] [n7G2It1] loaded module [lang-expression]
+[2017-04-10T12:23:19,391][INFO ][o.e.p.PluginsService  ] [n7G2It1] loaded module [lang-groovy]
+[2017-04-10T12:23:19,391][INFO ][o.e.p.PluginsService  ] [n7G2It1] loaded module [lang-mustache]
+[2017-04-10T12:23:19,391][INFO ][o.e.p.PluginsService  ] [n7G2It1] loaded module [lang-painless]
+[2017-04-10T12:23:19,391][INFO ][o.e.p.PluginsService  ] [n7G2It1] loaded module [percolator]
+[2017-04-10T12:23:19,391][INFO ][o.e.p.PluginsService  ] [n7G2It1] loaded module [reindex]
+[2017-04-10T12:23:19,391][INFO ][o.e.p.PluginsService  ] [n7G2It1] loaded module [transport-netty3]
+[2017-04-10T12:23:19,391][INFO ][o.e.p.PluginsService  ] [n7G2It1] loaded module [transport-netty4]
+[2017-04-10T12:23:19,392][INFO ][o.e.p.PluginsService  ] [n7G2It1] no plugins loaded
+[2017-04-10T12:23:21,597][INFO ][o.e.n.Node            ] initialized
+[2017-04-10T12:23:21,598][INFO ][o.e.n.Node            ] [n7G2It1] starting ...
+[2017-04-10T12:23:21,797][INFO ][o.e.t.TransportService] [n7G2It1] publish_address {127.0.0.1:9300}, bound_addresses {127.0.0.1:9300}
+[2017-04-10T12:23:21,804][WARN ][o.e.b.BootstrapChecks ] [n7G2It1] max file descriptors [32000] for elasticsearch process is too low, increase to at least [65536]
+[2017-04-10T12:23:24,865][INFO ][o.e.c.s.ClusterService] [n7G2It1] new_master {n7G2It1}{n7G2It1tSx6rh9RkBNWSMQ}{VrFsoVecQL-fNbcQux9Eng}{127.0.0.1}{127.0.0.1:9300}, reason: zen-disco-elected-as-master ([0] nodes joined)
+[2017-04-10T12:23:24,911][INFO ][o.e.h.HttpServer      ] [n7G2It1] publish_address {127.0.0.1:9200}, bound_addresses {127.0.0.1:9200}
+[2017-04-10T12:23:24,911][INFO ][o.e.n.Node            ] [n7G2It1] started
+[2017-04-10T12:23:25,042][INFO ][o.e.g.GatewayService  ] [n7G2It1] recovered [0] indices into cluster_state
+----
+
+Sie kopieren zwei Dateien in das Verzeichnis `/etc/elasticsearch/config/templates`:
 
 * link:https://github.com/wols/ntpstats-ng/blob/master/etc/elasticsearch/config/templates/template_node.json[template_node.json, window="_blank"]
 * link:https://github.com/wols/ntpstats-ng/blob/master/etc/elasticsearch/config/templates/template_ntpstats-ng.json[template_ntpstats-ng.json, window="_blank"]
 
-Sie bringen die Vorlagen in die laufende Elasticsearch-node ein.
+Sie bringen die Vorlagen in die Elasticsearch-Node ein.
 
 [source%nowrap]
 ----
 cd /etc/elasticsearch/config/templates
 
 curl -XPUT 'http://localhost:9200/_template/template_node/' -d @template_node.json
+{"acknowledged":true}
+
 curl -XPUT 'http://localhost:9200/_template/template_ntpstats-ng/' -d @template_ntpstats-ng.json
+{"acknowledged":true}
 ----
 
-=== Grafana
+Sie stoppen `elasticsearch` bis nach dem xref:Tutorial.adoc#_import[ersten Import-Test] mit Logstash.
+
+==== Grafana
+
+===== Data Source
+
+Sie legen eine neue Elasticsearch-Datenquelle `ntpstats-archive` an.
+
+image::grafana_data_sources.png[Grafana Data Sources, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/grafana_data_sources.png"]
+
+|===
+| Name           |`ntpstats-archive`
+| Type           |`Elasticsearch`
+2+h|HTTP settings
+|URL             |`\http://localhost:9200`
+|Access          |`direct`
+2+h|Elasticsearch Details
+|Index name      |`[ntpstats-archive-]YYYY-MM-DD`
+|Pattern         |`Daily`
+|Time field name |`stats_stamp`
+|Version         |`5.x`
+|===
+
+image::grafana_edit_data_source.png[Grafana Edit Data Source, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/grafana_edit_data_source.png"]
+
+===== Dashboards
 
 Sie importieren drei Dashboards.
 
@@ -113,7 +200,10 @@ Sie legen Log- und Spool-Verzeichnisse für xref:Tutorial.adoc#_logstash[Logstas
 [source%nowrap]
 ----
 mkdir -p /var/opt/ntpstats-ng/log
-mkdir -p /var/opt/ntpstats-ng/spool
+chgrp logstash /var/opt/ntpstats-ng/log
+chmod g+w /var/opt/ntpstats-ng/log
+
+mkdir /var/opt/ntpstats-ng/spool
 ----
 
 Sie legen ein weiteres Verzeichnis an und speichern dort ein Bash-Skript.
@@ -125,60 +215,204 @@ mkdir -p /opt/ntpstats-ng/bin
 
 * link:https://github.com/wols/ntpstats-ng/blob/master/opt/ntpstats-ng/bin/ntpstats-ng-transmitter[ntpstats-ng-transmitter, window="_blank"]
 
-== Dienste (neu) starten
+== Statistiken importieren
 
-In einem Terminal beobachten Sie die System-Meldungen, `logstash` und `elasticsearch`.
+TIP: Sie sollten den Import zuerst ohne Elasticsearch und Grafana testen.
 
+Dazu passen Sie die Output-Konfiguration vorübergehend an und starten `logstash` neu.
+
+.`$EDITOR /etc/logstash/conf.d/60_ntpstats-ng.conf`
 [source%nowrap]
 ----
-tail -F /var/log/messages /var/log/logstash/logstash-plain.log /var/log/elasticsearch/_default/ntpstats-ng.log
-----
+# /etc/logstash/conf.d/60_ntpstats-ng.conf
 
-Abhängig von Ihrer Linux-Distribution konfigurieren und starten Sie die drei Dienste `logstash`, `elasticsearch` und `grafana`.
+output {
+    stdout { codec => rubydebug }
 
-.Gentoo, openrc
-[source%nowrap]
-----
-/etc/init.d/logstash restart
-/etc/init.d/elasticsearch restart
-/etc/init.d/grafana restart
+    # DEBUG
+    file {
+        path => [ "/var/opt/ntpstats-ng/log/ntpstats-ng-debug-%{+YYYY-MM-dd}.json" ]
+    }
+}
+
+# EOF
 ----
 
 .CentOS 7, syslogd
 [source%nowrap]
 ----
 systemctl restart logstash.service
-systemctl restart elasticsearch.service
-systemctl restart grafana-server.service
 ----
 
-== Statistiken importieren
+.Gentoo, openrc, logstash-5.2.2
+[source%nowrap]
+----
+/etc/init.d/logstash restart
+ * Checking your configuration ...
+Sending Logstash's logs to /var/log/logstash which is now configured via log4j2.properties
+Configuration OK
+[2017-04-10T10:23:44,131][INFO ][logstash.runner] Using config.test_and_exit mode. Config Validation Result: OK. Exiting Logstash                                                    [ ok ]
+ * Starting logstash ...
+----
 
-.`ntpstats-ng-transmitter`
+Starten Sie nun die Beobachtung von `logstash` und den *noch nicht existierenden Dateien*.
+
+.`tail -F /var/log/logstash/logstash-plain.log /var/opt/ntpstats-ng/log/ntpstats-ng-*`
+[source%nowrap]
+----
+==> /var/log/logstash/logstash-plain.log <==
+[2017-04-10T10:33:19,494][INFO ][logstash.runner  ] Using config.test_and_exit mode. Config Validation Result: OK. Exiting Logstash
+[2017-04-10T10:33:29,706][INFO ][logstash.pipeline] Starting pipeline {"id"=>"main", "pipeline.workers"=>4, "pipeline.batch.size"=>125, "pipeline.batch.delay"=>5, "pipeline.max_inflight"=>500}
+[2017-04-10T10:33:29,720][INFO ][logstash.pipeline] Pipeline main started
+[2017-04-10T10:33:29,765][INFO ][logstash.agent   ] Successfully started Logstash API endpoint {:port=>9600}
+tail: '/var/opt/ntpstats-ng/log/ntpstats-ng-*' kann nicht zum Lesen geöffnet werden: Datei oder Verzeichnis nicht gefunden
+----
+
+=== Import!
+
+Kopieren Sie nun mit Hilfe des Kommandos `cat` den Inhalt einer ersten Statistik-Datei ins Spool-Verzeichnis. +
+Ersetzen Sie die Namensmuster durch Ihre aktuellen Werte.
+
+.`cat /var/log/ntp/stats/HOSTNAME.loopstats.YYYYmmdd >> /var/opt/ntpstats-ng/spool/HOSTNAME.loopstats`
+[source%nowrap]
+----
+cat /var/log/ntp/stats/localhost.loopstats.20160501 >> /var/opt/ntpstats-ng/spool/localhost.loopstats
+----
+
+Im anderen Terminal sollte Ihnen nach ein paar Sekunden von `tail` der Output im JSON-Format präsentiert werden.
+
+.`tail -F /var/log/logstash/logstash-plain.log /var/opt/ntpstats-ng/log/ntpstats-ng-*`
+[source%nowrap]
+----
+==> /var/log/logstash/logstash-plain.log <==
+[2017-04-10T11:02:25,251][INFO ][logstash.outputs.file] Opening file {:path=>"/var/opt/ntpstats-ng/log/ntpstats-ng-debug-2017-04-10.json"}
+
+==> /var/opt/ntpstats-ng/log/ntpstats-ng-debug-2017-04-10.json <==
+{"stats_host":"localhost","mjd":57509,"clock_offset":-7.76718E-4,"frequency_offset":-2.119,"type":"loopstats","stats_stamp":"2016-05-01T00:06:28.261Z","@timestamp":"2017-04-10T11:05:02.114Z","time_past_midnight":388.261,"frequency_jitter":0.002391,"es_index":"ntpstats-archive-2016-05-01","loop_time_constant":"10","rms_jitter":5.30734E-4}
+----
+
+TIP: Sie haben die unterschiedlichen Datumsangaben bemerkt? +
+Die Datei `localhost.loopstats.20160501` wurde am `2017-04-10` importiert. +
+Es wird ein Elasticsearch-Index `ntpstats-archive-2016-05-01` angelegt.
+
+.`head -n 1 /var/opt/ntpstats-ng/log/ntpstats-ng-debug-2017-04-10.json | jq`
+[source%nowrap, json]
+----
+{
+  "stats_host": "localhost",
+  "mjd": 57509,
+  "clock_offset": -0.000776718,
+  "frequency_offset": -2.119,
+  "type": "loopstats",
+  "stats_stamp": "2016-05-01T00:06:28.261Z",
+  "@timestamp": "2017-04-10T11:05:02.114Z",
+  "time_past_midnight": 388.261,
+  "frequency_jitter": 0.002391,
+  "es_index": "ntpstats-archive-2016-05-01",
+  "loop_time_constant": "10",
+  "rms_jitter": 0.000530734
+}
+----
+
+Das Feld `@timestamp` enthält den `logstash`-Zeitstempel der Verarbeitung.
+
+Das Feld `stats_stamp` ist Ihnen von der Konfiguration der xref:Tutorial.adoc#_data_source[Grafana Data Source] bekannt. +
+Es enthält den Zeitstempel der Statistikzeile und wurde mit `logstash-filter-ruby` berechnet.
+
+.sinngemäße Darstellung
+[source%nowrap, json]
+----
+mjd                 + time_past_midnight = stats_stamp
+-------------------------------------------------------------------
+57509 # <1>
+2016-05-01T00:00:00 # <2>
+2016-05-01T00:00:00 + 388.261 s # <3>
+                                         = 2016-05-01T00:06:28.261Z # <4>
+----
+<1> Modifizierte Julianische Datum
+<2> MJD nach ISO8601
+<3> Addition der _Sekunden nach Mitternacht_
+<4> Ergebnis nach ISO8601
+
+Sie können nun Logstash stoppen und die Output-Konfiguration xref:Tutorial.adoc#_logstash[wie oben beschrieben] wieder herstellen.
+
+Den noch gestoppten `elasticsearch`-Prozess starten Sie wieder.
+
+Beim erneuten Start von `logstash` sehen Sie die zusätzlichen Zeilen von `logstash-output-elasticsearch`.
+
+.`tail -F /var/log/elasticsearch/_default/ntpstats-ng.log`
+[source%nowrap]
+----
+[2017-04-10T12:33:37,693][INFO ][logstash.runner  ] Using config.test_and_exit mode. Config Validation Result: OK. Exiting Logstash
+[2017-04-10T12:33:49,687][INFO ][logstash.outputs.elasticsearch] Elasticsearch pool URLs updated {:changes=>{:removed=>[], :added=>[http://localhost:9200/]}}
+[2017-04-10T12:33:49,690][INFO ][logstash.outputs.elasticsearch] Running health check to see if an Elasticsearch connection is working {:healthcheck_url=>http://localhost:9200/, :path=>"/"}
+[2017-04-10T12:33:50,125][WARN ][logstash.outputs.elasticsearch] Restored connection to ES instance {:url=>#<URI::HTTP:0x45383f5d URL:http://localhost:9200/>}
+[2017-04-10T12:33:50,128][INFO ][logstash.outputs.elasticsearch] Using mapping template from {:path=>nil}
+[2017-04-10T12:33:50,252][INFO ][logstash.outputs.elasticsearch] Attempting to install template {:manage_template=>{"template"=>"logstash-*", "version"=>50001, "settings"=>{"index.refresh_interval"=>"5s"}, "mappings"=>{"_default_"=>{"_all"=>{"enabled"=>true, "norms"=>false}, "dynamic_templates"=>[{"message_field"=>{"path_match"=>"message", "match_mapping_type"=>"string", "mapping"=>{"type"=>"text", "norms"=>false}}}, {"string_fields"=>{"match"=>"*", "match_mapping_type"=>"string", "mapping"=>{"type"=>"text", "norms"=>false, "fields"=>{"keyword"=>{"type"=>"keyword"}}}}}], "properties"=>{"@timestamp"=>{"type"=>"date", "include_in_all"=>false}, "@version"=>{"type"=>"keyword", "include_in_all"=>false}, "geoip"=>{"dynamic"=>true, "properties"=>{"ip"=>{"type"=>"ip"}, "location"=>{"type"=>"geo_point"}, "latitude"=>{"type"=>"half_float"}, "longitude"=>{"type"=>"half_float"}}}}}}}}
+[2017-04-10T12:33:50,258][INFO ][logstash.outputs.elasticsearch] Installing elasticsearch template to _template/logstash
+[2017-04-10T12:33:50,428][INFO ][logstash.outputs.elasticsearch] New Elasticsearch output {:class=>"LogStash::Outputs::ElasticSearch", :hosts=>[#<URI::Generic:0x5652b18f URL://localhost:9200>]}
+[2017-04-10T12:33:50,464][INFO ][logstash.pipeline] Starting pipeline {"id"=>"main", "pipeline.workers"=>4, "pipeline.batch.size"=>125, "pipeline.batch.delay"=>5, "pipeline.max_inflight"=>500}
+[2017-04-10T12:33:50,467][INFO ][logstash.pipeline] Pipeline main started
+[2017-04-10T12:33:50,535][INFO ][logstash.agent   ] Successfully started Logstash API endpoint {:port=>9600}
+----
+
+=== Skript
+
+Für den Import der Statistik-Dateien können Sie das Bash-Skript `ntpstats-ng-transmitter` verwenden.
+
+.`/opt/ntpstats-ng/bin/ntpstats-ng-transmitter`
 `-s <DIR_SOURCE>`:: erforderlich, `/var/log/ntp/stats`
 `-d <DIR_DESTINATION>`:: optional, default `/var/opt/ntpstats-ng/spool`
 `-t <(loop|peer)stats>`:: optional `loopstats` oder `peerstats`, default beide
 `-i <INTERVAL>`:: optional, Interval in Sekunden, default `30`
-`-v:`: optional, Verbose
-`-n`:: optional, Dry-Run - keine Aktionen
+`-v`:: optional, verbose - Ausgabe an STDOUT
+`-n`:: optional, dry run - keine Aktionen
 
+.Beispiel (beim Ausführen alle Optionen in eine Zeile)
 [source%nowrap]
 ----
-/opt/ntpstats-ng/bin/ntpstats-ng-transmitter -s /var/log/ntp/stats \ # <1>
+ntpstats-ng-transmitter -s /var/log/ntp/stats \ # <1>
 -d /var/opt/ntpstats-ng/spool \ # <2>
--t loopstats \ # <3>
+-t loopstats <3>
 -i 10 \ # <4>
 -v \ # <5>
 -n # <6>
 ----
-<1> Statistik-Verzeichnis aus xref:Tutorial.adoc#_vorbereitungen[ntp.conf]
+<1> Statistik-Verzeichnis aus xref:Tutorial.adoc#_ntpd[ntp.conf]
 <2> Spool-Verzeichnis für xref:Tutorial.adoc#_logstash[Logstash]
-<3> nur `loopstats`
+<3> nur `HOSTNAME.loopstats.YYYmmdd`
 <4> alle `10` Sekunden eine Datei
-<5> Ausgabe im Terminal
+<5> Ausgabe an STDOUT
 <6> keine Aktion
 
-TIP: Manueller Import ohne Option `-n` und per `cron` auch ohne `-v`.
+TIP: Realer Import ohne Option `-n` und später per `cron` auch ohne `-v`.
+
+.`ntpstats-ng-transmitter -s /var/log/ntp/stats -d /var/opt/ntpstats-ng/spool -t loopstats -i 10 -v`
+[source%nowrap]
+----
+DIR_STATS = /var/log/ntp/stats ; DIR_SPOOL = /var/opt/ntpstats-ng/spool ; TYPE = loopstats ; ACTION = cat ; INTERVAL = 10
+cat /var/log/ntp/stats/devop1.loopstats.20160501 >> /var/opt/ntpstats-ng/spool/devop1.loopstats
+elapsed: 10 seconds
+cat /var/log/ntp/stats/devop1.loopstats.20160502 >> /var/opt/ntpstats-ng/spool/devop1.loopstats
+elapsed: 10 seconds
+----
+
+.`tail -F /var/log/elasticsearch/_default/ntpstats-ng.log`
+[source%nowrap]
+----
+[2017-04-10T13:17:36,921][INFO ][o.e.c.m.MetaDataCreateIndexService] [n7G2It1] [ntpstats-archive-2016-05-01] creating index, cause [auto(bulk api)], templates [template_node, template_ntpstats-ng], shards [1]/[0], mappings [*]
+[2017-04-10T13:17:37,581][INFO ][o.e.c.r.a.AllocationService] [n7G2It1] Cluster health status changed from [YELLOW] to [GREEN] (reason: [shards started [[ntpstats-archive-2016-05-01][0]] ...]).
+[2017-04-10T13:17:37,724][INFO ][o.e.c.m.MetaDataMappingService] [n7G2It1] [ntpstats-archive-2016-05-01/memWq1lzT9mXKPz8GleTdw] create_mapping [loopstats]
+[2017-04-10T13:17:39,198][INFO ][o.e.c.m.MetaDataCreateIndexService] [n7G2It1] [ntpstats-archive-2016-05-02] creating index, cause [auto(bulk api)], templates [template_node, template_ntpstats-ng], shards [1]/[0], mappings [*]
+[2017-04-10T13:17:39,475][INFO ][o.e.c.r.a.AllocationService] [n7G2It1] Cluster health status changed from [YELLOW] to [GREEN] (reason: [shards started [[ntpstats-archive-2016-05-02][0]] ...]).
+[2017-04-10T13:17:39,534][INFO ][o.e.c.m.MetaDataMappingService] [n7G2It1] [ntpstats-archive-2016-05-02/0mz9b5tBStOW9yZwVjcAQw] create_mapping [loopstats]
+----
+
+TIP: Herzlichen Glückwunsch!
+
+=== Grafana
+
+TODO.
 
 '''
 
