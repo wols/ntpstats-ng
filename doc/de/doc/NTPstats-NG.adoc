@@ -11,7 +11,7 @@ Es gibt etliche gute Hilfsmittel um NTP-Statistiken darzustellen und zu analysie
 Die "Originale" liegen der NTP Referenz bei: xref:Appendix-Bookmarks.adoc#bookmark_ntp_project_scripts_stats[NTP project - Statistics processing scripts (README)].
 Ein weiteres sehr gutes Beispiel ist xref:Appendix-Bookmarks.adoc#bookmark_ntps_ntpviz[ntpviz].
 
-IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
+IMPORTANT: Dieses Kapitel wird editiert und ist noch nicht abgeschlossen.
 
 == Klassiker
 

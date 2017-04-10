@@ -9,7 +9,7 @@
 Die erste Neujahrsstunde 2017 in Deutschland hätte man feiern oder diverse Shows und Wiederholungen im Fernsehen schauen können. +
 Man konnte aber auch mal beobachten wie die Schaltsekunde via NTP "`rüber kommt`".
 
-IMPORTANT: Dieses Kapitel wird noch editiert und ist noch nicht abgeschlossen.
+IMPORTANT: Dieses Kapitel wird editiert und ist noch nicht abgeschlossen.
 
 '''
 
