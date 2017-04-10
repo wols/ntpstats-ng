@@ -1,0 +1,14 @@
+# /etc/logstash/dictionary-ntpstats-source_address.yml
+#
+# 2017-04-09
+# WOLfgang Schricker <time@wols.org>
+#
+# source_address: source_zone
+
+127.127.8.1:      clock-PARSE
+127.127.20.0:     clock-GPS_NMEA
+127.127.22.0:     clock-PPS
+
+127.0.0.1:        local
+
+# EOF

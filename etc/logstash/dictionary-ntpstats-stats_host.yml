@@ -1,0 +1,10 @@
+# /etc/logstash/dictionary-ntpstats-stats_host.yml
+#
+# 2017-04-09
+# WOLfgang Schricker <time@wols.org>
+#
+# stats_host:    stats_zone
+
+127.0.0.1:       local
+
+# EOF

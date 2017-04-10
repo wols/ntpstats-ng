@@ -9,6 +9,7 @@
 . link:README.adoc[NTP Statistiken - Was?]
 . link:Introduction.adoc[Einleitung]
 . link:NTPstats.adoc[Statistik-Typen]
+. link:Tutorial.adoc[Tutorial]
 . link:ELG.adoc[ELG Stack]
 .. link:ELG/Logstash.adoc[Logstash]
 .. link:ELG/Elasticsearch.adoc[Elasticsearch]
