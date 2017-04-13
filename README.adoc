@@ -10,7 +10,7 @@ image:https://img.shields.io/github/tag/wols/ntpstats-ng.svg[tag, link="https://
 image:https://img.shields.io/github/issues/wols/ntpstats-ng.svg[issues, link="https://github.com/wols/ntpstats-ng/issues"]
 image:https://img.shields.io/github/stars/wols/ntpstats-ng.svg?style=social&label=Star[star, link="https://github.com/wols/ntpstats-ng/stargazers"]
 
-See the link:https://wols.github.io/ntpstats-ng/[Landing Page] and read the upcoming documentation published with GitBook:
+See the link:https://wols.github.io/ntpstats-ng/[Landing Page, window="_blank"] and read the upcoming documentation published with GitBook:
 
 * link:https://www.gitbook.com/book/wols/ntpstats-ng/details/de/[Documentation (German)]
 * Documentation (English)
