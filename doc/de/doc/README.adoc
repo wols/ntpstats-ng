@@ -1,11 +1,11 @@
 = ntpstats-ng
 :image-captions:
-:imagesdir:     ../../images
+:imagesdir:      ../../images
 :linkattrs:
 
 NTP statistics - Next Generation
 
-Deutsche link:https://github.com/wols/ntpstats-ng/milestone/1[Version 0.1.0, window="_blank"]
+Deutsche link:https://github.com/wols/ntpstats-ng/releases/tag/0.1.0[Version 0.1.0, window="_blank"]
 
 == NTP statistics - Was?
 

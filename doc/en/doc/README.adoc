@@ -5,7 +5,7 @@
 
 NTP statistics - Next Generation
 
-English link:https://github.com/wols/ntpstats-ng/milestone/1[version 0.1.0, window="_blank"]
+English link:https://github.com/wols/ntpstats-ng/releases/tag/0.1.0[version 0.1.0, window="_blank"]
 
 == NTP statistics - What?
 
