@@ -19,6 +19,7 @@ JSON:: JavaScript Object Notation
 NTP:: Network Time Protocol
 ntpstats-ng:: NTP statistics - Next Generation
 UTC:: Universal Time Coordinated
+YUM:: Yellowdog Updater, Modified
 
 '''
 

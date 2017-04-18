@@ -41,7 +41,9 @@ Inzwischen installieren Sie alle nötigen Pakete auf einer physischen oder virtu
 * xref:Appendix-Bookmarks.adoc#bookmark_elasticsearch[Elasticsearch] >= 5.2.0
 * xref:Appendix-Bookmarks.adoc#bookmark_grafana[Grafana] >= 4.1.0
 
-.Gentoo, `emerge -pv elasticsearch grafana-bin jre logstash redis`
+==== Gentoo
+
+.`emerge -pv elasticsearch grafana-bin jre logstash redis`
 [source%nowrap]
 ----
 [ebuild   R   ~] www-apps/grafana-bin-4.1.2::gentoo  0 KiB
@@ -51,12 +53,35 @@ Inzwischen installieren Sie alle nötigen Pakete auf einer physischen oder virtu
 [ebuild   R   ~] app-admin/logstash-bin-5.2.2::gentoo  0 KiB
 ----
 
-.CentOS 7, `yum list installed elasticsearch grafana java\*openjdk logstash redis`
+==== CentOS 7
+
+Installieren Sie die beiden YUM Repos.
+
+* Elastic: link:https://github.com/wols/ntpstats-ng/blob/master/etc/yum.repos.d/elastic.repo[/etc/yum.repos.d/elastic.repo, window="_blank"]
+* Grafana: link:https://github.com/wols/ntpstats-ng/blob/master/etc/yum.repos.d/grafana.repo[/etc/yum.repos.d/grafana.repo, window="_blank"]
+
+.`yum list installed elasticsearch elasticsearch-curator grafana java\*openjdk logstash redis`
 [source%nowrap]
 ----
-
+elasticsearch.noarch           5.3.0-1                   @elastic-5.x
+elasticsearch-curator.x86_64   5.0.1-1                   @curator-5
+grafana.x86_64                 4.2.0-1                   @grafana
+java-1.8.0-openjdk.x86_64      1:1.8.0.121-0.b13.el7_3   @updates
+logstash.noarch                1:5.3.0-1                 @elastic-5.x
+redis.x86_64                   3.2.3-1.el7               @epel
 ----
 
+==== Oracle Linux 7
+
+.`yum list installed elasticsearch grafana java\*openjdk logstash redis`
+[source%nowrap]
+----
+elasticsearch.noarch        5.3.0-1                   @elastic-5.x
+grafana.x86_64              4.2.0-1                   @grafana-stable
+java-1.8.0-openjdk.x86_64   1:1.8.0.121-0.b13.el7_3   @ol7_latest
+logstash.noarch             1:5.3.0-1                 @elastic-5.x
+redis.x86_64                3.2.3-1.el7               @epel
+----
 ==== Logstash
 
 Falls in Ihrer Logstash-Version nicht bereits enthalten, müssen Sie zwei zusätzliche Filter `anonymize` und `translate` installieren.footnote:[link:https://www.elastic.co/guide/en/logstash/current/plugins-filters-anonymize.html[Logstash - Filter plugins - anonymize, window="_blank"]]footnote:[link:https://www.elastic.co/guide/en/logstash/current/plugins-filters-translate.html[Logstash - Filter plugins - translate, window="_blank"]]

@@ -1,0 +1,23 @@
+# /etc/yum.repos.d/grafana.repo
+#
+# http://docs.grafana.org/installation/rpm/
+
+[grafana-stable]
+name=Grafana stable
+baseurl=https://packagecloud.io/grafana/stable/el/$releasever/$basearch
+repo_gpgcheck=1
+gpgcheck=1
+gpgkey=https://packagecloud.io/gpg.key
+       https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+
+[grafana-testing]
+name=Grafana latest builds
+baseurl=https://packagecloud.io/grafana/testing/el/$releasever/$basearch
+repo_gpgcheck=1
+gpgcheck=1
+gpgkey=https://packagecloud.io/gpg.key
+       https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
