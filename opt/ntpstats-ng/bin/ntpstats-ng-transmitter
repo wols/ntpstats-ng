@@ -23,43 +23,65 @@
 INTERVAL=30
 #
 DIR_SPOOL="/var/opt/ntpstats-ng/spool"
-ACTION="copy"
-PATTERN="\/[[:alnum:]_-]+\.(loop|peer)stats\.[[:digit:]]{8}$"
+TYPE=""
+ACTION="cat"
+CMD_ACT=$ACTION
 RUN_DRY=0
 VERBOSE=0
+#
+PATTERN="\/([[:alnum:]_-]+)\.(loop|peer)stats\.[[:digit:]]{8}$"
+# used by
+# "${CMD_ACT} ${FILE} >> ${DIR_SPOOL}/${BASH_REMATCH[1]}.${BASH_REMATCH[2]}stats"
 
 # FUNCTIONS
 
+function _bash_version {
+    if (( ${BASH_VERSION%%.*} < 4 )); then
+        echo "Sorry, you need at least bash-4.0 to run this script."
+        exit 1
+    fi
+}
+
 function _log {
-    if [[ $VERBOSE -eq 1 ]]; then
+    if [[ ${VERBOSE} -eq 1 ]]; then
         echo "$@"
     fi
 }
 
 function _usage {
-    echo "Usage: $0 -s <DIR_SOURCE> [-d <DIR_DESTINATION>] [-a <copy|move>] [-i <INTERVAL>] [-n] [-v]" 1>&2;
-    exit 1;
+    echo "Usage: $0 -s <DIR_SOURCE> [-d <DIR_DESTINATION>] [-t <(loop|peer)stats>] [-a <cat|copy|move>] [-i <INTERVAL>] [-n] [-v]" 1>&2
+    exit 1
 }
 
 # main
 
-while getopts ":a:d:i:ns:v" o; do
+_bash_version
+
+#
+
+while getopts ":a:d:i:ns:t:v" o; do
     case "${o}" in
         a)
-            ACTION=${OPTARG}
+            ACTION="${OPTARG}"
 
-            if [[ ! ${ACTION} =~ ^(copy|move)$ ]]; then
-                echo "Option -${OPTARG} accepts 'copy' or 'move' only." >&2
+            if [[ "${ACTION}" == "cat" ]]; then
+                CMD_ACT="cat"
+            elif [[ "${ACTION}" == "copy" ]]; then
+                CMD_ACT="cp"
+            elif [[ "${ACTION}" == "move" ]]; then
+                CMD_ACT="mv"
+            else
+                echo "Option -${OPTARG} accepts 'cat', 'copy' or 'move' only." >&2
                 _usage
             fi
             ;;
         d)
-            DIR_SPOOL=${OPTARG}
+            DIR_SPOOL="${OPTARG}"
             ;;
         i)
-            INTERVAL=${OPTARG}
+            INTERVAL="${OPTARG}"
 
-            if [[ ! ${INTERVAL} =~ ^[[:digit:]]+$ ]]; then
+            if [[ ! "${INTERVAL}" =~ ^[[:digit:]]+$ ]]; then
                 echo "${INTERVAL} must be a integer." >&2
                 _usage
             fi
@@ -68,10 +90,13 @@ while getopts ":a:d:i:ns:v" o; do
             RUN_DRY=1
             ;;
         s)
-            DIR_STATS=${OPTARG}
+            DIR_STATS="${OPTARG}"
+            ;;
+        t)
+            TYPE="${OPTARG}"
 
-            if [[ ! -d ${DIR_STATS} ]]; then
-                echo "${DIR_STATS} is not a directory." >&2
+            if [[ ! "${TYPE}" =~ ^(loop|peer)stats$ ]]; then
+                echo "Option -${OPTARG} accepts 'loopstats' or 'peerstats' only." >&2
                 _usage
             fi
             ;;
@@ -80,7 +105,7 @@ while getopts ":a:d:i:ns:v" o; do
             ;;
         :)
             # option with required argument missing.
-            if [[ ${OPTARG} == "a" ]] || [[ ${OPTARG} == "d" ]] || [[ ${OPTARG} == "i" ]]; then
+            if [[ "${OPTARG}" == "a" ]] || [[ "${OPTARG}" == "d" ]] || [[ "${OPTARG}" == "i" ]]; then
                 # we already have a default values, so ignore this error
                 :
             else
@@ -108,33 +133,41 @@ elif [[ "${DIR_STATS}" == "${DIR_SPOOL}" ]]; then
     _usage
 fi
 
-if [[ ! -d ${DIR_SPOOL} ]]; then
+if [[ ! -d "${DIR_STATS}" ]]; then
+    echo "${DIR_STATS} is not a directory." >&2
+    _usage
+fi
+
+if [[ ! -d "${DIR_SPOOL}" ]]; then
     echo "${DIR_SPOOL} is not a directory." >&2
     _usage
 fi
 
 #
 
-if [[ "${ACTION}" == "copy" ]]; then
-    CMD_ACT="cp"
-elif [[ "${ACTION}" == "move" ]]; then
-    CMD_ACT="mv"
-fi
-
-#
-
 if [[ ${VERBOSE} -eq 1 ]]; then
-    echo "DIR_STATS = ${DIR_STATS} ; DIR_SPOOL = ${DIR_SPOOL} ; ACTION = ${ACTION} ; INTERVAL = ${INTERVAL}"
+    echo "DIR_STATS = ${DIR_STATS} ; DIR_SPOOL = ${DIR_SPOOL} ; TYPE = ${TYPE} ; ACTION = ${ACTION} ; INTERVAL = ${INTERVAL}"
 fi
 
 #
 
-for FILE in $(find $DIR_STATS -maxdepth 1 -type f); do
+for FILE in $(find $DIR_STATS -maxdepth 1 -type f | sort); do
     if [[ -r "${FILE}" ]] && [[ "${FILE}" =~ ${PATTERN} ]]; then
+
+        if [[ -z "${BASH_REMATCH[1]}" ]] || [[ -z "${BASH_REMATCH[2]}" ]]; then
+            _log "${FILE} - \$PATTERN not matched."
+            continue
+        fi
+
+        [[ -n "${TYPE}" ]] && [[ "${BASH_REMATCH[2]}stats" != "${TYPE}" ]] && continue
 
         _NOW=$(TZ=UTC0 printf '%(%s)T\n' '-1')
 
-        CMD="${CMD_ACT} ${FILE} ${DIR_SPOOL}/"
+        if [[ "${CMD_ACT}" == "cat" ]]; then
+            CMD="${CMD_ACT} ${FILE} >> ${DIR_SPOOL}/${BASH_REMATCH[1]}.${BASH_REMATCH[2]}stats"
+        else
+            CMD="${CMD_ACT} ${FILE} ${DIR_SPOOL}/"
+        fi
 
         _log ${CMD}
 
