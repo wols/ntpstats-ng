@@ -1,0 +1,21 @@
+# /etc/yum.repos.d/elastic.repo
+#
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html
+
+[elastic-5.x]
+name=Elastic repository for 5.x packages
+baseurl=https://artifacts.elastic.co/packages/5.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+
+# https://www.elastic.co/guide/en/elasticsearch/client/curator/current/yum-repository.html
+
+[curator-5]
+name=CentOS/RHEL 7 repository for Elasticsearch Curator 5.x packages
+baseurl=http://packages.elastic.co/curator/5/centos/$releasever
+gpgcheck=1
+gpgkey=http://packages.elastic.co/GPG-KEY-elasticsearch
+enabled=1
