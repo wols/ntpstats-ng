@@ -4,7 +4,7 @@
 # ntpstats-ng-transmitter
 #
 # VERSION
-# 0.0.1
+# 0.0.2
 #
 # WARNING
 # This software is under the heavy development and considered ALPHA quality
@@ -26,6 +26,7 @@ DIR_SPOOL="/var/opt/ntpstats-ng/spool"
 TYPE=""
 ACTION="cat"
 CMD_ACT=$ACTION
+STATS_RENAME=0
 RUN_DRY=0
 VERBOSE=0
 #
@@ -49,7 +50,7 @@ function _log {
 }
 
 function _usage {
-    echo "Usage: $0 -s <DIR_SOURCE> [-d <DIR_DESTINATION>] [-t <(loop|peer)stats>] [-a <cat|copy|move>] [-i <INTERVAL>] [-n] [-v]" 1>&2
+    echo "Usage: $0 -s <DIR_SOURCE> [-d <DIR_DESTINATION>] [-t <(loop|peer)stats>] [-a <cat|copy|move>] [-i <INTERVAL>] [-r] [-n] [-v]" 1>&2
     exit 1
 }
 
@@ -59,7 +60,7 @@ _bash_version
 
 #
 
-while getopts ":a:d:i:ns:t:v" o; do
+while getopts ":a:d:i:nrs:t:v" o; do
     case "${o}" in
         a)
             ACTION="${OPTARG}"
@@ -88,6 +89,9 @@ while getopts ":a:d:i:ns:t:v" o; do
             ;;
         n)
             RUN_DRY=1
+            ;;
+        r)
+            STATS_RENAME=1
             ;;
         s)
             DIR_STATS="${OPTARG}"
@@ -143,10 +147,19 @@ if [[ ! -d "${DIR_SPOOL}" ]]; then
     _usage
 fi
 
+if [[ ${STATS_RENAME} -eq 1 ]] && [[ "${ACTION}" != "cat" ]]; then
+    echo "Option -r only if -a 'cat'"
+    _usage
+fi
+
 #
 
 if [[ ${VERBOSE} -eq 1 ]]; then
-    echo "DIR_STATS = ${DIR_STATS} ; DIR_SPOOL = ${DIR_SPOOL} ; TYPE = ${TYPE} ; ACTION = ${ACTION} ; INTERVAL = ${INTERVAL}"
+    LOG_ACTION=${ACTION}
+
+    [[ ${STATS_RENAME} -eq 1 ]] && LOG_ACTION="${LOG_ACTION};rename"
+
+    echo "DIR_STATS = ${DIR_STATS} ; DIR_SPOOL = ${DIR_SPOOL} ; TYPE = ${TYPE} ; ACTION = ${LOG_ACTION} ; INTERVAL = ${INTERVAL}"
 fi
 
 #
@@ -165,13 +178,21 @@ for FILE in $(find $DIR_STATS -maxdepth 1 -type f | sort); do
 
         if [[ "${CMD_ACT}" == "cat" ]]; then
             CMD="${CMD_ACT} ${FILE} >> ${DIR_SPOOL}/${BASH_REMATCH[1]}.${BASH_REMATCH[2]}stats"
+
+            [[ ${STATS_RENAME} -eq 1 ]] && CMD_2="mv ${FILE} ${FILE}_${_NOW}"
         else
             CMD="${CMD_ACT} ${FILE} ${DIR_SPOOL}/"
         fi
 
         _log ${CMD}
 
-        [[ ${RUN_DRY} -eq 0 ]] && eval $CMD
+        [[ ! -z ${CMD_2} ]] && _log ${CMD_2}
+
+        if [[ ${RUN_DRY} -eq 0 ]]; then
+            eval $CMD
+
+            [[ ! -z ${CMD_2} ]] && eval $CMD_2
+        fi
 
         sleep $INTERVAL
 
