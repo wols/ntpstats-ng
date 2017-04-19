@@ -1,0 +1,70 @@
+#!/bin/bash
+#
+# NAME
+# ntpstats-ng-status
+#
+# VERSION
+# 0.0.1
+#
+# WARNING
+# This software is under the heavy development and considered ALPHA quality
+# till the version hits >=1.0.0. Things might be broken, not all features have
+# been implemented, and APIs will be likely to change. YOU HAVE BEEN WARNED.
+#
+# REPOSITORY
+# https://github.com/wols/ntpstats-ng/
+#
+# COPYRIGHT AND LICENSE
+# Copyright (C) 2017 WOLfgang Schricker <time@wols.org>
+# GPL-3
+
+# CONFIG
+
+PROCS_OPENRC="redis logstash elasticsearch grafana"
+PROCS_SYSTEMD="redis logstash elasticsearch grafana-server"
+
+# FUNCTIONS
+
+function _log {
+    if [[ ${VERBOSE} -eq 1 ]]; then
+        echo "$@"
+    fi
+}
+
+# main
+
+echo "$0"
+
+# TODO check init type
+#
+if [[ -x /usr/bin/systemctl ]]; then
+    PROG_INIT="systemd"
+    PROCS=$PROCS_SYSTEMD
+else
+    PROG_INIT="openrc"
+    PROCS=$PROCS_OPENRC
+fi
+
+echo "INIT: ${PROG_INIT}"
+echo
+
+#
+
+for PROC in ${PROCS}; do
+    if [[ "${PROG_INIT}" == "openrc" ]]; then
+        SERVICE="${PROC}"
+        CMD="/etc/init.d/${SERVICE} status"
+    elif  [[ "${PROG_INIT}" == "systemd" ]]; then
+        SERVICE="${PROC}.service"
+        CMD="systemctl status ${SERVICE}"
+    else
+        continue
+    fi
+
+    echo "${SERVICE}"
+    echo
+    eval $CMD
+    echo
+done
+
+# End of ntpstats-ng-status
