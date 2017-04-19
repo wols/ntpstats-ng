@@ -439,6 +439,9 @@ TIP: Herzlichen Glückwunsch!
 
 TODO.
 
+.ntpstats-ng Demo
+video::213894789[vimeo]
+
 '''
 
 link:README.adoc[ntpstats-ng] (C) MMXV-MMXVII WOLfgang Schricker
