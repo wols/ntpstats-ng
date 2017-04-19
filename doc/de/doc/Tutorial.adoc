@@ -41,7 +41,9 @@ Inzwischen installieren Sie alle nötigen Pakete auf einer physischen oder virtu
 * xref:Appendix-Bookmarks.adoc#bookmark_elasticsearch[Elasticsearch] >= 5.2.0
 * xref:Appendix-Bookmarks.adoc#bookmark_grafana[Grafana] >= 4.1.0
 
-==== Gentoo
+==== Distributionen
+
+===== Gentoo
 
 .`emerge -pv elasticsearch grafana-bin jre logstash redis`
 [source%nowrap]
@@ -53,7 +55,7 @@ Inzwischen installieren Sie alle nötigen Pakete auf einer physischen oder virtu
 [ebuild   R   ~] app-admin/logstash-bin-5.2.2::gentoo  0 KiB
 ----
 
-==== CentOS 7
+===== CentOS 7
 
 Installieren Sie die beiden YUM Repos.
 
@@ -71,7 +73,7 @@ logstash.noarch                1:5.3.0-1                 @elastic-5.x
 redis.x86_64                   3.2.3-1.el7               @epel
 ----
 
-==== Oracle Linux 7
+===== Oracle Linux 7
 
 .`yum list installed elasticsearch grafana java\*openjdk logstash redis`
 [source%nowrap]
@@ -105,7 +107,7 @@ Sie kopieren drei Dateien in das (leere) Verzeichnis `/etc/logstash/conf.d`:
 
 * Input: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/20_ntpstats-ng.conf[20_ntpstats-ng.conf, window="_blank"]
 * Filter: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/40_ntpstats-ng.conf[40_ntpstats-ng.conf, window="_blank"]
-* Output: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/60_ntpstats-ng.conf[60_ntpstats-ng.conf, window="_blank"]
+* Output: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/59_ntpstats-ng.conf[59_ntpstats-ng.conf, window="_blank"]
 
 Zwei weitere Dateien in das Verzeichnis `/etc/logstash`:
 
@@ -242,26 +244,7 @@ mkdir -p /opt/ntpstats-ng/bin
 
 == Statistiken importieren
 
-TIP: Sie sollten den Import zuerst ohne Elasticsearch und Grafana testen.
-
-Dazu passen Sie die Output-Konfiguration vorübergehend an und starten `logstash` neu.
-
-.`$EDITOR /etc/logstash/conf.d/60_ntpstats-ng.conf`
-[source%nowrap]
-----
-# /etc/logstash/conf.d/60_ntpstats-ng.conf
-
-output {
-    stdout { codec => rubydebug }
-
-    # DEBUG
-    file {
-        path => [ "/var/opt/ntpstats-ng/log/ntpstats-ng-debug-%{+YYYY-MM-dd}.json" ]
-    }
-}
-
-# EOF
-----
+TIP: Sie testen zuerst den Import ohne Elasticsearch und Grafana.
 
 .CentOS 7, syslogd
 [source%nowrap]
@@ -359,7 +342,7 @@ mjd                 + time_past_midnight = stats_stamp
 <3> Addition der _Sekunden nach Mitternacht_
 <4> Ergebnis nach ISO8601
 
-Sie können nun Logstash stoppen und die Output-Konfiguration xref:Tutorial.adoc#_logstash[wie oben beschrieben] wieder herstellen.
+Sie können nun Logstash stoppen und die Output-Konfiguration für xref:Tutorial.adoc#_elasticsearch[Elasticsearch] herstellen.
 
 Den noch gestoppten `elasticsearch`-Prozess starten Sie wieder.
 
@@ -437,10 +420,13 @@ TIP: Herzlichen Glückwunsch!
 
 === Grafana
 
-TODO.
-
 .ntpstats-ng Demo
+ifndef::env-github[]
 video::213894789[vimeo]
+endif::env-github[]
+ifdef::env-github[]
+image::http://a.vimeocdn.com/images_v6/blogbadge_bluev.png[vimeo, link="https://vimeo.com/213894789"]
+endif::env-github[]
 
 '''
 
