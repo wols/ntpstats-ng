@@ -1,4 +1,4 @@
-= Kolophon
+= Gestaltungsrichtlinie
 :icons:         font
 :imagesdir:     ../../images
 :imagesoutdir:  ../../images
@@ -73,7 +73,27 @@ Text in '`einfachen Anführungszeichen`'.
 Text in "`doppelten Anführungszeichen`".
 ====
 
-==== Fußnote
+=== Bilder
+
+.Syntax
+[source%nowrap, asciidoc]
+----
+[[fig_1, Figure 1]]
+.Grafana Data Sources
+image::grafana_data_sources.png[Grafana Data Sources]
+
+Ein Satz mit Verweis auf xref:Colophon.adoc#fig_1[] zeigt dessen automatische Nummerierung.
+----
+
+====
+[[fig_1, Figure 1]]
+.Grafana Data Sources
+image::grafana_data_sources.png[Grafana Data Sources]
+
+Ein Satz mit Verweis auf xref:Colophon.adoc#fig_1[] zeigt dessen automatische Nummerierung.
+====
+
+=== Fußnote
 
 .Syntax
 [source%nowrap, asciidoc]
@@ -85,7 +105,7 @@ Ein Satz mit Link in der Fußnote.footnote:[link:Colophon.adoc#_fußnote[Colopho
 Ein Satz mit Link in der Fußnote.footnote:[link:Colophon.adoc#_fußnote[Colophon - Fußnote]]
 ====
 
-==== Admonitions
+=== Admonitions
 
 .Syntax
 [source%nowrap, asciidoc]
