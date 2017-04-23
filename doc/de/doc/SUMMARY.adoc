@@ -31,7 +31,7 @@
 //^
 
 * link:Glossary.adoc[Glossar]
-* link:Colophon.adoc[Kolophon]
+* link:StyleGuide.adoc[Gestaltungsrichtlinie]
 
 '''
 

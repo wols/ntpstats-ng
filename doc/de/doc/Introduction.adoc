@@ -12,9 +12,13 @@ Oft um zu erfahren wie spät es ist.
 
 IMPORTANT: Dieses Kapitel wird editiert und ist noch nicht abgeschlossen.
 
-== Zeitquellen
+== Zielgruppe
 
-TODO
+Sie gehören zur Zielgruppe, wenn Sie mindestens eine der folgenden Fragen mit "`Ja`" beantworten können.
+
+* ?
+* ?
+* ?
 
 '''
 

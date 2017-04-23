@@ -7,7 +7,7 @@
 :toc-title:     Inhalt
 
 Das Trio Elasticsearch, Logstash und Kibana wurde schnell als "`ELK Stack`" - neu "`Elastic Stack`" - berühmt.
-Durch die Verwendung von Grafana anstatt Kibana kommen wir zum "`EL**G** Stack`".
+Durch die Verwendung von Grafana anstatt Kibana entsteht der "`EL**G** Stack`".
 
 IMPORTANT: Dieses Kapitel wird editiert und ist noch nicht abgeschlossen.
 
