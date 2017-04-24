@@ -106,8 +106,8 @@ Zusätzlich ist Java für die beiden "`Elastic-Komponenten`" Voraussetzung.
 ==== CentOS und Oracle Linux
 
 .Installieren Sie die beiden YUM Repo-Dateien
-* Elastic: link:https://github.com/wols/ntpstats-ng/blob/master/etc/yum.repos.d/elastic.repo[/etc/yum.repos.d/elastic.repo, window="_blank"]
-* Grafana: link:https://github.com/wols/ntpstats-ng/blob/master/etc/yum.repos.d/grafana.repo[/etc/yum.repos.d/grafana.repo, window="_blank"]
+* Elastic: link:https://raw.githubusercontent.com/wols/ntpstats-ng/master/etc/yum.repos.d/elastic.repo[/etc/yum.repos.d/elastic.repo, window="_blank"]
+* Grafana: link:https://raw.githubusercontent.com/wols/ntpstats-ng/master/etc/yum.repos.d/grafana.repo[/etc/yum.repos.d/grafana.repo, window="_blank"]
 
 .CentOS 7, `yum list installed elasticsearch grafana java\*openjdk logstash`
 [source%nowrap]
@@ -166,14 +166,14 @@ chmod g+w /var/opt/ntpstats-ng/log
 
 Sie kopieren drei Dateien in das (leere) Verzeichnis `/etc/logstash/conf.d`:
 
-* Input: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/20_ntpstats-ng.conf[20_ntpstats-ng.conf, window="_blank"]
-* Filter: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/40_ntpstats-ng.conf[40_ntpstats-ng.conf, window="_blank"]
-* Output: link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/59_ntpstats-ng.conf[59_ntpstats-ng.conf, window="_blank"]
+* Input: link:https://raw.githubusercontent.com/wols/ntpstats-ng/master/etc/logstash/conf.d/20_ntpstats-ng.conf[20_ntpstats-ng.conf, window="_blank"]
+* Filter: link:https://raw.githubusercontent.com/wols/ntpstats-ng/master/etc/logstash/conf.d/40_ntpstats-ng.conf[40_ntpstats-ng.conf, window="_blank"]
+* Output: link:https://raw.githubusercontent.com/wols/ntpstats-ng/master/etc/logstash/conf.d/59_ntpstats-ng.conf[59_ntpstats-ng.conf, window="_blank"]
 
 Zwei weitere Dateien in das Verzeichnis `/etc/logstash`:
 
-* link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/dictionary-ntpstats-stats_host.yml[dictionary-ntpstats-stats_host.yml, window="_blank"]
-* link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/dictionary-ntpstats-source_address.yml[dictionary-ntpstats-source_address.yml, window="_blank"]
+* link:https://raw.githubusercontent.com/wols/ntpstats-ng/master/etc/logstash/dictionary-ntpstats-stats_host.yml[dictionary-ntpstats-stats_host.yml, window="_blank"]
+* link:https://raw.githubusercontent.com/wols/ntpstats-ng/master/etc/logstash/dictionary-ntpstats-source_address.yml[dictionary-ntpstats-source_address.yml, window="_blank"]
 
 .Zusammenfassung der aktuellen Konfiguration
 [source%nowrap]
@@ -350,7 +350,7 @@ systemctl stop logstash.service
 ----
 
 Passen Sie nun die Konfiguration zum späteren Output nach Elasticsearch an.
-Benutzen Sie die Datei link:https://github.com/wols/ntpstats-ng/blob/master/etc/logstash/conf.d/60_ntpstats-ng.conf[60_ntpstats-ng.conf, window="_blank"].
+Benutzen Sie die Datei link:https://raw.githubusercontent.com/wols/ntpstats-ng/master/etc/logstash/conf.d/60_ntpstats-ng.conf[60_ntpstats-ng.conf, window="_blank"].
 
 [source%nowrap]
 ----
@@ -436,8 +436,8 @@ systemctl start elasticsearch.service
 
 Sie kopieren zwei Dateien in das Verzeichnis `/etc/elasticsearch/config/templates`:
 
-* link:https://github.com/wols/ntpstats-ng/blob/master/etc/elasticsearch/config/templates/template_node.json[template_node.json, window="_blank"]
-* link:https://github.com/wols/ntpstats-ng/blob/master/etc/elasticsearch/config/templates/template_ntpstats-ng.json[template_ntpstats-ng.json, window="_blank"]
+* link:https://raw.githubusercontent.com/wols/ntpstats-ng/master/etc/elasticsearch/config/templates/template_node.json[template_node.json, window="_blank"]
+* link:https://raw.githubusercontent.com/wols/ntpstats-ng/master/etc/elasticsearch/config/templates/template_ntpstats-ng.json[template_ntpstats-ng.json, window="_blank"]
 
 Sie bringen die Vorlagen in die Elasticsearch-Node ein.
 
