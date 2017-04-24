@@ -20,7 +20,7 @@ Sie sind sich der verantwortungsvollen Tätigkeit als `root` auf der Kommandozei
 .Datenfluss
 ifeval::["{{gitbook.version}}" != "3.2.2"]
 ifndef::env-github[]
-[ditaa, target="diagram/tutorial_logstash", png]
+[ditaa, target="diagram/tutorial_dataflow", png]
 ----
 +-----------+                  +---------------+
 | loopstats |   +----------+   |               |   +---------+    /---------\
@@ -30,11 +30,11 @@ ifndef::env-github[]
 ----
 endif::env-github[]
 ifdef::env-github[]
-image::diagram/tutorial_logstash.png[tutorial_logstash]
+image::diagram/tutorial_dataflow.png[tutorial_dataflow]
 endif::env-github[]
 endif::[]
 ifeval::["{{gitbook.version}}" == "3.2.2"]
-image::diagram/tutorial_logstash.png[tutorial_logstash, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/diagram/tutorial_logstash.png"]
+image::diagram/tutorial_dataflow.png[tutorial_dataflow, link="https://raw.githubusercontent.com/wols/ntpstats-ng/master/doc/images/diagram/tutorial_dataflow.png"]
 endif::[]
 
 toc::[]
@@ -67,7 +67,7 @@ filegen     peerstats file HOSTNAME.peerstats
 
 === 1.2 Linux System
 
-Sie bereits Zugriff auf ein Linux-System oder Sie installieren eine Distribution Ihrer Wahl.
+Sie haben bereits Zugriff auf ein Linux-System oder Sie installieren eine Distribution Ihrer Wahl.
 Sie können eine physischen oder virtuellen Maschine benutzen.
 
 Die Beispiele wurden mit drei verschiedenen Distributionen erfolgreich getestet:
