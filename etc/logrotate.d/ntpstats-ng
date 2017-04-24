@@ -1,0 +1,9 @@
+# /etc/logrotate.d/ntpstats-ng
+#
+# No rotate - DELETE ALL files are not empty!
+
+/var/opt/ntpstats-ng/spool/* {
+    missingok
+    notifempty
+    size 1
+}
