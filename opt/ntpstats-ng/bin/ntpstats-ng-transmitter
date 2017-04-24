@@ -4,7 +4,7 @@
 # ntpstats-ng-transmitter
 #
 # VERSION
-# 0.0.1
+# 0.0.3
 #
 # WARNING
 # This software is under the heavy development and considered ALPHA quality
@@ -23,15 +23,19 @@
 INTERVAL=30
 #
 DIR_SPOOL="/var/opt/ntpstats-ng/spool"
-TYPE=""
 ACTION="cat"
 CMD_ACT=$ACTION
+TYPE=""
+STATS_RENAME=0
 RUN_DRY=0
 VERBOSE=0
 #
-PATTERN="\/([[:alnum:]_-]+)\.(loop|peer)stats\.[[:digit:]]{8}$"
+PATTERN_NTP="\/([[:alnum:]_-]+)\.(loop|peer)stats\.[[:digit:]]{8}$"
+PATTERN_MBG="\/([[:alnum:]._-]+)\/(ntp_mon_)stats\.[[:digit:]]{8}$"
 # used by
 # "${CMD_ACT} ${FILE} >> ${DIR_SPOOL}/${BASH_REMATCH[1]}.${BASH_REMATCH[2]}stats"
+#
+_USAGE="$(basename $0) -s <DIR_SOURCE> [-d <DIR_DESTINATION>] [-t <(loop|peer|mbgmon)stats>] [-a <cat|copy|move>] [-i <INTERVAL>] [-r] [-n] [-v|-h]"
 
 # FUNCTIONS
 
@@ -42,6 +46,73 @@ function _bash_version {
     fi
 }
 
+function _help {
+    cat << EOT
+
+Name
+
+    $(basename $0) - Transfer NTP statistic files (eg. for Logstash input)
+
+Syntax
+
+    ${_USAGE}
+
+Options
+
+    -h  Print this help text
+
+    -s  Statistc (source) directory; required
+
+    -d  Spool (destination) directory; default /var/opt/ntpstats-ng/spool
+
+    -t  Statistic type loopstats, peerstats and mbgmonstats; default (loop|peer)stats
+
+    -a  File action cat or copy or move; default cat
+
+    -i  Action interval; default 30 seconds
+
+    -r  Rename source (action cat only); default no
+
+    -v  Verbose output
+
+    -n  Dry run (no action) for use with -v; default no
+
+Examples
+
+    ls /var/log/ntpstats
+    localhost.loopstats.20160501
+    localhost.loopstats.20160502
+    localhost.peerstats.20160501
+    localhost.peerstats.20160502
+
+
+    $(basename $0) -s /var/log/ntpstats -i 3 -v -n
+
+    DIR_STATS /var/log/ntpstats | DIR_SPOOL /var/opt/ntpstats-ng/spool | TYPE  | ACTION cat | INTERVAL 3 | DRY 1
+    cat /var/log/ntpstats/localhost.loopstats.20160501 >> /var/opt/ntpstats-ng/spool/localhost.loopstats
+    elapsed: 3 seconds
+    cat /var/log/ntpstats/localhost.loopstats.20160502 >> /var/opt/ntpstats-ng/spool/localhost.loopstats
+    elapsed: 3 seconds
+    cat /var/log/ntpstats/localhost.peerstats.20160501 >> /var/opt/ntpstats-ng/spool/localhost.peerstats
+    elapsed: 3 seconds
+    cat /var/log/ntpstats/localhost.peerstats.20160502 >> /var/opt/ntpstats-ng/spool/localhost.peerstats
+    elapsed: 3 seconds
+
+
+    $(basename $0) -s /var/log/ntpstats -t loopstats -i 3 -r -v -n
+
+    DIR_STATS /var/log/ntpstats | DIR_SPOOL /var/opt/ntpstats-ng/spool | TYPE loopstats | ACTION cat;rename | INTERVAL 3 | DRY 1
+    cat /var/log/ntpstats/localhost.loopstats.20160501 >> /var/opt/ntpstats-ng/spool/localhost.loopstats
+    mv /var/log/ntpstats/localhost.loopstats.20160501 /var/log/ntp/stats/localhost.loopstats.20160501_1493042798
+    elapsed: 3 seconds
+    cat /var/log/ntpstats/localhost.loopstats.20160502 >> /var/opt/ntpstats-ng/spool/localhost.loopstats
+    mv /var/log/ntpstats/localhost.loopstats.20160502 /var/log/ntp/stats/localhost.loopstats.20160502_1493042801
+    elapsed: 3 seconds
+
+EOT
+    exit 0
+}
+
 function _log {
     if [[ ${VERBOSE} -eq 1 ]]; then
         echo "$@"
@@ -49,7 +120,7 @@ function _log {
 }
 
 function _usage {
-    echo "Usage: $0 -s <DIR_SOURCE> [-d <DIR_DESTINATION>] [-t <(loop|peer)stats>] [-a <cat|copy|move>] [-i <INTERVAL>] [-n] [-v]" 1>&2
+    echo "Usage: ${_USAGE}" 1>&2
     exit 1
 }
 
@@ -59,7 +130,7 @@ _bash_version
 
 #
 
-while getopts ":a:d:i:ns:t:v" o; do
+while getopts ":a:d:hi:nrs:t:v" o; do
     case "${o}" in
         a)
             ACTION="${OPTARG}"
@@ -78,6 +149,9 @@ while getopts ":a:d:i:ns:t:v" o; do
         d)
             DIR_SPOOL="${OPTARG}"
             ;;
+        h)
+            _help
+            ;;
         i)
             INTERVAL="${OPTARG}"
 
@@ -89,14 +163,17 @@ while getopts ":a:d:i:ns:t:v" o; do
         n)
             RUN_DRY=1
             ;;
+        r)
+            STATS_RENAME=1
+            ;;
         s)
             DIR_STATS="${OPTARG}"
             ;;
         t)
             TYPE="${OPTARG}"
 
-            if [[ ! "${TYPE}" =~ ^(loop|peer)stats$ ]]; then
-                echo "Option -${OPTARG} accepts 'loopstats' or 'peerstats' only." >&2
+            if [[ ! "${TYPE}" =~ ^(loop|peer|mbgmon)stats$ ]]; then
+                echo "Option -${OPTARG} accepts 'loopstats', 'peerstats' or 'mbgmonstats' only." >&2
                 _usage
             fi
             ;;
@@ -143,35 +220,67 @@ if [[ ! -d "${DIR_SPOOL}" ]]; then
     _usage
 fi
 
+if [[ "${TYPE}" == "mbgmonstats" ]]; then
+    PATTERN=$PATTERN_MBG
+else
+    PATTERN=$PATTERN_NTP
+fi
+
+if [[ ${STATS_RENAME} -eq 1 ]] && [[ "${ACTION}" != "cat" ]]; then
+    echo "Option -r only if -a 'cat'"
+    _usage
+fi
+
 #
 
 if [[ ${VERBOSE} -eq 1 ]]; then
-    echo "DIR_STATS = ${DIR_STATS} ; DIR_SPOOL = ${DIR_SPOOL} ; TYPE = ${TYPE} ; ACTION = ${ACTION} ; INTERVAL = ${INTERVAL}"
+    LOG_ACTION=${ACTION}
+
+    [[ ${STATS_RENAME} -eq 1 ]] && LOG_ACTION="${LOG_ACTION};rename"
+
+    echo "DIR_STATS ${DIR_STATS} | DIR_SPOOL ${DIR_SPOOL} | TYPE ${TYPE} | ACTION ${LOG_ACTION} | INTERVAL ${INTERVAL} | DRY ${RUN_DRY} "
 fi
 
 #
 
 for FILE in $(find $DIR_STATS -maxdepth 1 -type f | sort); do
     if [[ -r "${FILE}" ]] && [[ "${FILE}" =~ ${PATTERN} ]]; then
-
         if [[ -z "${BASH_REMATCH[1]}" ]] || [[ -z "${BASH_REMATCH[2]}" ]]; then
             _log "${FILE} - \$PATTERN not matched."
             continue
+        else
+            STATS_HOST="${BASH_REMATCH[1]}"
+            STATS_TYPE="${BASH_REMATCH[2]}stats"
+
+            # TODO verbose level
+            # _log "DEBUG: ${STATS_HOST} | ${STATS_TYPE}"
         fi
 
-        [[ -n "${TYPE}" ]] && [[ "${BASH_REMATCH[2]}stats" != "${TYPE}" ]] && continue
+        if [[ -n "${TYPE}" ]]; then
+            STATS_TYPE=${STATS_TYPE/ntp_mon_/mbgmon}
+
+            [[ "${STATS_TYPE}" != "${TYPE}" ]] && continue
+        fi
 
         _NOW=$(TZ=UTC0 printf '%(%s)T\n' '-1')
 
         if [[ "${CMD_ACT}" == "cat" ]]; then
-            CMD="${CMD_ACT} ${FILE} >> ${DIR_SPOOL}/${BASH_REMATCH[1]}.${BASH_REMATCH[2]}stats"
+            CMD="${CMD_ACT} ${FILE} >> ${DIR_SPOOL}/${STATS_HOST}.${STATS_TYPE}"
+
+            [[ ${STATS_RENAME} -eq 1 ]] && CMD_2="mv ${FILE} ${FILE}_${_NOW}"
         else
             CMD="${CMD_ACT} ${FILE} ${DIR_SPOOL}/"
         fi
 
         _log ${CMD}
 
-        [[ ${RUN_DRY} -eq 0 ]] && eval $CMD
+        [[ ! -z ${CMD_2} ]] && _log ${CMD_2}
+
+        if [[ ${RUN_DRY} -eq 0 ]]; then
+            eval $CMD
+
+            [[ ! -z ${CMD_2} ]] && eval $CMD_2
+        fi
 
         sleep $INTERVAL
 
